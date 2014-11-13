@@ -1,0 +1,20 @@
+{
+    "name": "3awd/core",
+    "description": "3A Project",
+    "authors": [
+        {
+            "name": "Administrator",
+            "email": "admin@example.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Core\\": "core/"
+        }
+    },
+    "require": {
+    },
+    "require-dev": {
+        "phpdocumentor/phpdocumentor": "2.*"
+    }
+}
