@@ -33,8 +33,4 @@
 
             View::make('home.index', 'default', $data);
         }
-
-        function lol() {
-
-        }
     }

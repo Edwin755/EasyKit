@@ -2,6 +2,9 @@
 
     /**
      * Model file, to establish connection from the app to the database
+     * 
+     * @author Edwin Dayot <edwin.dayot@sfr.fr>
+     * @copyright 2014
      */
 
     namespace Core;
@@ -54,7 +57,9 @@
          * Construct
          * Establish connection to database
          *
-         * @param $connection string Name of the database connection to connect
+         * @param string $connection Name of the database connection to connect
+         * 
+         * @return void
          */
         function __construct($connection = null) {
             $this->connections = require __DIR__ . '/../app/config/database.php';
@@ -99,6 +104,9 @@
          * Find a value in the selected table
          *
          * @param array $req
+         *
+         * @return void
+         *
          * @example $req = array(
          *      'fields'        => array(
          *          'id',
@@ -229,7 +237,8 @@
          * Insert a value in the selected table
          *
          * @param array $req
-         * @return bool
+         *
+         * @return boolean
          */
         public function save($req = array())
         {
@@ -290,8 +299,10 @@
          * Delete a value in the selected table
          *
          * @param integer $id The id of entity that have to be deleted
+         * 
+         * @return boolean
          */
-        public function remove($id)
+        public function delete($id)
         {
             /**
              * DELETE

@@ -2,6 +2,9 @@
 
     /**
      * HTML Methods
+     * 
+     * @author Edwin Dayot <edwin.dayot@sfr.fr>
+     * @copyright 2014
      */
 
     /**
@@ -13,9 +16,9 @@
         /**
          * Link method
          *
-         * @param $link string
+         * @param string $link
          *
-         * @return string constructed URL
+         * @return string Constructed URL
          */
         static function link($link)
         {

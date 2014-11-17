@@ -27,8 +27,8 @@
         /**
          * Construct
          * 
-         * @param $action string
-         * @param $params array
+         * @param string $action
+         * @param array $params
          * 
          * @return boolean
          */
@@ -67,7 +67,7 @@
         /**
          * Launch the header status for each status code
          * 
-         * @param $code int
+         * @param int $code
          * 
          * @return boolean
          */
@@ -93,7 +93,7 @@
         /**
          * Load model
          * 
-         * @param $model string name of the model and name of the file
+         * @param string $model Name of the model and name of the file
          */
         protected function loadModel($model) {
             if(!isset($this->$model)){

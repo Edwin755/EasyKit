@@ -17,6 +17,8 @@
 
         /**
          * Construct
+         * 
+         * @return void
          */
         function __construct() {
             

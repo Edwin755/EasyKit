@@ -10,7 +10,6 @@
     namespace Core;
 
     use Core\Form;
-    use Core;
 
     /**
      * View Class
@@ -21,8 +20,9 @@
         /**
          * Make the view including datas
          * 
-         * @param $view string
-         * @param $data void
+         * @param string $view
+         * @param string $layout But boolean by default
+         * @param array $data
          * 
          * @return void
          */

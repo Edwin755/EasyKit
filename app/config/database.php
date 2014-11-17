@@ -2,6 +2,9 @@
 
     /**
      * Database file
+     * 
+     * @author Edwin Dayot <edwin.dayot@sfr.fr>
+     * @copyright 2014
      */
 
     return array(
