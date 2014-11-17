@@ -15,12 +15,39 @@
     class Model
     {
 
+        /**
+         * List of connections and params in database file
+         */
         private $connections;
+
+        /**
+         * Infos on database selected
+         */
         private $connection;
+
+        /**
+         * PDO Object
+         */
         private $pdo;
+
+        /**
+         * Params for bindValue
+         */
         private $params = array();
+
+        /**
+         * Table to affect for modifications
+         */
         private $table;
+
+        /**
+         * prefix of the table
+         */
         private $prefix;
+
+        /**
+         * Default primary key
+         */
         private $pk = 'id';
         
         /**
@@ -31,7 +58,6 @@
          */
         function __construct($connection = null) {
             $this->connections = require __DIR__ . '/../app/config/database.php';
-            $this->prefix = $this->connection['prefix'];
 
             ini_set('magic_quotes_gpc', 'Off');
 
@@ -49,6 +75,8 @@
             } else {
                 $this->connection = $this->connections['connections'][$this->connections['default']];
             }
+            
+            $this->prefix = $this->connection['prefix'];
 
             if (!empty($this->pdo)) {
                 return true;
