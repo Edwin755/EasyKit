@@ -29,7 +29,7 @@
 
             $this->loadModel('Post');
 
-            $data = $this->Post->select();
+            $data['posts'] = $this->Post->select();
 
             View::make('home.index', 'default', $data);
         }
