@@ -39,11 +39,13 @@
                 $this->actions = get_class_methods($this);
 
                 if (in_array($action, $this->actions)) {
+                    $this->httpStatus(200);
                     call_user_func(array($this, $action), $params);
                 } else {
                     $this->pageNotFound();
-                    var_dump('construct controller');
                 }
+
+                //new Model();
 
                 $this->rendered = true;
                 return true;
@@ -55,10 +57,10 @@
          * 
          * @return boolean
          */
-        function pageNotFound() {
+        public function pageNotFound() {
             $this->httpStatus(404);
 
-            View::make('errors.404');
+            View::make('errors.404', 'default');
             return true;
         }
 
@@ -69,9 +71,31 @@
          * 
          * @return boolean
          */
-        function httpStatus($code) {
-            header("HTTP/1.0 404 Not Found");
+        private function httpStatus($code) {
+            switch ($code) {
+                case 404:
+                    header('HTTP/1.1 404 Not Found');
+                    break;
+
+                case 200:
+                    header('HTTP/1.1 200 OK');
+                    break;
+                
+                default:
+                    throw new Exception("Unknown http status", 1);
+                    return false;
+                    break;
+            }
 
             return true;
+        }
+
+        protected function loadModel($model) {
+            if(!isset($this->$model)){
+                $file = __DIR__ . '/../app/models/' . ucfirst($model) . '.php';
+                require_once($file);
+                $class = '\\App\\Models\\' . $model;
+                $this->$model = new $class();
+            }
         }
     }

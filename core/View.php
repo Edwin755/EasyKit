@@ -9,6 +9,8 @@
 
     namespace Core;
 
+    use Core\Form;
+
     /**
     * View Class
     */
@@ -23,8 +25,10 @@
          * 
          * @return void
          */
-        static function make($view, $layout, $data = null) {
+        static function make($view, $layout = false, $data = null) {
             $view = explode('.', $view);
+
+            extract($data);
 
             $filename = __DIR__ . '/../app/views/' . $view[0];
 
@@ -37,9 +41,21 @@
             $filename .= '.php';
 
             if (file_exists($filename)) {
-                require $filename;
+                if ($layout !== false) {
+                    ob_start();
+                    require $filename;
+                    $content_for_layout = ob_get_clean();
+
+                    require __DIR__ . '/../app/views/layouts/' . $layout . '.php';
+                } else {
+                    require $filename;
+                }
+
+                return true;
             } else {
                 new Controller('404');
+
+                return false;
             }
         }
     }

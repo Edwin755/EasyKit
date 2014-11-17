@@ -78,11 +78,7 @@
             $query = $this->url['controller'] . '/';
             $query .= !empty($this->url['action']) ? $this->url['action'] . '/' : '';
 
-            var_dump($query);
-
             foreach ($routes as $url => $route) {
-                var_dump($url);
-
                 if ($url == $query) {
                     $route = explode('.', $route);
 

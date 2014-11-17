@@ -9,8 +9,6 @@
     return array(
 
         '/'         => 'home.index',
-        'hello/'    => 'hello.index',
-        'world/*'   => 'world',
-        'lol/'      => 'lol'
+        '/*'        => 'home',
 
-        );
+    );
