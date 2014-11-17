@@ -5,8 +5,8 @@
     use Core\Model;
 
     /**
-    * Post
-    */
+     * Post
+     */
     class Post extends Model
     {
         

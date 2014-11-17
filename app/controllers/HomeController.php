@@ -14,8 +14,8 @@
     use Core\Form;
 
     /**
-    * HomeController Class
-    */
+     * HomeController Class
+     */
     class HomeController extends Core\Controller
     {
         
@@ -29,12 +29,12 @@
 
             $this->loadModel('Post');
 
-            $this->Post->select();
+            $data = $this->Post->select();
 
             View::make('home.index', 'default', $data);
         }
 
         function lol() {
-            
+
         }
     }

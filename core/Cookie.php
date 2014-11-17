@@ -1,20 +1,17 @@
 <?php
 
     /**
-     * Session
-     * 
-     * @author Edwin Dayot <edwin.dayot@sfr.fr>
-     * @copyright 2014
+     * Cookie file
      */
 
     namespace Core;
 
     /**
-     * Session Class
+     * Cookie class
      */
-    class Session
+    class Cookie
     {
-
+        
         /**
          * Construct
          */

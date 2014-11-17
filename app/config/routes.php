@@ -9,6 +9,6 @@
     return array(
 
         '/'         => 'home.index',
-        '/*'        => 'home',
+        //'/*'        => 'home',
 
     );

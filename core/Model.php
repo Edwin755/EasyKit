@@ -10,8 +10,8 @@
     use \PDO as PDO;
 
     /**
-    * Model Class
-    */
+     * Model Class
+     */
     class Model
     {
 
@@ -75,7 +75,7 @@
             } else {
                 $this->connection = $this->connections['connections'][$this->connections['default']];
             }
-            
+
             $this->prefix = $this->connection['prefix'];
 
             if (!empty($this->pdo)) {

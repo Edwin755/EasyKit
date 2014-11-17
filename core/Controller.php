@@ -10,8 +10,8 @@
     namespace Core;
 
     /**
-    * Controller Class
-    */
+     * Controller Class
+     */
     class Controller
     {
         /**
@@ -90,6 +90,11 @@
             return true;
         }
 
+        /**
+         * Load model
+         * 
+         * @param $model string name of the model and name of the file
+         */
         protected function loadModel($model) {
             if(!isset($this->$model)){
                 $file = __DIR__ . '/../app/models/' . ucfirst($model) . '.php';

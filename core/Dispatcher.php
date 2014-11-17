@@ -14,8 +14,8 @@
     use App\Controllers;
 
     /**
-    * Dispatcher Class
-    */
+     * Dispatcher Class
+     */
     class Dispatcher
     {
 
@@ -42,7 +42,7 @@
          * 
          * @return boolean
          */
-        function loadController() {
+        private function loadController() {
             $controller = ucfirst($this->router->controller) . 'Controller';
 
             $filename = __DIR__ . '/../app/controllers/' . $controller .  '.php';

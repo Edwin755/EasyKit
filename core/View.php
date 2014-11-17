@@ -10,10 +10,11 @@
     namespace Core;
 
     use Core\Form;
+    use Core;
 
     /**
-    * View Class
-    */
+     * View Class
+     */
     class View
     {
      
@@ -25,7 +26,7 @@
          * 
          * @return void
          */
-        static function make($view, $layout = false, $data = null) {
+        static function make($view, $layout = false, $data = array()) {
             $view = explode('.', $view);
 
             extract($data);
@@ -42,6 +43,7 @@
 
             if (file_exists($filename)) {
                 if ($layout !== false) {
+                    require 'HTML.php';
                     ob_start();
                     require $filename;
                     $content_for_layout = ob_get_clean();

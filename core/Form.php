@@ -7,8 +7,8 @@
     namespace Core;
 
     /**
-    * Form Class
-    */
+     * Form Class
+     */
     class Form
     {
         
@@ -16,7 +16,7 @@
             
         }
 
-        function input() {
+        static function input() {
 
         }
     }
