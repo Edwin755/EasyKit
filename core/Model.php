@@ -116,6 +116,9 @@
          *          'id'            => '24',
          *          'name'          => 'namame'
          *          ),
+         *      'like'          => array(
+         *          'name'      => 'test'
+         *          ),
          *      'order'         => array(
          *          'id',
          *          'name'
@@ -171,6 +174,15 @@
                     }
                     
                     $this->params[':' . $k] = $v;
+                }
+
+                $sql .= implode(' AND ', $conditions);
+            } elseif (isset($req['like'])) {
+                $sql .= ' WHERE ';
+                foreach ($req['like'] as $k => $v) {
+                    $conditions[$k] = '`' . $k . '` LIKE :' . $k;
+                    
+                    $this->params[':' . $k] = '%' . $v . '%';
                 }
 
                 $sql .= implode(' AND ', $conditions);

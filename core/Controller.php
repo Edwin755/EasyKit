@@ -36,6 +36,9 @@
             if ($this->rendered) {
                 return false;
             } else {
+                new Session();
+                new Cookie();
+
                 $this->actions = get_class_methods($this);
 
                 if (in_array($action, $this->actions)) {
@@ -44,8 +47,6 @@
                 } else {
                     $this->pageNotFound();
                 }
-
-                //new Model();
 
                 $this->rendered = true;
                 return true;

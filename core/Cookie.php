@@ -14,6 +14,8 @@
      */
     class Cookie
     {
+
+        private $values;
         
         /**
          * Construct
@@ -21,6 +23,16 @@
          * @return void
          */
         function __construct() {
-            
+            if (isset($_COOKIE)) {
+                $app = Dispatcher::getAppFile();
+
+                setcookie($app['cookie_name'], $this->values, time() + $app['cookie_time']);
+            } else {
+
+            }
+        }
+
+        static function cookie_destroy() {
+
         }
     }

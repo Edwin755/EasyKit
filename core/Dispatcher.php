@@ -61,4 +61,8 @@
                 return false;
             }
         }
+
+        static function getAppFile() {
+            return require __DIR__ . '/../app/config/app.php';
+        }
     }
