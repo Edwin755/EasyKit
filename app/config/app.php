@@ -16,7 +16,7 @@
         /**
          * Security
          */
-        'secure_key'    => 'o1Xc7m9KJ2S9X8307jFK67F',
+        'secure_key'    => 'o1Xc7m9KJ2S9X8307jFK67Fr',
 
 
     );
