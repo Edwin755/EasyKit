@@ -24,11 +24,11 @@
         function __construct() {
             $app = Dispatcher::getAppFile();
 
-            if (!isset($_SESSION)) {
-                session_start();
-                session_name($app['session_name']);
+            $iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_3DES, MCRYPT_MODE_NOFB), MCRYPT_RAND);
 
-                $iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_3DES, MCRYPT_MODE_NOFB), MCRYPT_RAND);
+            if (!isset($_SESSION)) {
+                session_name($app['session_name']);
+                session_start();
                 self::set('secure', mcrypt_encrypt(MCRYPT_3DES, $app['secure_key'], $_SERVER['HTTP_USER_AGENT'], MCRYPT_MODE_NOFB, $iv));
             } else {
                 if (mcrypt_decrypt(MCRYPT_3DES, $app['secure_key'], self::get('secure'), MCRYPT_MODE_NOFB, $iv) == $_SERVER['HTTP_USER_AGENT']) {

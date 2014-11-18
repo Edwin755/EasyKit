@@ -37,7 +37,6 @@
                 return false;
             } else {
                 new Session();
-                new Cookie();
 
                 $this->actions = get_class_methods($this);
 

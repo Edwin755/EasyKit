@@ -12,6 +12,7 @@
     use Core;
     use Core\View;
     use Core\Form;
+    use Core\Cookie;
 
     /**
      * HomeController Class

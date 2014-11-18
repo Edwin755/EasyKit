@@ -9,7 +9,7 @@
 
     namespace Core;
 
-    use Core\Form;
+    use Core\Form as Form;
 
     /**
      * View Class

@@ -11,7 +11,7 @@
          * Cookie
          */
         'cookie_name'   => 'EasyKit_cookie',
-        'cookie_time'   => 3600 * 24 * 27.212221 * 3,
+        'cookie_time'   => 3600 * 24 * 28 * 3,
 
         /**
          * Security
