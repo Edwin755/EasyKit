@@ -32,6 +32,12 @@
 
             $data['posts'] = $this->Post->select();
 
+            if (!isset($_COOKIE['EasyKit_cookie_hello'])) {
+                Cookie::set('hello', rand(0,10));
+            }
+            
+            var_dump(Cookie::get('hello'));
+
             View::make('home.index', 'default', $data);
         }
     }

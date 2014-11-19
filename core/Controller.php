@@ -37,6 +37,7 @@
                 return false;
             } else {
                 new Session();
+                Cookie::init();
 
                 $this->actions = get_class_methods($this);
 
