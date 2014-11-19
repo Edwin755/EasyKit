@@ -18,11 +18,6 @@
         static public $app;
 
         /**
-         * IV for MCrypt
-         */
-        static public $iv;
-
-        /**
          * Cookies
          */
         static public $cookies;
@@ -32,21 +27,6 @@
          */
         static function init() {
             self::$app = Dispatcher::getAppFile();
-            self::$iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_3DES, MCRYPT_MODE_NOFB), MCRYPT_RAND);
-
-            if (isset($_COOKIE[self::$app['cookie_name']])) {
-                $values = json_decode($_COOKIE[self::$app['cookie_name']]);
-            }
-
-            if (!Cookie::checkValidity()) {
-                foreach ($_COOKIE as $key => $value) {
-                    Cookie::destroy($key);
-                }
-            }
-
-            if (!isset($_COOKIE[self::$app['cookie_name'] . '_security'])) {
-                Cookie::set('security', mcrypt_encrypt(MCRYPT_3DES, self::$app['secure_key'], $_SERVER['HTTP_USER_AGENT'], MCRYPT_MODE_NOFB, self::$iv));
-            }
         }
 
         /**
@@ -70,19 +50,6 @@
         static function get($name) {
             if (isset($_COOKIE[self::$app['cookie_name'] . '_' . $name])) {
                 return $_COOKIE[self::$app['cookie_name'] . '_' . $name];
-            }
-        }
-
-        /**
-         * Check Validity of the cookies
-         * 
-         * @return boolean
-         */
-        static function checkValidity() {
-            if (mcrypt_decrypt(MCRYPT_3DES, self::$app['secure_key'], Cookie::get('security'), MCRYPT_MODE_NOFB, self::$iv) == $_SERVER['HTTP_USER_AGENT']) {
-                return true;
-            } else {
-                return false;
             }
         }
 

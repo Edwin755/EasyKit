@@ -45,4 +45,3 @@
             View::make('api.index', json_encode($data));
         }
     }
-
