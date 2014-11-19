@@ -20,11 +20,6 @@
         private $actions;
 
         /**
-         * Rendered
-         */
-        private $rendered;
-
-        /**
          * Construct
          * 
          * @param string $action
@@ -33,24 +28,23 @@
          * @return boolean
          */
         function __construct($action, $params = null) {
-            if ($this->rendered) {
-                return false;
+            new Session();
+            Cookie::init();
+
+            $this->actions = get_class_methods($this);
+
+            if (in_array($action, $this->actions)) {
+                $this->httpStatus(200);
+                call_user_func(array($this, $action), $params);
             } else {
-                new Session();
-                Cookie::init();
-
-                $this->actions = get_class_methods($this);
-
-                if (in_array($action, $this->actions)) {
-                    $this->httpStatus(200);
-                    call_user_func(array($this, $action), $params);
-                } else {
-                    $this->pageNotFound();
-                }
-
-                $this->rendered = true;
-                return true;
+                $this->pageNotFound();
             }
+
+            if (!View::getRendered()) {
+                $this->pageNotFound();
+            }
+            
+            return true;
         }
 
         /**
@@ -61,7 +55,7 @@
         public function pageNotFound() {
             $this->httpStatus(404);
 
-            View::make('errors.404', 'default');
+            View::make('errors.404', '', 'default');
             return true;
         }
 

@@ -16,6 +16,18 @@
      */
     class View
     {
+
+        /**
+         * Rendered
+         */
+        static private $rendered;
+
+        /**
+         * 
+         */
+        static function getRendered() {
+            return self::$rendered;
+        }
      
         /**
          * Make the view including datas
@@ -27,39 +39,43 @@
          * @return void
          */
         static function make($view, $data = array(), $layout = false) {
-            $view = explode('.', $view);
+            if (!self::$rendered) {
+                $view = explode('.', $view);
 
-            if (is_array($data)) {
-                extract($data);
-            }
-
-            $filename = __DIR__ . '/../app/views/' . $view[0];
-
-            $view = array_slice($view, 1);
-
-            foreach ($view as $v) {
-                $filename .= '/' . $v;
-            }
-
-            $filename .= '.php';
-
-            if (file_exists($filename)) {
-                if ($layout !== false) {
-                    require 'HTML.php';
-                    ob_start();
-                    require $filename;
-                    $content_for_layout = ob_get_clean();
-
-                    require __DIR__ . '/../app/views/layouts/' . $layout . '.php';
-                } else {
-                    require $filename;
+                if (is_array($data)) {
+                    extract($data);
                 }
 
-                return true;
-            } else {
-                new Controller('404');
+                $filename = __DIR__ . '/../app/views/' . $view[0];
 
-                return false;
+                $view = array_slice($view, 1);
+
+                foreach ($view as $v) {
+                    $filename .= '/' . $v;
+                }
+
+                $filename .= '.php';
+
+                if (file_exists($filename)) {
+                    if ($layout !== false) {
+                        require 'HTML.php';
+                        ob_start();
+                        require $filename;
+                        $content_for_layout = ob_get_clean();
+
+                        require __DIR__ . '/../app/views/layouts/' . $layout . '.php';
+                    } else {
+                        require $filename;
+                    }
+
+                    self::$rendered = true;
+                    return true;
+                } else {
+                    new Controller('404');
+
+                    self::$rendered = true;
+                    return false;
+                }
             }
         }
     }

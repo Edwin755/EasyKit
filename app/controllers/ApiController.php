@@ -35,6 +35,10 @@
             View::make('api.index', json_encode($data));
         }
 
+        function getHello() {
+            //$this->pageNotFound();
+        }
+
         function hello($param) {
             $data = array('params' => $param);
 
