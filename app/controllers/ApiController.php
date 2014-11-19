@@ -1,7 +1,7 @@
 <?php
-    
+
     /**
-     * HomeController
+     * ApiController
      * 
      * @author Edwin Dayot <edwin.dayot@sfr.fr>
      * @copyright 2014
@@ -17,7 +17,7 @@
     /**
      * HomeController Class
      */
-    class HomeController extends Core\Controller
+    class ApiController extends Core\Controller
     {
         
         /**
@@ -26,16 +26,23 @@
          * @return void
          */
         function index() {
-            $data = array('lol' => 'lol');
+            $data = array('api' => 'index');
 
             $this->loadModel('Post');
 
             $data['posts'] = $this->Post->select();
 
-            if (!isset($_COOKIE['EasyKit_cookie_hello'])) {
-                Cookie::set('hello', rand(0,10));
-            }
+            View::make('api.index', json_encode($data));
+        }
 
-            View::make('home.index', $data, 'default');
+        function hello($param) {
+            $data = array('params' => $param);
+
+            $this->loadModel('Post');
+
+            $data['posts'] = $this->Post->select();
+
+            View::make('api.index', json_encode($data));
         }
     }
+

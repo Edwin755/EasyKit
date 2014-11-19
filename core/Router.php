@@ -79,11 +79,20 @@
             $query .= !empty($this->url['action']) ? $this->url['action'] . '/' : '';
 
             foreach ($routes as $url => $route) {
+                $multiple = explode('/', $url);
+
                 if ($url == $query) {
                     $route = explode('.', $route);
 
                     $this->controller = $route[0];
                     $this->action = isset($route[1]) ? $route[1] : 'index';
+
+                    return true;
+                } else if ($multiple[0] == $this->url['controller'] && $multiple[1] == '*') {
+                    $route = explode('.', $route);
+
+                    $this->controller = $route[0];
+                    $this->action = !empty($this->url['action']) ? $this->url['action'] : 'index';
 
                     return true;
                 }

@@ -15,6 +15,6 @@
     return array(
 
         '/'         => 'home.index',
-        //'/*'        => 'home',
+        'api/*'     => 'api',
 
     );

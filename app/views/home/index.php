@@ -11,5 +11,3 @@
     <h2><?= $post->post_name; ?></h2>
     <p><?= $post->post_content; ?></p>
 <?php endforeach ?>
-
-<?= Core\Form::input(); ?>

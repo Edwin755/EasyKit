@@ -80,10 +80,8 @@
          */
         static function checkValidity() {
             if (mcrypt_decrypt(MCRYPT_3DES, self::$app['secure_key'], Cookie::get('security'), MCRYPT_MODE_NOFB, self::$iv) == $_SERVER['HTTP_USER_AGENT']) {
-                var_dump(true);
                 return true;
             } else {
-                var_dump(false);
                 return false;
             }
         }
@@ -97,7 +95,6 @@
          */
         static function destroy($name, $path = '/') {
             $name = str_replace(self::$app['cookie_name'] . '_', '', $name);
-            var_dump($name);
             if (isset($_COOKIE[self::$app['cookie_name'] . '_' . $name])) {
                 setcookie(self::$app['cookie_name'] . '_' . $name, '', 10, $path);
                 return true;

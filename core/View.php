@@ -26,10 +26,12 @@
          * 
          * @return void
          */
-        static function make($view, $layout = false, $data = array()) {
+        static function make($view, $data = array(), $layout = false) {
             $view = explode('.', $view);
 
-            extract($data);
+            if (is_array($data)) {
+                extract($data);
+            }
 
             $filename = __DIR__ . '/../app/views/' . $view[0];
 
