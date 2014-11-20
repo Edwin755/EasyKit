@@ -73,7 +73,7 @@
          * 
          * @return boolean
          */
-        private function httpStatus($code) {
+        protected function httpStatus($code) {
             switch ($code) {
                 case 404:
                     header('HTTP/1.1 404 Not Found');

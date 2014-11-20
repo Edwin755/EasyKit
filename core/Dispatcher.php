@@ -34,6 +34,7 @@
                 new Controller('404');
             }
 
+            $this->debugHandler();
             $this->loadController();
         }
 
@@ -59,6 +60,18 @@
                 $controller = new Controller('404');
 
                 return false;
+            }
+        }
+
+        private function debugHandler() {
+            $app = self::getAppFile();
+
+            if ($app['debug'] == true) {
+                ini_set('display_error', 'On');
+                error_reporting(E_ALL | E_STRICT);
+            } else {
+                ini_set('display_error', 'Off');
+                error_reporting(0);
             }
         }
 

@@ -44,7 +44,13 @@
 
         }
 
+        /**
+         * Default Action
+         * 
+         * 404 Page Not Found
+         */
         function defaultAction() {
+            $this->httpStatus(404);
             View::make('api.index', json_encode(array('error' => 'URL Parsing error, please check URL parameters.')), false, 'application/json');
         }
 
@@ -53,7 +59,7 @@
          * 
          * @return void
          */
-        function hello($param1, $param2) {
+        function hello($param1 = null, $param2 = null) {
             $data = array(
                 'param1' => $param1,
                 'param2' => $param2
