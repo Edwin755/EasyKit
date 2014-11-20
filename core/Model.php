@@ -224,7 +224,6 @@
              */
             $pre = $this->pdo->prepare($sql);
             $query = $sql;
-
             foreach ($this->params as $param => $value) {
                 if (is_string($value)) {
                     $pre->bindValue($param, $value, PDO::PARAM_STR);
@@ -232,17 +231,28 @@
                 } elseif (is_int($value)) {
                     $pre->bindValue($param, $value, PDO::PARAM_INT);
                     $query = str_replace(':' . $param, $value, $sql);
+                } elseif (is_null($value)) {
+                    $pre->bindValue($param, $value, PDO::PARAM_NULL);
+                    $query = str_replace(':' . $param, $value, $sql);
+                } elseif (is_bool($value)) {
+                    $pre->bindValue($param, $value, PDO::PARAM_BOOL);
+                    $query = str_replace(':' . $param, $value, $sql);
                 } else {
                     throw new Exception('Error Processing Request. binValue error : ' . $param . ' => ' . $value, 1);
                 }
             }
+            if ($pre->execute()) {
+                $return = $pre->fetchAll($this->connections['fetch']);
+                $pre->closeCursor();
+                $this->params = array();
 
-            $pre->execute();
+                $query = "FIND : \n" . $query;
+                // log_write('sql', $query);
 
-            $query = "FIND : \n" . $query;
-            //log_write('sql', $query);
-
-            return $pre->fetchAll($this->connections['fetch']);
+                return $return;
+            } else {
+                return false;
+            }
         }
 
         /**
@@ -261,6 +271,7 @@
                 if ($k == $this->pk) {
                     $type = 'update';
                 } else {
+                    $k = strtolower($this->table) . '_' . $k;
                     $fields[$k] = '`' . $k . '` = :' . $k;
                 }
 
@@ -295,16 +306,27 @@
                 } elseif (is_int($value)) {
                     $pre->bindValue($param, $value, PDO::PARAM_INT);
                     $query = str_replace(':' . $param, $value, $sql);
+                } elseif (is_null($value)) {
+                    $pre->bindValue($param, $value, PDO::PARAM_NULL);
+                    $query = str_replace(':' . $param, $value, $sql);
+                } elseif (is_bool($value)) {
+                    $pre->bindValue($param, $value, PDO::PARAM_BOOL);
+                    $query = str_replace(':' . $param, $value, $sql);
                 } else {
                     throw new Exception('Error Processing Request. binValue error : ' . $param . ' => ' . $value, 1);
                 }
             }
-            $pre->execute();
+            if ($pre->execute()) {
+                $this->lastInsertId = $this->pdo->lastInsertId();
+                $this->params = array();
 
-            $query = "SAVE : \n" . $query;
-            //log_write('sql', $query);
+                $query = "SAVE : \n" . $query;
+                // log_write('sql', $query);
 
-            return true;
+                return $this->pdo->lastInsertId();
+            } else {
+                return false;
+            }
         }
 
         /**

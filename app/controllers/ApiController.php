@@ -62,8 +62,37 @@
         function hello($param1 = null, $param2 = null) {
             $data = array(
                 'param1' => $param1,
-                'param2' => $param2
+                'param2' => $param2,
+                'REQUEST_METHOD' => $_SERVER['REQUEST_METHOD']
                 );
+
+            View::make('api.index', json_encode($data), false, 'application/json');
+        }
+
+        function post() {
+            $this->loadModel('Post');
+
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET':
+                    $data['posts'] = $this->Post->select();
+                    break;
+
+                case 'POST':
+                    $data['id'] = $this->Post->save(array(
+                        'name'      => $_POST['name'],
+                        'content'   => $_POST['content']
+                        ));
+                    $data = $this->Post->select(array(
+                        'conditions'    => array(
+                            'id'       => $data['id']
+                            )
+                        ));
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
 
             View::make('api.index', json_encode($data), false, 'application/json');
         }
