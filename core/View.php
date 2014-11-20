@@ -38,8 +38,9 @@
          * 
          * @return void
          */
-        static function make($view, $data = array(), $layout = false) {
+        static function make($view, $data = array(), $layout = false, $content_type = 'text/html') {
             if (!self::$rendered) {
+                header('Content-type: ' . $content_type);
                 $view = explode('.', $view);
 
                 if (is_array($data)) {

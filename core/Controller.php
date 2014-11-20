@@ -35,7 +35,7 @@
 
             if (in_array($action, $this->actions)) {
                 $this->httpStatus(200);
-                call_user_func(array($this, $action), $params);
+                call_user_func_array(array($this, $action), $params);
             } else {
                 $this->pageNotFound();
             }

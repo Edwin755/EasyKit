@@ -49,13 +49,10 @@
          * 
          * @return void
          */
-        function hello($param) {
-            $data = array('params' => $param);
+        function hello($param1, $param2) {
+            $data = array('param1' => $param1,
+                'param2' => $param2);
 
-            $this->loadModel('Post');
-
-            $data['posts'] = $this->Post->select();
-
-            View::make('api.index', json_encode($data));
+            View::make('api.index', json_encode($data), false, 'application/json');
         }
     }
