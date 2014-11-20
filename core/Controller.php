@@ -37,6 +37,13 @@
                 $this->httpStatus(200);
                 call_user_func_array(array($this, $action), $params);
             } else {
+                foreach ($this->actions as $actions) {
+                    if ($actions == 'defaultAction') {
+                        call_user_func_array(array($this, $actions), $params);
+                        return true;
+                    }
+                }
+
                 $this->pageNotFound();
             }
 

@@ -32,7 +32,7 @@
 
             $data['posts'] = $this->Post->select();
 
-            View::make('api.index', json_encode($data));
+            View::make('api.index', json_encode($data), false, 'application/json');
         }
 
         /**
@@ -44,14 +44,20 @@
 
         }
 
+        function defaultAction() {
+            View::make('api.index', json_encode(array('error' => 'URL Parsing error, please check URL parameters.')), false, 'application/json');
+        }
+
         /**
          * Another sample
          * 
          * @return void
          */
         function hello($param1, $param2) {
-            $data = array('param1' => $param1,
-                'param2' => $param2);
+            $data = array(
+                'param1' => $param1,
+                'param2' => $param2
+                );
 
             View::make('api.index', json_encode($data), false, 'application/json');
         }
