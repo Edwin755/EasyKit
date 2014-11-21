@@ -24,4 +24,8 @@
         {
             return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . dirname(dirname($_SERVER['SCRIPT_NAME'])) . '/' . trim($link, '/');
         }
+
+        static function getCurrentURL() {
+            return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+        }
     }

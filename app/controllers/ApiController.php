@@ -82,11 +82,7 @@
                         'name'      => $_POST['name'],
                         'content'   => $_POST['content']
                         ));
-                    $data = $this->Post->select(array(
-                        'conditions'    => array(
-                            'id'       => $data['id']
-                            )
-                        ));
+                    $data = $this->Post->getLastSaved();
                     break;
                 
                 default:

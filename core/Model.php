@@ -330,6 +330,17 @@
         }
 
         /**
+         * Get the lastest saved entity
+         */
+        public function getLastSaved() {
+            return $this->select(array(
+                'conditions'    => array(
+                    'id'            => $this->lastInsertId 
+                    )
+                ));
+        }
+
+        /**
          * Delete a value in the selected table
          *
          * @param integer $id The id of entity that have to be deleted
