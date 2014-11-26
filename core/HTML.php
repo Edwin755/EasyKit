@@ -22,7 +22,9 @@
          */
         static function link($link)
         {
-            return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . dirname(dirname($_SERVER['SCRIPT_NAME'])) . '/' . trim($link, '/');
+            $link = !empty($link) ? '/' . trim($link, '/') : '';
+            $script_name = trim(dirname(dirname($_SERVER['SCRIPT_NAME']))) != '/' ? '/' . trim(dirname(dirname($_SERVER['SCRIPT_NAME'])), '/') : '';
+            return $_SERVER['REQUEST_SCHEME'] . '://' . trim($_SERVER['SERVER_NAME'], '/') . $script_name . $link;
         }
 
         static function getCurrentURL() {
