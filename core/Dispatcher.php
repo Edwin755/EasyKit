@@ -30,12 +30,20 @@
          * @return void
          */
         function __construct() {
-            if (!$this->router = new Router) {
-                new Controller('404');
-            }
+            try {
+                if (!$this->router = new Router) {
+                    new Controller('404');
+                }
 
-            $this->debugHandler();
-            $this->loadController();
+                $this->debugHandler();
+                $this->loadController();
+            } catch (\Exception $e) {
+                if (self::getAppFile()['debug']) {
+                    die($e->getMessage());
+                } else {
+                    die('Something went wrong ...');
+                }
+            }
         }
 
         /**
@@ -57,16 +65,14 @@
 
                 return true;
             } else {
-                $controller = new Controller('404');
-
-                return false;
+                throw new \Exception('Route matches but there is no Controller.', 1);
             }
         }
 
         private function debugHandler() {
             $app = self::getAppFile();
 
-            if ($app['debug'] == true) {
+            if ($app['debug']) {
                 ini_set('display_error', 'On');
                 error_reporting(E_ALL | E_STRICT);
             } else {
