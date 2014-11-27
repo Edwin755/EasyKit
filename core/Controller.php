@@ -84,7 +84,7 @@
                     break;
                 
                 default:
-                    throw new Exception("Unknown http status", 1);
+                    throw new \Exception('Unknown HTTP Status', 1);
                     return false;
                     break;
             }
@@ -99,10 +99,15 @@
          */
         protected function loadModel($model) {
             if(!isset($this->$model)){
-                $file = __DIR__ . '/../app/models/' . ucfirst($model) . '.php';
-                require_once($file);
-                $class = '\\App\\Models\\' . $model;
-                $this->$model = new $class();
+                $filename = __DIR__ . '/../app/models/' . ucfirst($model) . '.php';
+
+                if (file_exists($filename)) {
+                    require_once($filename);
+                    $class = '\\App\\Models\\' . $model;
+                    $this->$model = new $class();
+                } else {
+                    throw new \Exception('Model was not found.', 1);
+                }
             }
         }
     }
