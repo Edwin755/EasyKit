@@ -22,10 +22,32 @@
          */
         static function link($link)
         {
-            return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . dirname(dirname($_SERVER['SCRIPT_NAME'])) . '/' . trim($link, '/');
+            if(!isset($_SERVER['REQUEST_SCHEME'])){
+                $_SERVER['REQUEST_SCHEME'] = 'http';
+            }
+            
+            if($_SERVER['SERVER_PORT'] == 80){
+                $port = '';
+            }else{
+                $port = ':' . $_SERVER['SERVER_PORT'];
+            }
+            
+            
+            return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . $port . dirname(dirname($_SERVER['SCRIPT_NAME'])) . '/' . trim($link, '/');
         }
 
         static function getCurrentURL() {
-            return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+            
+            if(!isset($_SERVER['REQUEST_SCHEME'])){
+                $_SERVER['REQUEST_SCHEME'] = 'http';
+            }
+            
+            if($_SERVER['SERVER_PORT'] == 80){
+                $port = '';
+            }else{
+                $port = ':' . $_SERVER['SERVER_PORT'];
+            }
+            
+            return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . $port . $_SERVER['REQUEST_URI'];
         }
     }
