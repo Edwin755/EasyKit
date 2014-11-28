@@ -33,6 +33,7 @@
             try {
                 if (!$this->router = new Router) {
                     new Controller('404');
+                    throw new \Exception("Error Processing Request", 1);
                 }
 
                 $this->debugHandler();
@@ -41,7 +42,7 @@
                 if (self::getAppFile()['debug']) {
                     die($e->getMessage());
                 } else {
-                    die('Something went wrong ...');
+                    die();
                 }
             }
         }
@@ -65,6 +66,7 @@
 
                 return true;
             } else {
+                new Controller(404);
                 throw new \Exception('Route matches but there is no Controller.', 1);
             }
         }

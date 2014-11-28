@@ -1,5 +1,5 @@
 <?php
-
+    
     /**
      * ApiController
      * 
@@ -11,11 +11,10 @@
 
     use Core;
     use Core\View;
-    use Core\Form;
     use Core\Cookie;
 
     /**
-     * HomeController Class
+     * ApiController Class
      */
     class ApiController extends Core\Controller
     {
@@ -26,70 +25,36 @@
          * @return void
          */
         function index() {
-            $data = array('api' => 'index');
-
-            $this->loadModel('Post');
-
-            $data['posts'] = $this->Post->select();
-
+            $data = array('Welcome in EasyKit API!');
             View::make('api.index', json_encode($data), false, 'application/json');
         }
 
-        /**
-         * Sample
-         * 
-         * @return void
-         */
-        function getHello() {
-
-        }
-
-        /**
-         * Default Action
-         * 
-         * 404 Page Not Found
-         */
         function defaultAction() {
             $this->httpStatus(404);
-            View::make('api.index', json_encode(array('error' => 'URL Parsing error, please check URL parameters.')), false, 'application/json');
+            $data = array(
+                'error' => 'Invalid URL parameter(s)',
+                );
+            View::make('api.index', json_encode($data), false, 'application/json');
         }
 
         /**
-         * Another sample
+         * Users Action
          * 
          * @return void
          */
-        function hello($param1 = null, $param2 = null) {
-            $data = array(
-                'param1' => $param1,
-                'param2' => $param2,
-                'REQUEST_METHOD' => $_SERVER['REQUEST_METHOD']
-                );
+        function users() {
+            $args = func_get_args();
 
-            View::make('api.index', json_encode($data), false, 'application/json');
-        }
-
-        function post() {
-            $this->loadModel('Post');
-
-            switch ($_SERVER['REQUEST_METHOD']) {
-                case 'GET':
-                    $data['posts'] = $this->Post->select();
-                    break;
-
-                case 'POST':
-                    $data['id'] = $this->Post->save(array(
-                        'name'      => $_POST['name'],
-                        'content'   => $_POST['content']
-                        ));
-                    $data = $this->Post->getLastSaved();
-                    break;
-                
-                default:
-                    # code...
-                    break;
+            if (!empty($args)) {
+                $action = $args[0];
+                array_shift($args);
+                $params = $args;
+            } else {
+                $action = null;
+                $params = array();
             }
 
-            View::make('api.index', json_encode($data), false, 'application/json');
+            require 'UsersController.php';
+            new UsersController($action, $params);
         }
     }

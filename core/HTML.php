@@ -35,8 +35,9 @@
         /**
          * init function.
          * 
-         * @access static
+         * @access public
          * @return void
+         * @static
          */
         static function init(){
             if (!isset($_SERVER['REQUEST_SCHEME'])) {

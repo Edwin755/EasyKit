@@ -21,6 +21,8 @@
          * Cookies
          */
         static public $cookies;
+
+        static private $iv;
         
         /**
          * Create first Cookie values
@@ -49,7 +51,8 @@
          */
         static function get($name) {
             if (isset($_COOKIE[self::$app['cookie_name'] . '_' . $name])) {
-                return $_COOKIE[self::$app['cookie_name'] . '_' . $name];
+                $value = $_COOKIE[self::$app['cookie_name'] . '_' . $name];
+                return $value;
             }
         }
 

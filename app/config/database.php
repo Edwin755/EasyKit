@@ -29,7 +29,7 @@
                 'host'      => 'localhost',
                 'database'  => 'easykit',
                 'username'  => 'root',
-                'password'  => 'root',
+                'password'  => '',
                 'charset'   => 'utf8',
                 'prefix'    => 'ek_'
             ),

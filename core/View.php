@@ -60,8 +60,7 @@
                 if (file_exists($filename)) {
                     if ($layout !== false) {
                         require_once 'HTML.php';
-//                         HTML::init();
-
+                        
                         ob_start();
                         require $filename;
                         $content_for_layout = ob_get_clean();

@@ -27,9 +27,13 @@
          * 
          * @return boolean
          */
-        function __construct($action, $params = null) {
+        function __construct($action, $params = array()) {
             new Session();
             Cookie::init();
+
+            if ($action == null) {
+                $action = 'index';
+            }
 
             $this->actions = get_class_methods($this);
 
