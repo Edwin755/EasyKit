@@ -21,37 +21,37 @@
         /**
          * List of connections and params in database file
          */
-        private $connections;
+        protected $connections;
 
         /**
          * Infos on database selected
          */
-        private $connection;
+        protected $connection;
 
         /**
          * PDO Object
          */
-        private $pdo;
+        protected $pdo;
 
         /**
          * Params for bindValue
          */
-        private $params = array();
+        protected $params = array();
 
         /**
          * Table to affect for modifications
          */
-        private $table;
+        protected $table;
 
         /**
          * prefix of the table
          */
-        private $prefix;
+        protected $prefix;
 
         /**
          * Default primary key
          */
-        private $pk = 'id';
+        protected $pk = 'id';
         
         /**
          * Construct
@@ -149,6 +149,13 @@
              * FROM
              */
             $sql .= ' FROM `' . $this->prefix . $this->table . '` AS ' . $this->table;
+
+            if (isset($req['join'])) {
+                foreach ($req['join'] as $model) {
+                    $model['name'] = strtolower($model['name']);
+                    $sql .= ' ' . strtoupper($model['direction']) . ' JOIN `' . $this->prefix . $model['name'] . '` AS ' . $model['name'] . ' ON ' . $this->table . '.' . $this->table . '_' . $model['name'] . '_id' . '=' . $model['name'] . '.' . $model['name'] . '_id';
+                }
+            }
 
             /**
              * WHERE

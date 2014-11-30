@@ -50,6 +50,7 @@
         /**
          * Load the Controller associated to route
          * 
+         * @throws Exception when Controller file or class not found
          * @return boolean
          */
         private function loadController() {
@@ -62,12 +63,17 @@
 
                 $classController = '\\App\\Controllers\\' . $controller;
 
-                new $classController($this->router->action, $this->router->params);
+                if (class_exists($classController)) {
+                    new $classController($this->router->action, $this->router->params);
+                } else {
+                    new Controller(404);
+                    throw new \Exception('Route matches, Controller file found, but class Controller not found', 1);
+                }
 
                 return true;
             } else {
                 new Controller(404);
-                throw new \Exception('Route matches but there is no Controller.', 1);
+                throw new \Exception('Route matches but does not found any Controller file.', 1);
             }
         }
 

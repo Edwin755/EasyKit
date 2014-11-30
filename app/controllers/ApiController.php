@@ -29,6 +29,11 @@
             View::make('api.index', json_encode($data), false, 'application/json');
         }
 
+        /**
+         * Default Action throw 404
+         * 
+         * @return void
+         */
         function defaultAction() {
             $this->httpStatus(404);
             $data = array(

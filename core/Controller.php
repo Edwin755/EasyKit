@@ -75,6 +75,7 @@
          * 
          * @param int $code
          * 
+         * @throws Exception when HTTP Status given isn't planned
          * @return boolean
          */
         protected function httpStatus($code) {
@@ -100,6 +101,8 @@
          * Load model
          * 
          * @param string $model Name of the model and name of the file
+         * 
+         * @throws Exception when Model not found
          */
         protected function loadModel($model) {
             if(!isset($this->$model)){

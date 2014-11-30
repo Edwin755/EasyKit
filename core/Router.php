@@ -56,7 +56,7 @@
          * @return void
          */
         function parse() {
-            $url = isset($_SERVER['REDIRECT_QUERY_STRING']) ? substr($_SERVER['REDIRECT_QUERY_STRING'], 2) : '';
+            $url = isset($_SERVER['PATH_INFO']) ? substr($_SERVER['PATH_INFO'], 1) : '';
 
             $query = explode('/', $url);
 

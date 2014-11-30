@@ -36,6 +36,9 @@
          */
         function auth() {
             $data = array('Auth action');
+
+            $this->loadModel('Users');
+
             View::make('api.index', json_encode($data), false, 'application/json');
         }
     }
