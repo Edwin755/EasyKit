@@ -275,10 +275,10 @@
             $fields = array();
 
             foreach ($req as $k => $v) {
+                $k = strtolower($this->table) . '_' . $k;
                 if ($k == $this->pk) {
                     $type = 'update';
                 } else {
-                    $k = strtolower($this->table) . '_' . $k;
                     $fields[$k] = '`' . $k . '` = :' . $k;
                 }
 

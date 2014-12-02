@@ -29,15 +29,7 @@
             if (!isset($_SESSION)) {
                 session_name($app['session_name']);
                 session_start();
-                self::set('secure', mcrypt_encrypt(MCRYPT_3DES, $app['secure_key'], $_SERVER['HTTP_USER_AGENT'], MCRYPT_MODE_NOFB, $iv));
-            } else {
-                if (mcrypt_decrypt(MCRYPT_3DES, $app['secure_key'], self::get('secure'), MCRYPT_MODE_NOFB, $iv) == $_SERVER['HTTP_USER_AGENT']) {
-                    return true;
-                } else {
-                    session_destroy();
-                    unset($_SESSION);
-                }
-            }
+            } 
         }
 
         /**
