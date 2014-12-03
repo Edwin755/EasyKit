@@ -11,7 +11,6 @@
 
     use Core;
     use Core\View;
-    use Core\Form;
     use Core\Cookie;
 
     /**
@@ -37,5 +36,12 @@
             }
 
             View::make('home.index', $data, 'default');
+        }
+
+        function admin_index() {
+            View::$current = 'dash';
+            View::$title = 'Dashboard';
+
+            View::make('home.admin_index', null, 'admin');
         }
     }

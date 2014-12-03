@@ -16,5 +16,6 @@
 
         '/'         => 'home.index',
         'api/*'     => 'api',
+        'admin/*'   => 'admin',
 
     );

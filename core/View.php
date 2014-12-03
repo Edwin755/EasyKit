@@ -21,6 +21,16 @@
         static private $rendered;
 
         /**
+         * Current Page
+         */
+        static public $current;
+
+        /**
+         * Current Page
+         */
+        static public $title;
+
+        /**
          * 
          */
         static function getRendered() {
