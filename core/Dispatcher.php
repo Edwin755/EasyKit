@@ -12,6 +12,7 @@
     namespace Core;
 
     use App\Controllers;
+    use Exception;
 
     /**
      * Dispatcher Class
@@ -33,12 +34,12 @@
             try {
                 if (!$this->router = new Router) {
                     new Controller('404');
-                    throw new \Exception("Error Processing Request", 1);
+                    throw new Exception("Error Processing Request", 1);
                 }
 
                 $this->debugHandler();
                 $this->loadController();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 if (self::getAppFile()['debug']) {
                     die($e->getMessage());
                 } else {
@@ -67,13 +68,13 @@
                     new $classController($this->router->action, $this->router->params);
                 } else {
                     new Controller(404);
-                    throw new \Exception('Route matches, Controller file found, but class Controller not found', 1);
+                    throw new Exception('Route matches, Controller file found, but class Controller not found', 1);
                 }
 
                 return true;
             } else {
                 new Controller(404);
-                throw new \Exception('Route matches but does not found any Controller file.', 1);
+                throw new Exception('Route matches but does not found any Controller file.', 1);
             }
         }
 

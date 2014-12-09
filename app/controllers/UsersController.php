@@ -65,6 +65,8 @@
 
         /**
          * Set the Email
+         *
+         * @param string $value
          * 
          * @return string
          */
@@ -74,6 +76,8 @@
 
         /**
          * Set the Password
+         *
+         * @param string $value
          * 
          * @return string
          */
@@ -83,6 +87,8 @@
 
         /**
          * Set the Firstname
+         *
+         * @param string $value
          * 
          * @return string
          */
@@ -92,6 +98,8 @@
 
         /**
          * Set the Firstname
+         *
+         * @param string $value
          * 
          * @return string
          */
@@ -188,6 +196,8 @@
 
         /**
          * Check token Method
+         *
+         * @param string $token
          * 
          * @return array / boolean
          */
@@ -211,6 +221,8 @@
 
         /**
          * Auth Action
+         *
+         * @param string $token
          * 
          * @return void
          */

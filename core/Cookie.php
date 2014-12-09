@@ -37,6 +37,7 @@
          * @param string $name Name of the cookie
          * @param string $value Value of the cookie
          * @param int $time Optional timeout instead of default timeout
+         * @param string $path Optional path to save the cookie
          */
         static function set($name, $value, $time = null, $path = '/') {
             setcookie(self::$app['cookie_name'] . '_' . $name, $value, time() + ($time != null ? $time : self::$app['cookie_time']), $path);
@@ -47,12 +48,14 @@
          * 
          * @param string $name
          * 
-         * @return string
+         * @return string|boolean
          */
         static function get($name) {
             if (isset($_COOKIE[self::$app['cookie_name'] . '_' . $name])) {
                 $value = $_COOKIE[self::$app['cookie_name'] . '_' . $name];
                 return $value;
+            } else {
+                return false;
             }
         }
 
@@ -60,6 +63,7 @@
          * Destroy given cookie
          * 
          * @param string $name
+         * @param string $path Destroy the cookie in the path
          * 
          * @return boolean
          */

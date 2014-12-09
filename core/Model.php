@@ -10,10 +10,14 @@
     namespace Core;
 
     use App\Models;
+    use Exception;
     use \PDO as PDO;
+    use PDOException;
 
     /**
      * Model Class
+     *
+     * @property mixed lastInsertId
      */
     class Model
     {
@@ -58,8 +62,10 @@
          * Establish connection to database
          *
          * @param string $connection Name of the database connection to connect
+         *
+         * @throws Exception
          * 
-         * @return void
+         * @return boolean
          */
         function __construct($connection = null) {
             $this->connections = require __DIR__ . '/../app/config/database.php';
@@ -98,6 +104,8 @@
             } catch (PDOException $e) {
                 throw new Exception("Error Processing Request: connectiion to DB", 1);
             }
+
+            return false;
         }
 
         /**
@@ -105,7 +113,9 @@
          *
          * @param array $req
          *
-         * @return void
+         * @throws Exception
+         *
+         * @return array|boolean
          *
          * @example $req = array(
          *      'fields'        => array(
@@ -266,6 +276,8 @@
          * Insert a value in the selected table
          *
          * @param array $req
+         *
+         * @throws Exception
          *
          * @return boolean
          */

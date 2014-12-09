@@ -38,7 +38,7 @@
         /**
          * Construct
          * 
-         * @return void
+         * @return boolean
          */
         function __construct() {
             $this->parse();

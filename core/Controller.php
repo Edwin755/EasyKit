@@ -8,6 +8,7 @@
      */
 
     namespace Core;
+    use Exception;
 
     /**
      * Controller Class
@@ -89,8 +90,7 @@
                     break;
                 
                 default:
-                    throw new \Exception('Unknown HTTP Status', 1);
-                    return false;
+                    throw new Exception('Unknown HTTP Status', 1);
                     break;
             }
 

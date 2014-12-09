@@ -4,3 +4,5 @@ docs/*
 logs/*
 .DS_STORE
 *.tmp
+.idea
+composer.lock

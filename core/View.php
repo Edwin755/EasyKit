@@ -41,10 +41,11 @@
          * Make the view including datas
          * 
          * @param string $view
-         * @param string $layout But boolean by default
          * @param array $data
+         * @param string|boolean $layout But boolean by default
+         * @param string $content_type
          * 
-         * @return void
+         * @return boolean
          */
         static function make($view, $data = array(), $layout = false, $content_type = 'text/html') {
             if (!self::$rendered) {
@@ -86,6 +87,8 @@
                     self::$rendered = true;
                     return false;
                 }
+            } else {
+                return false;
             }
         }
     }

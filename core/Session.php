@@ -18,18 +18,19 @@
         /**
          * Construct
          * Secure the session by mcrypt
-         * 
-         * @return void
+         *
+         * @return boolean
          */
         function __construct() {
             $app = Dispatcher::getAppFile();
 
-            $iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_3DES, MCRYPT_MODE_NOFB), MCRYPT_RAND);
-
             if (!isset($_SESSION)) {
                 session_name($app['session_name']);
                 session_start();
-            } 
+                return true;
+            } else {
+                return false;
+            }
         }
 
         /**
@@ -47,13 +48,15 @@
         /**
          * Get a value from the session
          * 
-         * @param string key
+         * @param string $key
          * 
-         * @return void
+         * @return boolean|string|array|int|object
          */
         static function get($key) {
             if (isset($_SESSION[$key])) {
                 return $_SESSION[$key];
+            } else {
+                return false;
             }
         }
     }
