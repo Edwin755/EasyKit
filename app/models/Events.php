@@ -13,7 +13,7 @@
 
     class Events extends Model {
 
-        function medias() {
-            return $this->hasMany('Medias');
+        function medias($req = array()) {
+            return $this->hasMany('Medias', $req);
         }
     }

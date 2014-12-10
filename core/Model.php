@@ -164,18 +164,26 @@
              * FROM
              */
             $sql .= ' FROM `' . $this->prefix . $this->table . '` AS ' . $this->table;
-            if (!empty($this->tables)) {
-                foreach ($this->tables as $table) {
-                    $sql .= ', `' . $this->prefix . $table . '` AS ' . $table;
-                }
-            }
 
-            if (isset($req['join']) && is_array($req['join'])) {
+            if (isset($req['join'])) {
                 foreach ($req['join'] as $model) {
                     $model['name'] = strtolower($model['name']);
                     $sql .= ' ' . strtoupper($model['direction']) . ' JOIN `' . $this->prefix . $model['name'] . '` AS ' . $model['name'] . ' ON ' . $this->table . '.' . $this->table . '_' . $model['name'] . '_id' . '=' . $model['name'] . '.' . $model['name'] . '_id';
                 }
-            } else if (isset($this->tables))
+            }
+
+            if (!empty($this->tables)) {
+                $count = 0;
+                foreach ($this->tables as $table) {
+                    $count++;
+                    if ($count == 1) {
+                        $previous = $table;
+                        $sql .= ' INNER JOIN `' . $this->prefix . $table . '` ' . $table . ' ON ' . $table . '.' . $table . '_' . $this->table . '_id = ' . $this->table . '.' . $this->table . '_id';
+                    } else {
+                        $sql .= ' INNER JOIN `' . $this->prefix . $table . '` ' . $table . ' ON ' . $previous . '.' . $previous . '_' . $table . '_id = ' . $table . '.' . $table . '_id';
+                    }
+                }
+            }
 
             /**
              * WHERE
@@ -186,28 +194,21 @@
 
                 $conditions = array();
 
-                if (empty($this->tables)) {
-                    foreach ($req['conditions'] as $k => $v) {
-                        $k = strtolower($this->table) . '_' . $k;
-                        if (substr($v, 0, 1) == '>') {
-                            $conditions[$k] = '`' . $k . '` > :' . $k;
+                foreach ($req['conditions'] as $k => $v) {
+                    $k = strtolower($this->table) . '_' . $k;
+                    if (substr($v, 0, 1) == '>') {
+                        $conditions[$k] = '`' . $k . '` > :' . $k;
 
-                            $v = intval(trim(str_replace('>', '', $v)));
-                        } elseif (substr($v, 0, 1) == '<') {
-                            $conditions[$k] = '`' . $k . '` < :' . $k;
+                        $v = intval(trim(str_replace('>', '', $v)));
+                    } elseif (substr($v, 0, 1) == '<') {
+                        $conditions[$k] = '`' . $k . '` < :' . $k;
 
-                            $v = intval(trim(str_replace('<', '', $v)));
-                        } else {
-                            $conditions[$k] = '`' . $k . '` = :' . $k;
-                        }
-
-                        $this->params[':' . $k] = $v;
-                    }
-                } else {
-                    foreach ($req['conditions'] as $k => $v) {
+                        $v = intval(trim(str_replace('<', '', $v)));
+                    } else {
                         $conditions[$k] = '`' . $k . '` = :' . $k;
-                        $this->params[':' . $k] = $v;
                     }
+
+                    $this->params[':' . $k] = $v;
                 }
 
                 $sql .= implode(' AND ', $conditions);
@@ -262,7 +263,6 @@
              */
             $pre = $this->pdo->prepare($sql);
             $query = $sql;
-            var_dump($query);
             foreach ($this->params as $param => $value) {
                 if (is_string($value)) {
                     $pre->bindValue($param, $value, PDO::PARAM_STR);
@@ -413,23 +413,13 @@
 
         /**
          * @param $name string
+         *
+         * @return array|bool
          */
-        public function hasMany($name) {
+        public function hasMany($name, $req = array()) {
             $name = strtolower($name);
             $this->tables = array($this->table . '_' . $name, $name);
 
-            var_dump(array(
-                'conditions'  => array(
-                    $this->table . '.' . $this->table . '_id'   => $this->table . '_' . $name . '.' . $this->table . '_id',
-                    $name . '.' . $name . '_id'   => $this->table . '_' . $name . '.' . $name . '_id',
-                )
-            ));
-
-            return $this->select(array(
-                'conditions'  => array(
-                    $this->table . '.' . $this->table . '_id'   => $this->table . '_' . $name . '.' . $this->table . '_id',
-                    $name . '.' . $name . '_id'   => $this->table . '_' . $name . '.' . $name . '_id',
-                )
-            ));
+            return $this->select($req);
         }
     }
