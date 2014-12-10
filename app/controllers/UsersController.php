@@ -16,6 +16,9 @@
 
     /**
      * UsersController Class
+     *
+     * @property mixed Tokens
+     * @property mixed Users
      */
     class UsersController extends Core\Controller
     {
@@ -112,7 +115,7 @@
          * 
          * @return void
          */
-        function index() {
+        function api_index() {
             $data = array('Users controller');
             View::make('api.index', json_encode($data), false, 'application/json');
         }
@@ -122,7 +125,7 @@
          * 
          * @return void
          */
-        function create() {
+        function api_create() {
             $data = 'No POST received.';
 
             if (!empty($_POST)) {
@@ -180,7 +183,7 @@
             View::make('api.index', json_encode($data), false, 'application/json');
         }
 
-        function generateToken($id) {
+        function api_generateToken($id) {
             $this->loadModel('Tokens');
 
             $token = md5(uniqid(mt_rand(), true));
@@ -201,7 +204,7 @@
          * 
          * @return array / boolean
          */
-        function checkToken($token) {
+        function api_checkToken($token) {
             $this->loadModel('Tokens');
             $user = $this->Tokens->select(array(
                 'join'          => array(
@@ -226,7 +229,7 @@
          * 
          * @return void
          */
-        function auth($token = null) {
+        function api_auth($token = null) {
             if (!empty($_POST)) {
                 $data = array();
 
@@ -266,11 +269,11 @@
                             ));
 
                         if (count($user->users_tokens) < 1) {
-                            $token = $this->generateToken($user->users_id);
-                            $data['authed'] = $this->checkToken($token);
+                            $token = $this->api_generateToken($user->users_id);
+                            $data['authed'] = $this->api_checkToken($token);
                             $data['token'] = $token;
                         } else if (current($user->users_tokens)->tokens_disabled == 0) {
-                            $data['authed'] = $this->checkToken(current($user->users_tokens)->tokens_token);
+                            $data['authed'] = $this->api_checkToken(current($user->users_tokens)->tokens_token);
                             $data['token'] = current($user->users_tokens)->tokens_token;
                         } else {
                             $this->errors['token'] = 'token disabled';
@@ -284,7 +287,7 @@
 
                 $data['errors'] = $this->errors;
             } else if ($token != null) {
-                $data['authed'] = $this->checkToken($token);
+                $data['authed'] = $this->api_checkToken($token);
                 !$data['authed'] ? $this->errors['token'] = 'invalid token.' : '';
                 $data['errors'] = $this->errors;
             } else {

@@ -27,10 +27,6 @@
         function index() {
             $data = array('lol' => 'lol');
 
-            $this->loadModel('Post');
-
-            $data['posts'] = $this->Post->select();
-
             if (!isset($_COOKIE['EasyKit_cookie_hello'])) {
                 Cookie::set('hello', rand(0,10));
             }

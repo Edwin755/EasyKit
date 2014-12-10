@@ -44,14 +44,14 @@
 
         /**
          * Users Action
-         * 
+         *
          * @return void
          */
         function users() {
             $args = func_get_args();
 
             if (!empty($args)) {
-                $action = $args[0];
+                $action = trim($args[0], '/');
                 array_shift($args);
                 $params = $args;
             } else {
@@ -59,7 +59,32 @@
                 $params = array();
             }
 
+            $action = $action != null ? $action : 'index';
+
             require 'UsersController.php';
-            new UsersController($action, $params);
+            new UsersController('api_' . $action, $params);
+        }
+
+        /**
+         * Events Action
+         *
+         * @return void
+         */
+        function events() {
+            $args = func_get_args();
+
+            if (!empty($args)) {
+                $action = trim($args[0], '/');
+                array_shift($args);
+                $params = $args;
+            } else {
+                $action = null;
+                $params = array();
+            }
+
+            $action = $action != null ? $action : 'get';
+
+            require 'EventsController.php';
+            new EventsController('api_' . $action, $params);
         }
     }

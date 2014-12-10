@@ -48,6 +48,11 @@
         protected $table;
 
         /**
+         * @var array
+         */
+        protected $tables = array();
+
+        /**
          * prefix of the table
          */
         protected $prefix;
@@ -102,7 +107,7 @@
                         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
                     ));
             } catch (PDOException $e) {
-                throw new Exception("Error Processing Request: connectiion to DB", 1);
+                throw new Exception("Error Processing Request: connection to DB", 1);
             }
 
             return false;
@@ -159,42 +164,56 @@
              * FROM
              */
             $sql .= ' FROM `' . $this->prefix . $this->table . '` AS ' . $this->table;
+            if (!empty($this->tables)) {
+                foreach ($this->tables as $table) {
+                    $sql .= ', `' . $this->prefix . $table . '` AS ' . $table;
+                }
+            }
 
-            if (isset($req['join'])) {
+            if (isset($req['join']) && is_array($req['join'])) {
                 foreach ($req['join'] as $model) {
                     $model['name'] = strtolower($model['name']);
                     $sql .= ' ' . strtoupper($model['direction']) . ' JOIN `' . $this->prefix . $model['name'] . '` AS ' . $model['name'] . ' ON ' . $this->table . '.' . $this->table . '_' . $model['name'] . '_id' . '=' . $model['name'] . '.' . $model['name'] . '_id';
                 }
-            }
+            } else if (isset($this->tables))
 
             /**
              * WHERE
              */
-            if (isset($req['conditions'])) {
+            if (isset($req['conditions']) && is_array($req['conditions'])) {
 
                 $sql .= ' WHERE ';
 
                 $conditions = array();
 
-                foreach ($req['conditions'] as $k => $v) {
-                    $k = strtolower($this->table) . '_' . $k;
-                    if (substr($v, 0, 1) == '>') {
-                        $conditions[$k] = '`' . $k . '` > :' . $k;
+                if (empty($this->tables)) {
+                    foreach ($req['conditions'] as $k => $v) {
+                        $k = strtolower($this->table) . '_' . $k;
+                        if (substr($v, 0, 1) == '>') {
+                            $conditions[$k] = '`' . $k . '` > :' . $k;
 
-                        $v = intval(trim(str_replace('>', '', $v)));
-                    } elseif (substr($v, 0, 1) == '<') {
-                        $conditions[$k] = '`' . $k . '` < :' . $k;
+                            $v = intval(trim(str_replace('>', '', $v)));
+                        } elseif (substr($v, 0, 1) == '<') {
+                            $conditions[$k] = '`' . $k . '` < :' . $k;
 
-                        $v = intval(trim(str_replace('<', '', $v)));
-                    } else {
-                        $conditions[$k] = '`' . $k . '` = :' . $k;
+                            $v = intval(trim(str_replace('<', '', $v)));
+                        } else {
+                            $conditions[$k] = '`' . $k . '` = :' . $k;
+                        }
+
+                        $this->params[':' . $k] = $v;
                     }
-                    
-                    $this->params[':' . $k] = $v;
+                } else {
+                    foreach ($req['conditions'] as $k => $v) {
+                        $conditions[$k] = '`' . $k . '` = :' . $k;
+                        $this->params[':' . $k] = $v;
+                    }
                 }
 
                 $sql .= implode(' AND ', $conditions);
-            } elseif (isset($req['like'])) {
+            } else if (isset($req['conditions']) && is_string($req['conditions'])) {
+                $sql .= $req['conditions'];
+            } else if (isset($req['like'])) {
                 $sql .= ' WHERE ';
                 foreach ($req['like'] as $k => $v) {
                     $conditions[$k] = '`' . $k . '` LIKE :' . $k;
@@ -208,15 +227,17 @@
             /**
              * ORDER
              */
-            $sql .= ' ORDER BY ';
-            if (isset($req['orderby'])) {
-                if (is_array($req['orderby'])) {
-                    $sql .= implode(', ', $req['orderby']);
+            if (empty($this->tables)) {
+                $sql .= ' ORDER BY ';
+                if (isset($req['orderby'])) {
+                    if (is_array($req['orderby'])) {
+                        $sql .= implode(', ', $req['orderby']);
+                    } else {
+                        $sql .= '`' . $req['orderby'] . '`';
+                    }
                 } else {
-                    $sql .= '`' . $req['orderby'] . '`';
-                }               
-            } else {
-                $sql .= '`' . $this->pk . '`';
+                    $sql .= '`' . $this->pk . '`';
+                }
             }
 
             if (isset($req['order'])) {
@@ -241,6 +262,7 @@
              */
             $pre = $this->pdo->prepare($sql);
             $query = $sql;
+            var_dump($query);
             foreach ($this->params as $param => $value) {
                 if (is_string($value)) {
                     $pre->bindValue($param, $value, PDO::PARAM_STR);
@@ -387,5 +409,27 @@
             //log_write('sql', $query);
 
             return true;
+        }
+
+        /**
+         * @param $name string
+         */
+        public function hasMany($name) {
+            $name = strtolower($name);
+            $this->tables = array($this->table . '_' . $name, $name);
+
+            var_dump(array(
+                'conditions'  => array(
+                    $this->table . '.' . $this->table . '_id'   => $this->table . '_' . $name . '.' . $this->table . '_id',
+                    $name . '.' . $name . '_id'   => $this->table . '_' . $name . '.' . $name . '_id',
+                )
+            ));
+
+            return $this->select(array(
+                'conditions'  => array(
+                    $this->table . '.' . $this->table . '_id'   => $this->table . '_' . $name . '.' . $this->table . '_id',
+                    $name . '.' . $name . '_id'   => $this->table . '_' . $name . '.' . $name . '_id',
+                )
+            ));
         }
     }
