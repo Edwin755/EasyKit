@@ -51,8 +51,7 @@
                     ),
                     'conditions'    => array(
                         'id'            => $id,
-                    ),
-                    'limit'         => 20
+                    )
                 )));
 
                 $data['event']->events_medias = $this->Events->medias(array(
@@ -73,8 +72,13 @@
                     ),
                 ));
             } else {
+                $nb = 20;
+                $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                $page = (($page - 1) * $nb);
+
                 $data['events'] = $this->Events->select(array(
                     'fields'        => array(
+                        'events.events_id',
                         'events.events_name',
                         'events.events_description',
                         'events.events_starttime',
@@ -92,7 +96,7 @@
                             'direction' => 'left'
                         ),
                     ),
-                    'limit' => 20
+                    'limit' => array($page, $page + $nb),
                 ));
 
                 foreach ($data['events'] as $event) {
