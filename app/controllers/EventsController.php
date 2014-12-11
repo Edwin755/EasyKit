@@ -96,6 +96,7 @@
                             'direction' => 'left'
                         ),
                     ),
+                    'order' => 'desc',
                     'limit' => array($page, $page + $nb),
                 ));
 
