@@ -18,6 +18,7 @@
      * Events Controller
      *
      * @property mixed Events
+     * @property mixed Users
      */
     class EventsController extends Controller {
 
@@ -28,21 +29,10 @@
          */
         function api_get($id = null) {
             $this->loadModel('Events');
+            $this->loadModel('Users');
 
             if ($id != null) {
                 $data['event'] = current($this->Events->select(array(
-                    'fields'        => array(
-                        'events.events_name',
-                        'events.events_description',
-                        'events.events_starttime',
-                        'events.events_endtime',
-                        'events.events_geox',
-                        'events.events_geoy',
-                        'events.events_created_at',
-                        'users.users_email',
-                        'users.users_firstname',
-                        'users.users_lastname',
-                    ),
                     'join'          => array(
                         array(
                             'name'      => 'Users',
@@ -53,6 +43,8 @@
                         'id'            => $id,
                     )
                 )));
+
+                unset($data['event']->users_password);
 
                 $data['event']->events_medias = $this->Events->medias(array(
                     'fields'        => array(
@@ -71,25 +63,18 @@
                         'id'            => $id,
                     ),
                 ));
+
+                $data['event']->users_media = $this->Users->media(array(
+                    'conditions'    => array(
+                        'id'            => $data['event']->users_medias_id,
+                    ),
+                ));
             } else {
                 $nb = 20;
                 $page = isset($_GET['page']) ? $_GET['page'] : 1;
                 $page = (($page - 1) * $nb);
 
                 $data['events'] = $this->Events->select(array(
-                    'fields'        => array(
-                        'events.events_id',
-                        'events.events_name',
-                        'events.events_description',
-                        'events.events_starttime',
-                        'events.events_endtime',
-                        'events.events_geox',
-                        'events.events_geoy',
-                        'events.events_created_at',
-                        'users.users_email',
-                        'users.users_firstname',
-                        'users.users_lastname',
-                    ),
                     'join'          => array(
                         array(
                             'name'      => 'Users',
@@ -101,6 +86,7 @@
                 ));
 
                 foreach ($data['events'] as $event) {
+                    unset($event->users_password);
                     $event->events_medias = $this->Events->medias(array(
                         'fields'        => array(
                             'events_medias.events_medias_name',
@@ -116,6 +102,12 @@
                         ),
                         'conditions'     => array(
                             'id'            => $event->events_id
+                        ),
+                    ));
+
+                    $event->users_media = $this->Users->media(array(
+                        'conditions'    => array(
+                            'id'            => $event->users_medias_id,
                         ),
                     ));
                 }

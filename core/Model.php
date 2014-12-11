@@ -168,7 +168,7 @@
             if (isset($req['join'])) {
                 foreach ($req['join'] as $model) {
                     $model['name'] = strtolower($model['name']);
-                    $sql .= ' ' . strtoupper($model['direction']) . ' JOIN `' . $this->prefix . $model['name'] . '` AS ' . $model['name'] . ' ON ' . $this->table . '.' . $this->table . '_' . $model['name'] . '_id' . '=' . $model['name'] . '.' . $model['name'] . '_id';
+                    $sql .= ' ' . strtoupper($model['direction']) . ' JOIN `' . $this->prefix . $model['name'] . '` ' . $model['name'] . ' ON ' . $this->table . '.' . $this->table . '_' . $model['name'] . '_id' . '=' . $model['name'] . '.' . $model['name'] . '_id';
                 }
             }
 
@@ -413,12 +413,33 @@
 
         /**
          * @param $name string
+         * @param array $req
          *
          * @return array|bool
+         *
+         * @throws Exception
          */
         public function hasMany($name, $req = array()) {
             $name = strtolower($name);
             $this->tables = array($this->table . '_' . $name, $name);
+
+            return $this->select($req);
+        }
+
+        /**
+         * @param $name
+         * @param array $req
+         *
+         * @return array|bool
+         *
+         * @throws Exception
+         */
+        public function hasOne($name, $req = array()) {
+            $name = strtolower($name);
+            $req['join'] = array(array(
+                'name'      => $name,
+                'direction' => 'left',
+            ));
 
             return $this->select($req);
         }
