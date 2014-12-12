@@ -78,7 +78,7 @@
 
                     $event->user->users_media = $this->Users->media(array(
                         'conditions'    => array(
-                            'id'            => $event->events_users_id,
+                            'id'            => $event->user->users_medias_id,
                         ),
                     ));
 
