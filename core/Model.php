@@ -300,6 +300,8 @@
                 $return = $pre->fetchAll($this->connections['fetch']);
                 $pre->closeCursor();
                 $this->params = array();
+                $this->tables = null;
+                $this->fields = null;
 
                 $query = "FIND : \n" . $query;
                 // log_write('sql', $query);
@@ -375,9 +377,7 @@
             }
             if ($pre->execute()) {
                 $this->lastInsertId = $this->pdo->lastInsertId();
-                $pre->closeCursor();
-                $this->params = array();
-                $this->tables = array();
+                $this->params = null;
 
                 $query = "SAVE : \n" . $query;
                 // log_write('sql', $query);
