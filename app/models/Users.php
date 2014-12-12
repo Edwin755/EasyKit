@@ -22,11 +22,6 @@
          * @return array|bool
          */
         function media($req = array()) {
-            $req['fields'] = array(
-                'medias.medias_id',
-                'medias.medias_file',
-                'medias.medias_type',
-            );
             return $this->hasOne('Medias', $req);
         }
     }

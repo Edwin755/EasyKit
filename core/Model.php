@@ -53,6 +53,11 @@
         protected $tables = array();
 
         /**
+         * @var array
+         */
+        protected $fields;
+
+        /**
          * prefix of the table
          */
         protected $prefix;
@@ -153,6 +158,17 @@
             if (!isset($req['count'])) {
                 if (isset($req['fields'])) {
                     $sql .= implode(', ', $req['fields']);
+                } else if (!empty($this->tables)) {
+                    $previous = false;
+                    foreach ($this->tables as $table) {
+                        if ($previous == true) {
+                            $sql .= ', ';
+                        }
+                        $previous = true;
+                        $sql .= $table . '.*';
+                    }
+                } else if (!empty($this->fields)) {
+                    $sql .= $this->fields . '.*';
                 } else {
                     $sql .= '*';
                 }
@@ -168,7 +184,7 @@
             if (isset($req['join'])) {
                 foreach ($req['join'] as $model) {
                     $model['name'] = strtolower($model['name']);
-                    $sql .= ' ' . strtoupper($model['direction']) . ' JOIN `' . $this->prefix . $model['name'] . '` ' . $model['name'] . ' ON ' . $this->table . '.' . $this->table . '_' . $model['name'] . '_id' . '=' . $model['name'] . '.' . $model['name'] . '_id';
+                    $sql .= ' ' . strtoupper($model['direction']) . ' JOIN `' . $this->prefix . $model['name'] . '` AS ' . $model['name'] . ' ON ' . $this->table . '.' . $this->table . '_' . $model['name'] . '_id' . '=' . $model['name'] . '.' . $model['name'] . '_id';
                 }
             }
 
@@ -178,9 +194,9 @@
                     $count++;
                     if ($count == 1) {
                         $previous = $table;
-                        $sql .= ' INNER JOIN `' . $this->prefix . $table . '` ' . $table . ' ON ' . $table . '.' . $table . '_' . $this->table . '_id = ' . $this->table . '.' . $this->table . '_id';
+                        $sql .= ' INNER JOIN `' . $this->prefix . $table . '` AS ' . $table . ' ON ' . $table . '.' . $table . '_' . $this->table . '_id = ' . $this->table . '.' . $this->table . '_id';
                     } else {
-                        $sql .= ' INNER JOIN `' . $this->prefix . $table . '` ' . $table . ' ON ' . $previous . '.' . $previous . '_' . $table . '_id = ' . $table . '.' . $table . '_id';
+                        $sql .= ' INNER JOIN `' . $this->prefix . $table . '` AS ' . $table . ' ON ' . $previous . '.' . $previous . '_' . $table . '_id = ' . $table . '.' . $table . '_id';
                     }
                 }
             }
@@ -359,12 +375,14 @@
             }
             if ($pre->execute()) {
                 $this->lastInsertId = $this->pdo->lastInsertId();
+                $pre->closeCursor();
                 $this->params = array();
+                $this->tables = array();
 
                 $query = "SAVE : \n" . $query;
                 // log_write('sql', $query);
 
-                return $this->pdo->lastInsertId();
+                return $this->lastInsertId;
             } else {
                 return false;
             }
@@ -423,7 +441,9 @@
             $name = strtolower($name);
             $this->tables = array($this->table . '_' . $name, $name);
 
-            return $this->select($req);
+            $return = $this->select($req);
+
+            return $return;
         }
 
         /**
@@ -436,11 +456,14 @@
          */
         public function hasOne($name, $req = array()) {
             $name = strtolower($name);
+            $this->fields = $name;
             $req['join'] = array(array(
                 'name'      => $name,
                 'direction' => 'left',
             ));
 
-            return $this->select($req);
+            $return = current($this->select($req));
+
+            return $return;
         }
     }

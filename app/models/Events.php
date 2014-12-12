@@ -16,4 +16,8 @@
         function medias($req = array()) {
             return $this->hasMany('Medias', $req);
         }
+
+        function user($req = array()) {
+            return $this->hasOne('Users', $req);
+        }
     }
