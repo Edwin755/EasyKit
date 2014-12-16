@@ -1,0 +1,4 @@
+.img-circle {
+  border: 2px solid #fff;
+  @include border-radius(50%);
+}

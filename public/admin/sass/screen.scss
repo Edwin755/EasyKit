@@ -8,6 +8,7 @@
 @import "labels";
 @import "buttons";
 @import "alerts";
+@import "images";
 
 @import "font-awesome/font-awesome.scss";
 
@@ -78,10 +79,26 @@ a {
   }
 
   img {
-    padding-top: 5px;
-    padding-bottom: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 
     vertical-align: middle;
+  }
+
+  a {
+    padding: 0 5px;
+
+    .fa-key {
+      color: #FFC107;
+    }
+
+    .fa-ban {
+      color: #9E9E9E;
+    }
+
+    .fa-times {
+      color: #F44336;
+    }
   }
 }
 

@@ -23,14 +23,14 @@
                 <th>Nom</th>
                 <th>Prénom</th>
                 <th>E-mail</th>
-                <th>Actions</th>
+                <th width="120">Actions</th>
             </tr>
         </thead>
         <tbody>
         <?php foreach ($users as $user) : ?>
             <tr>
                 <td><?= $user->users_id ?></td>
-                <td><img src="<?= HTML::link('uploads/' . $user->media->medias_file) ?>" alt="avatar" width="50"></td>
+                <td><img src="<?= HTML::link('uploads/' . $user->media->medias_file) ?>" class="img-circle" alt="avatar" width="50"></td>
                 <td><?= $user->users_lastname ?></td>
                 <td><?= $user->users_firstname ?></td>
                 <td><a href="mailto:<?= $user->users_email ?>"><?= $user->users_email ?></a></td>
