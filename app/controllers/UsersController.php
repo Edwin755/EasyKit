@@ -432,17 +432,13 @@
                         $this->redirect('admin1259');
                     } else {
                         $message = 'Nom d\'utilisateur ou mot de passe incorrect.';
-                        Session::set('flash', array(
-                            'status'    => 'danger',
-                            'message'   => $message
-                        ));
+                        Session::setFlash('danger', $message);
+                        $this->redirect('admin1259');
                     }
                 } else {
                     $message = 'Nom d\'utilisateur ou mot de passe incorrect.';
-                    Session::set('flash', array(
-                        'status'    => 'danger',
-                        'message'   => $message
-                    ));
+                    Session::setFlash('danger', $message);
+                    $this->redirect('admin1259');
                 }
             } else if (Cookie::get('admin_username') !== false && Cookie::get('admin_security') !== false) {
                 $this->loadModel('Admin');
@@ -475,7 +471,7 @@
          * @return void
          */
         function admin_logout() {
-            unset($_SESSION['admin']);
+            Session::destroy('admin');
             Cookie::destroy('admin_username');
             Cookie::destroy('admin_security');
             $this->redirect('admin1259/users/signin');

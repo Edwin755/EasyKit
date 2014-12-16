@@ -59,4 +59,43 @@
                 return false;
             }
         }
+
+        /**
+         * Set Flash message
+         *
+         * @param $key
+         * @param $status
+         * @param $message
+         */
+        static function setFlash($status, $message) {
+            self::set('flash', array(
+                'status'    => $status,
+                'message'   => $message
+            ));
+        }
+
+        /**
+         * Get Flash
+         *
+         * @param $key
+         * @return string
+         */
+        static function getFlash() {
+            if (self::get('flash') !== false) {
+                $flash = self::get('flash');
+                self::destroy('flash');
+                return '<div class="alert alert-' . $flash['status'] . '">' . $flash['message'] . '</div>';
+            } else {
+                return false;
+            }
+        }
+
+        /**
+         * Destroy the key & value
+         *
+         * @param $key
+         */
+        static function destroy($key) {
+            unset($_SESSION[$key]);
+        }
     }
