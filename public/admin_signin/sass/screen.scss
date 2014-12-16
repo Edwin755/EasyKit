@@ -3,6 +3,8 @@
 
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
 
+@import "../../admin/sass/font-awesome/font-awesome.scss";
+
 * {
   @include box-sizing('border-box');
 }
@@ -45,6 +47,38 @@ h1 {
   }
 }
 
+%awesomefont {
+  position: absolute;
+  top: 12px;
+  left: 15px;
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: 1.7em;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.alert {
+  position: relative;
+  margin: -15px -15px 15px;
+  padding: 15px 15px 15px 3em;
+
+  &.alert-danger {
+    color: #B71C1C;
+
+    background: #FFCDD2;
+
+    border-bottom: 2px solid lighten(#B71C1C, 35%);
+
+    &:before {
+      content: "\f071";
+
+      @extend %awesomefont;
+    }
+  }
+}
+
 .content {
   margin-top: 40px;
   margin-right: auto;
@@ -52,9 +86,11 @@ h1 {
   padding: 15px;
   width: 400px;
 
-  background: #eee;
+  background: #eaeaea;
   @include border-radius(2px);
-  @include box-shadow(0 0 10px rgba(0, 0, 0, 0.3));
+  @include box-shadow(0 2px 10px rgba(0, 0, 0, 0.4));
+
+  overflow: hidden;
 }
 
 .form-control {

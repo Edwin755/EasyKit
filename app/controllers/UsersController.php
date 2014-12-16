@@ -404,7 +404,7 @@
                 }
 
                 if (!isset($_POST['remember']) || $_POST['remember'] == null) {
-                    $this->errors['remember'] = 'wrong password';
+                    $this->errors['remember'] = 'wrong remember value';
                 } else {
                     $this->setRemember($_POST['remember']);
                 }
@@ -430,7 +430,19 @@
                         }
 
                         $this->redirect('admin1259');
+                    } else {
+                        $message = 'Nom d\'utilisateur ou mot de passe incorrect.';
+                        Session::set('flash', array(
+                            'status'    => 'danger',
+                            'message'   => $message
+                        ));
                     }
+                } else {
+                    $message = 'Nom d\'utilisateur ou mot de passe incorrect.';
+                    Session::set('flash', array(
+                        'status'    => 'danger',
+                        'message'   => $message
+                    ));
                 }
             } else if (Cookie::get('admin_username') !== false && Cookie::get('admin_security') !== false) {
                 $this->loadModel('Admin');
