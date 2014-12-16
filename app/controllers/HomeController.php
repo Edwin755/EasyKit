@@ -10,13 +10,14 @@
     namespace App\Controllers;
 
     use Core;
+    use Core\Controller;
     use Core\View;
     use Core\Cookie;
 
     /**
      * HomeController Class
      */
-    class HomeController extends Core\Controller
+    class HomeController extends Controller
     {
         
         /**
@@ -28,7 +29,7 @@
             $data = array('lol' => 'lol');
 
             if (!isset($_COOKIE['EasyKit_cookie_hello'])) {
-                Cookie::set('hello', rand(0,10));
+                Cookie::set('hello', rand(0, 10));
             }
 
             View::make('home.index', $data, 'default');
@@ -38,6 +39,6 @@
             View::$current = 'dash';
             View::$title = 'Dashboard';
 
-            View::make('home.admin_index', $data, 'admin');
+            View::make('home.admin_index', null, 'admin');
         }
     }

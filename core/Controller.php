@@ -32,14 +32,17 @@
             new Session();
             Cookie::init();
 
-            if ($action == null) {
-                $action = 'index';
-            }
+            $this->initLink();
 
             $this->actions = get_class_methods($this);
 
             if (in_array($action, $this->actions)) {
                 $this->httpStatus(200);
+                foreach ($this->actions as $actions) {
+                    if ($actions == 'constructor') {
+                        call_user_func_array(array($this, $actions), $params);
+                    }
+                }
                 call_user_func_array(array($this, $action), $params);
             } else {
                 foreach ($this->actions as $actions) {
@@ -55,7 +58,7 @@
             if (!View::getRendered()) {
                 $this->pageNotFound();
             }
-            
+
             return true;
         }
 
@@ -98,9 +101,57 @@
         }
 
         /**
+         * Redirect to a URL
+         *
+         * @param $link string
+         */
+        protected function redirect($link) {
+            header('Location: ' . $this->link($link)); exit();
+        }
+
+        /**
+         * Defines server informations
+         */
+        private function initLink(){
+            if (!isset($_SERVER['REQUEST_SCHEME'])) {
+                $this->request_scheme = 'http';
+            } else {
+                $this->request_scheme = $_SERVER['REQUEST_SCHEME'];
+            }
+
+            if ($_SERVER['SERVER_PORT'] == 80) {
+                $this->server_port = '';
+            } else {
+                $this->server_port = ':' . $_SERVER['SERVER_PORT'];
+            }
+        }
+
+        /**
+         * Set a link as HTML::link does
+         *
+         * @param $link string
+         * @return string
+         */
+        protected function link($link) {
+            $link = !empty($link) ? '/' . trim($link, '/') : '';
+            $script_name = trim(dirname(dirname($_SERVER['SCRIPT_NAME']))) != '/' ? '/' . trim(dirname(dirname($_SERVER['SCRIPT_NAME'])), '/') : '';
+
+            return $this->request_scheme . '://' . trim($_SERVER['SERVER_NAME'], '/') . $this->server_port . $script_name . $link;
+        }
+
+        /**
+         * Get the current URL
+         *
+         * @return string
+         */
+        protected function getCurrentURL() {
+            return $this->request_scheme . '://' . $_SERVER['SERVER_NAME'] . $this->server_port . $_SERVER['REQUEST_URI'];
+        }
+
+        /**
          * Load model
          * 
-         * @param string $model Name of the model and name of the file
+         * @param $model string Name of the model and name of the file
          * 
          * @throws Exception when Model not found
          */

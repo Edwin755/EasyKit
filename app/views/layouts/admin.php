@@ -9,7 +9,10 @@
     <body>
         <header class="head">
             <div class="title">
-                <a href="#"><img src="<?= HTML::link('admin/images/logo.png'); ?>" alt="" width="247" height="70"></a>
+                <a href="<?= HTML::link('admin1259') ?>"><img src="<?= HTML::link('admin/images/logo.png'); ?>" alt="" width="247" height="70"></a>
+            </div>
+            <div class="user right">
+                <a href="<?= HTML::link('admin1259/users/logout') ?>">Déconnexion</a>
             </div>
         </header>
         <aside class="sidebar">
@@ -17,7 +20,7 @@
                 <h4>General</h4>
                 <ul>
                     <li class="item">
-                        <a href="#"><span class="fa fa-home"></span>Dashboard</a>
+                        <a href="<?= HTML::link('admin1259') ?>"><span class="fa fa-home"></span>Dashboard</a>
                     </li>
                     <li class="item">
                         <a href="#" data-subitem><span class="fa fa-heart"></span>Evénements<span class="label label-info">2</span></a>

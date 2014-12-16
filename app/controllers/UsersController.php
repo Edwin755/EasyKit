@@ -10,6 +10,7 @@
     namespace App\Controllers;
 
     use Core;
+    use Core\Controller;
     use Core\View;
     use Core\Session;
     use Core\Cookie;
@@ -19,14 +20,17 @@
      *
      * @property mixed Tokens
      * @property mixed Users
+     * @property mixed Admin
      */
-    class UsersController extends Core\Controller
+    class UsersController extends Controller
     {
 
         private $errors = array();
 
         private $email;
+        private $username;
         private $password;
+        private $remember;
         private $firstname;
         private $lastname;
 
@@ -40,12 +44,30 @@
         }
 
         /**
+         * Get the Username
+         *
+         * @return string
+         */
+        function getUsername() {
+            return $this->username;
+        }
+
+        /**
          * Get the Password
-         * 
+         *
          * @return string
          */
         function getPassword() {
             return $this->password;
+        }
+
+        /**
+         * Get the Remember value
+         *
+         * @return string
+         */
+        function getRemember() {
+            return $this->remember;
         }
 
         /**
@@ -78,14 +100,36 @@
         }
 
         /**
+         * Set the Username
+         *
+         * @param string $value
+         *
+         * @return string
+         */
+        function setUsername($value) {
+            $this->username = $value;
+        }
+
+        /**
          * Set the Password
          *
          * @param string $value
-         * 
+         *
          * @return string
          */
         function setPassword($value) {
             $this->password = $value;
+        }
+
+        /**
+         * Set the Remember value
+         *
+         * @param string $value
+         *
+         * @return string
+         */
+        function setRemember($value) {
+            $this->remember = $value;
         }
 
         /**
@@ -334,8 +378,94 @@
          */
         function admin_create($id = null) {
             View::$title = 'Ajout d\'un utilisateur';
-            $this->loadModel('Users');
 
             View::make('users.admin_create', null, 'admin');
+        }
+
+        /**
+         * Admin Create
+         *
+         * @return void
+         */
+        function admin_signin() {
+            View::$title = 'Dashboard';
+
+            if (!empty($_POST)) {
+                if (!isset($_POST['username']) || $_POST['username'] == null) {
+                    $this->errors['username'] = 'wrong username';
+                } else {
+                    $this->setUsername($_POST['username']);
+                }
+
+                if (!isset($_POST['password']) || $_POST['password'] == null) {
+                    $this->errors['password'] = 'wrong password';
+                } else {
+                    $this->setPassword($_POST['password']);
+                }
+
+                if (!isset($_POST['remember']) || $_POST['remember'] == null) {
+                    $this->errors['remember'] = 'wrong password';
+                } else {
+                    $this->setRemember($_POST['remember']);
+                }
+
+                unset($_POST);
+
+                $this->loadModel('Admin');
+
+                if (empty($this->errors)) {
+                    $admin = $this->Admin->select(array(
+                        'conditions'    => array(
+                            'username'      => $this->getUsername(),
+                            'password'      => md5(sha1($this->getPassword())),
+                        ),
+                    ));
+
+                    if (count($admin) == 1) {
+                        Session::set('admin', current($admin));
+
+                        if ($this->getRemember()) {
+                            Cookie::set('admin_username', current($admin)->admin_username);
+                            Cookie::set('admin_security', md5($_SERVER['HTTP_USER_AGENT'] . current($admin)->admin_username));
+                        }
+
+                        $this->redirect('admin1259');
+                    }
+                }
+            } else if (Cookie::get('admin_username') !== false && Cookie::get('admin_security') !== false) {
+                $this->loadModel('Admin');
+
+                var_dump('hello');
+
+                $admin = $this->Admin->select(array(
+                    'conditions'    => array(
+                        'username'      => Cookie::get('admin_username'),
+                    ),
+                ));
+
+                if (count($admin) == 1 && Cookie::get('admin_security') == md5($_SERVER['HTTP_USER_AGENT'] . Cookie::get('admin_username'))) {
+                    Session::set('admin', current($admin));
+                    $this->redirect('admin1259');
+                } else {
+                    Cookie::destroy('admin_security');
+                    Cookie::destroy('admin_username');
+                }
+            } else if (Session::get('admin') !== false) {
+                $this->redirect('admin1259');
+            }
+
+            View::make('users.admin_signin', null, 'admin_signin');
+        }
+
+        /**
+         * Log out the current admin
+         *
+         * @return void
+         */
+        function admin_logout() {
+            unset($_SESSION['admin']);
+            Cookie::destroy('admin_username');
+            Cookie::destroy('admin_security');
+            $this->redirect('admin1259/users/signin');
         }
     }

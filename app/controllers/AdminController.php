@@ -10,14 +10,56 @@
     namespace App\Controllers;
 
     use Core;
+    use Core\Controller;
+    use Core\Session;
     use Core\View;
     use Core\Cookie;
 
     /**
      * AdminController Class
+     *
+     * @property mixed Admin
      */
-    class AdminController extends Core\Controller
+    class AdminController extends Controller
     {
+
+        /**
+         * Constructor
+         *
+         * @return void
+         */
+        function constructor() {
+            if (isset($_SESSION['admin'])) {
+                if (!$this->isAdmin()) {
+                    $this->redirect('admin1259/users/signin');
+                }
+            } else if ($this->link('admin1259/users/signin') != $this->getCurrentURL()) {
+                $this->redirect('admin1259/users/signin');
+            }
+        }
+
+        /**
+         * isAdmin
+         *
+         * @return boolean
+         */
+        function isAdmin() {
+            $this->loadModel('Admin');
+
+            $user = $this->Admin->select(array(
+                'conditions'    => array(
+                    'id'            => Session::get('admin')->admin_id
+                )
+            ));
+            $user = current($user);
+
+            if ($user->admin_username == Session::get('admin')->admin_username && $user->admin_password == Session::get('admin')->admin_password) {
+                return true;
+            } else {
+                unset($_SESSION['admin']);
+                return false;
+            }
+        }
 
         /**
          * Index Action

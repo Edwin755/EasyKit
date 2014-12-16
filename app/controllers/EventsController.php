@@ -38,25 +38,27 @@
                     )
                 )));
 
-                $data['event']->user = $this->Events->user(array(
-                    'conditions'    => array(
-                        'id'            => $id
-                    )
-                ));
+                if (!empty($data['event'])) {
+                    $data['event']->user = $this->Events->user(array(
+                        'conditions'    => array(
+                            'id'            => $id
+                        )
+                    ));
 
-                unset($data['event']->user->users_password);
+                    unset($data['event']->user->users_password);
 
-                $data['event']->user->users_media = $this->Users->media(array(
-                    'conditions'    => array(
-                        'id'            => $data['event']->events_users_id,
-                    ),
-                ));
+                    $data['event']->user->users_media = $this->Users->media(array(
+                        'conditions'    => array(
+                            'medias_id'            => $data['event']->user->users_medias_id,
+                        ),
+                    ));
 
-                $data['event']->events_medias = $this->Events->medias(array(
-                    'conditions'     => array(
-                        'id'            => $id,
-                    ),
-                ));
+                    $data['event']->events_medias = $this->Events->medias(array(
+                        'conditions'     => array(
+                            'id'            => $id,
+                        ),
+                    ));
+                }
             } else {
                 $nb = 20;
                 $page = isset($_GET['page']) ? $_GET['page'] : 1;

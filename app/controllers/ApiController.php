@@ -10,13 +10,14 @@
     namespace App\Controllers;
 
     use Core;
+    use Core\Controller;
     use Core\View;
     use Core\Cookie;
 
     /**
      * ApiController Class
      */
-    class ApiController extends Core\Controller
+    class ApiController extends Controller
     {
         
         /**
