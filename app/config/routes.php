@@ -14,8 +14,8 @@
      */
     return array(
 
-        '/'         => 'home.index',
-        'api/*'     => 'api',
-        'admin/*'   => 'admin',
+        '/'             => 'home.index',
+        'api/*'         => 'api',
+        'admin1259/*'   => 'admin',
 
     );

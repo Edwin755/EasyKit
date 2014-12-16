@@ -38,6 +38,6 @@
             View::$current = 'dash';
             View::$title = 'Dashboard';
 
-            View::make('home.admin_index', null, 'admin');
+            View::make('home.admin_index', $data, 'admin');
         }
     }

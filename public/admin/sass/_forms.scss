@@ -1,0 +1,32 @@
+.form-control {
+  margin-top: 15px;
+
+  &.inline {
+    label {
+      display: inline-block;
+    }
+
+    .input {
+      display: inline-block;
+    }
+  }
+
+  label {
+    display: block;
+    min-width: 260px;
+
+    color: lighten(#303239, 13%);
+  }
+
+  .input {
+    display: block;
+    padding: 5px 10px;
+
+    border: 1px solid #ccc;
+    outline: none;
+
+    &:focus {
+      border-color: lighten(#4099e9, 10%);
+    }
+  }
+}

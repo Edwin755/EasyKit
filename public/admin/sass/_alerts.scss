@@ -1,0 +1,42 @@
+%awesomefont {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: 2em;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.alert {
+  position: relative;
+  padding: 15px 15px 15px 4em;
+  margin-bottom: 15px;
+  min-height: 4em;
+
+  &.alert-success {
+    color: #1B5E20;
+
+    background: #C8E6C9;
+
+    &:before {
+      content: "\f00c";
+
+      @extend %awesomefont;
+    }
+  }
+
+  &.alert-danger {
+    color: #B71C1C;
+
+    background: #FFCDD2;
+
+    &:before {
+      content: "\f071";
+
+      @extend %awesomefont;
+    }
+  }
+}

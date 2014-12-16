@@ -303,6 +303,10 @@
                 $this->tables = null;
                 $this->fields = null;
 
+                if (isset($req['count'])) {
+                    $return = current($return)->Count;
+                }
+
                 $query = "FIND : \n" . $query;
                 // log_write('sql', $query);
 

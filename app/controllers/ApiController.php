@@ -87,4 +87,15 @@
             require 'EventsController.php';
             new EventsController('api_' . $action, $params);
         }
+
+        /**
+         * Admin index Action
+         *
+         * @return void
+         */
+        function admin_index() {
+            View::$title = 'Accès API';
+            $data['token'] = md5(uniqid(mt_rand(), true));
+            View::make('api.admin_index', $data, 'admin');
+        }
     }

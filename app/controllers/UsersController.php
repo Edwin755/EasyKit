@@ -296,4 +296,46 @@
 
             View::make('api.index', json_encode($data), false, 'application/json');
         }
+
+        /**
+         * Admin Create
+         *
+         * @return void
+         */
+        function admin_index($id = null) {
+            View::$title = 'Liste des utilisateurs';
+            $this->loadModel('Users');
+            $nb = 12;
+            $page = isset($_GET['page']) ? $_GET['page'] : 1;
+            $page = (($page - 1) * $nb);
+
+            $data['users'] = $this->Users->select(array(
+                'order' => 'desc',
+                'limit' => array($page, $page + $nb),
+            ));
+
+            $data['count'] = $this->Users->select(array('count' => true));
+
+            foreach ($data['users'] as $user) {
+                $user->media = $this->Users->media(array(
+                    'conditions'    => array(
+                        'medias_id'            => $user->users_medias_id,
+                    ),
+                ));
+            }
+
+            View::make('users.admin_index', $data, 'admin');
+        }
+
+        /**
+         * Admin Create
+         *
+         * @return void
+         */
+        function admin_create($id = null) {
+            View::$title = 'Ajout d\'un utilisateur';
+            $this->loadModel('Users');
+
+            View::make('users.admin_create', null, 'admin');
+        }
     }

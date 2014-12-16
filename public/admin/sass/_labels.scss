@@ -1,0 +1,30 @@
+.label {
+  padding: 1px 8px;
+
+  font-size: 0.8em;
+  font-weight: 700;
+  color: #fff;
+
+  background: #777777;
+  @include border-radius(16px);
+
+  &.label-primary {
+    background: #337AB7;
+  }
+
+  &.label-success {
+    background: #5CB85C;
+  }
+
+  &.label-info {
+    background: #5BC0DE;
+  }
+
+  &.label-warning {
+    background: #F0AD4E;
+  }
+
+  &.label-danger {
+    background: #D9534F;
+  }
+}
