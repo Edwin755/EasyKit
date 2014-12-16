@@ -9,7 +9,7 @@
 <div class="page_content">
     <div class="row">
         <div class="col-9">
-            <h4><?= $count ?> Utilisateurs</h4>
+            <h4><?= $count ?> Utilisateur<?= $count != 1 ? 's' : '' ?></h4>
         </div>
         <div class="col-3">
             <a href="<?= HTML::link('admin1259/users/create') ?>" class="btn btn-primary right">Ajouter un utilisateur</a>

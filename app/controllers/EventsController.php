@@ -94,4 +94,21 @@
 
             View::make('api.index', json_encode($data), false, 'application/json');
         }
+
+        /**
+         * Admin Index Action
+         *
+         * @return void
+         */
+        function admin_index() {
+            View::$title = 'Événements';
+
+            $this->loadModel('Events');
+
+            $data['count'] = $this->Events->select(array('count' => true));
+
+            $data['events'] = current($this->getJSON($this->link('api/events')));
+
+            View::make('events.admin_index', $data, 'admin');
+        }
     }

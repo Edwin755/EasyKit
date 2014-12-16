@@ -342,11 +342,11 @@
         }
 
         /**
-         * Admin Create
+         * Admin Index Action
          *
          * @return void
          */
-        function admin_index($id = null) {
+        function admin_index() {
             View::$title = 'Liste des utilisateurs';
             $this->loadModel('Users');
             $nb = 12;
@@ -442,8 +442,6 @@
                 }
             } else if (Cookie::get('admin_username') !== false && Cookie::get('admin_security') !== false) {
                 $this->loadModel('Admin');
-
-                var_dump('hello');
 
                 $admin = $this->Admin->select(array(
                     'conditions'    => array(

@@ -149,6 +149,23 @@
         }
 
         /**
+         * Get the JSON
+         *
+         * @param $url
+         * @return string
+         */
+        protected function getJSON($url) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_URL, $url);
+            $return = curl_exec($ch);
+            curl_close($ch);
+
+            return json_decode($return, false);
+        }
+
+        /**
          * Load model
          * 
          * @param $model string Name of the model and name of the file

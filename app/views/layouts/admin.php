@@ -25,7 +25,7 @@
                     <li class="item">
                         <a href="#" data-subitem><span class="fa fa-heart"></span>Evénements<span class="label label-info">2</span></a>
                         <ul class="subitem">
-                            <li class="item"><a href="#"><span class="fa fa-list"></span>Liste des événements</a></li>
+                            <li class="item"><a href="<?= HTML::link('admin1259/events') ?>"><span class="fa fa-list"></span>Liste des événements</a></li>
                             <li class="item"><a href="#"><span class="fa fa-exclamation"></span>Evénements à confirmer<span class="label label-info">2</span></a></li>
                             <li class="item"><a href="#"><span class="fa fa-plus"></span>Ajouter un événement</a></li>
                         </ul>
