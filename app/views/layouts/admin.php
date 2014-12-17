@@ -12,7 +12,7 @@
                 <a href="<?= HTML::link('admin1259') ?>"><img src="<?= HTML::link('admin/images/logo.png'); ?>" alt="" width="247" height="70"></a>
             </div>
             <div class="user right">
-                <a href="<?= HTML::link('admin1259/users/logout') ?>">Déconnexion</a>
+                <a href="<?= HTML::link('admin1259/users/logout') ?>"><span class="fa fa-power-off"></span> Déconnexion</a>
             </div>
         </header>
         <aside class="sidebar">

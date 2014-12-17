@@ -15,25 +15,30 @@
             <a href="<?= HTML::link('admin1259/users/create') ?>" class="btn btn-primary right">Ajouter un événement</a>
         </div>
     </div>
-    <table class="table margtop">
-        <thead>
-            <tr>
-                <th width="50">ID</th>
-                <th>Nom</th>
-                <th>Créateur</th>
-                <th width="120">Actions</th>
-            </tr>
-        </thead>
-        <tbody id="list">
-            <?php foreach ($events as $event): ?>
-                <tr>
-                    <td><?= $event->events_id ?></td>
-                    <td><?= $event->events_name ?></td>
-                    <td><a href="mailto:<?= $event->user->users_email ?>"><?= $event->user->users_firstname ?> <?= $event->user->users_lastname ?></a></td>
-                    <td></td>
-                </tr>
-            <?php endforeach ?>
-        </tbody>
-    </table>
+    <div class="rowcards">
+        <?php foreach ($events as $event): ?>
+            <div class="card">
+                <div class="image">
+                    <ul class="slides" data-slide data-delay="<?= rand(3500, 5000) ?>">
+                        <?php foreach ($event->events_medias as $media): ?>
+                            <li class="item" style="background-image: url(<?= HTML::link('uploads/' . $media->medias_file) ?>);"></li>
+                        <?php endforeach ?>
+                    </ul>
+                </div>
+                <div class="informations">
+                    <div class="name"><?= $event->events_name ?></div>
+                    <div class="complement">Créé par: <?= $event->user->users_firstname ?> <?= $event->user->users_lastname ?></div>
+                    <div class="options">
+                        <a href="#" data-toggle><span class="fa fa-ellipsis-v"></span></a>
+                        <ul class="menu">
+                            <li class="item"><a href="#">Voir</a></li>
+                            <li class="item"><a href="#">Modifier</a></li>
+                            <li class="item"><a href="#">Supprimer</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach ?>
+    </div>
 </div>
-<script src="<?= HTML::link('admin/scripts/mustache.js') ?>"></script>
+<script src="<?= HTML::link('admin/scripts/slides.js') ?>"></script>
