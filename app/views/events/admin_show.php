@@ -27,14 +27,20 @@
             <div class="user">
                 <div class="informations">
                     <div class="name"><?= $event->user->users_firstname ?> <?= $event->user->users_lastname ?></div>
-                    <div class="complement">Inscrit le <?= $event->user->users_created_at ?></div>
+                    <div class="complement">Inscrit le <?= date('j M Y', strtotime($event->user->users_created_at)) . ' à ' . date('G:i:s', strtotime($event->user->users_created_at)) ?></div>
                 </div>
                 <div class="image">
                     <img class="img-circle" src="<?= HTML::link('uploads/' . $event->user->users_media->medias_file) ?>" alt="">
                 </div>
             </div>
-            <div class="text-right localisation">
+            <div class="text-right addon">
                 <?= $event->events_geox ?>, <?= $event->events_geoy ?><span class="fa fa-map-marker"></span>
+            </div>
+            <div class="text-right addon">
+                Du <strong><?= date('j M Y', strtotime($event->events_starttime)) ?></strong> au <strong><?= date('j M Y', strtotime($event->events_endtime)) ?></strong><span class="fa fa-calendar"></span>
+            </div>
+            <div class="text-right addon">
+                <strong>215</strong> participants <span class="fa fa-users"></span>
             </div>
         </div>
     </div>

@@ -173,7 +173,7 @@ a {
   }
 }
 
-.localisation {
+.addon {
   margin-top: 15px;
 
   color: lighten(#000, 46%);
@@ -183,6 +183,14 @@ a {
 
     text-align: center;
     font-size: 1.2em;
+
+    &.fa-map-marker {
+      color: #D83E32;
+    }
+
+    &.fa-calendar {
+      color: #4CAF50;
+    }
   }
 }
 
