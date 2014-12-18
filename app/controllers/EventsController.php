@@ -72,7 +72,7 @@
                 foreach ($data['events'] as $event) {
                     $event->user = $this->Events->user(array(
                         'conditions'    => array(
-                            'id'            => $event->events_users_id,
+                            'users_id'            => $event->events_users_id,
                         )
                     ));
 
@@ -110,5 +110,25 @@
             $data['events'] = current($this->getJSON($this->link('api/events')));
 
             View::make('events.admin_index', $data, 'admin');
+        }
+
+        /**
+         * Admin show
+         *
+         * @throws \Exception
+         */
+        function admin_show($id = null) {
+            $this->loadModel('Events');
+
+            if ($id != null) {
+                $data['event'] = current($this->getJSON($this->link('api/events/get/' . $id)));
+                if (!empty($data['event'])) {
+                    View::$title = $data['event']->events_name;
+                    View::make('events.admin_show', $data, 'admin');
+                }
+            } else {
+                $this->httpStatus(404);
+                View::make('errors.404', null, 'admin');
+            }
         }
     }

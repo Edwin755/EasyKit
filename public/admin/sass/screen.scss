@@ -122,6 +122,70 @@ a {
   }
 }
 
+.user {
+  position: relative;
+
+  .informations {
+    margin-right: 50px;
+    margin-left: 0;
+
+    .name {
+      text-align: right;
+      font-weight: 600;
+    }
+
+    .complement {
+      text-align: right;
+      color: lighten(#000, 46%);
+    }
+
+    & + .image {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: auto;
+    }
+  }
+  
+  .image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: auto;
+    
+    img {
+      width: 42px;
+      height: 42px;
+    }
+
+    & + .informations {
+      margin-left: 50px;
+      margin-right: 0;
+
+      .name {
+        text-align: left;
+      }
+
+      .complement {
+        text-align: left;
+      }
+    }
+  }
+}
+
+.localisation {
+  margin-top: 15px;
+
+  color: lighten(#000, 46%);
+
+  .fa {
+    width: 42px;
+
+    text-align: center;
+    font-size: 1.2em;
+  }
+}
+
 .required {
   margin-left: 5px;
   color: #D9534F;

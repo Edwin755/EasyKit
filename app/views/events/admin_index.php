@@ -31,9 +31,9 @@
                     <div class="options">
                         <a href="#" data-toggle><span class="fa fa-ellipsis-v"></span></a>
                         <ul class="menu">
-                            <li class="item"><a href="#">Voir</a></li>
-                            <li class="item"><a href="#">Modifier</a></li>
-                            <li class="item"><a href="#">Supprimer</a></li>
+                            <li class="item"><a href="<?= HTML::link('admin1259/events/show/' . $event->events_id) ?>">Voir</a></li>
+                            <li class="item"><a href="<?= HTML::link('admin1259/events/edit/' . $event->events_id) ?>">Modifier</a></li>
+                            <li class="item"><a href="<?= HTML::link('admin1259/events/delete/' . $event->events_id) ?>">Supprimer</a></li>
                         </ul>
                     </div>
                 </div>
