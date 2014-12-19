@@ -12,6 +12,7 @@
     namespace Core;
 
     use App\Controllers;
+    use Core\ErrorHandler;
     use Exception;
 
     /**
@@ -41,11 +42,7 @@
 
                 $this->loadController();
             } catch (Exception $e) {
-                if (self::getAppFile()['debug']) {
-                    die($e->getMessage());
-                } else {
-                    die();
-                }
+                new ErrorHandler($e);
             }
         }
 
@@ -87,7 +84,7 @@
                 error_reporting('E_ALL');
                 ini_set('log_errors', 0);
                 if(function_exists('xdebug_disable')) { xdebug_disable(); }
-                new ErrorHandler();
+                $this->errorHandler = new ErrorHandler();
             } else {
                 ini_set('display_error', 0);
                 error_reporting(0);

@@ -1,3 +1,158 @@
 @import "compass";
 
+* {
+  @include box-sizing('border-box');
+}
 
+body {
+  margin: auto;
+  font: 16px/21px normal Arial, sans-serif;
+
+  background: #efefef;
+}
+
+.sidebar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 350px;
+
+  background: #23241F;
+
+  overflow-y: scroll;
+
+  .backtrace {
+    width: 325px;
+    padding: 20px 10px;
+
+    .class {
+      width: 100%;
+
+      word-break: break-all;
+      color: #519BD7;
+      font-weight: 600;
+    }
+
+    .function {
+      width: 100%;
+
+      word-break: break-all;
+      color: darken(#fff, 13%);
+      font-weight: 600;
+    }
+
+    .file {
+      width: 100%;
+
+      word-break: break-all;
+      color: darken(#fff, 13%);
+
+      .line {
+        color: #519BD7;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 350px;
+
+  overflow-y: scroll;
+
+  .error {
+    padding: 40px 20px;
+
+    background: #23241F;
+    border-left: 4px solid #D85650;
+
+    .title {
+      color: #D85650;
+      font-weight: 600;
+      font-size: 1.2em;
+      line-height:  1.2em;
+    }
+
+    .message {
+      margin-top: 15px;
+
+      font-size: 2em;
+      color: #fff;
+    }
+  }
+
+  .file {
+    margin: 5px;
+
+    overflow: hidden;
+
+    @include border-radius(3px);
+
+    .filename {
+      padding: 5px 10px;
+
+      font-weight: 600;
+      color: lighten(#000, 25%);
+
+      background: #ddd;
+    }
+
+    pre {
+      margin-top: 0;
+    }
+  }
+}
+
+.traces {
+  padding: 30px;
+
+  background: #ddd;
+
+  pre {
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+  }
+}
+
+.row {
+  margin-right: -15px;
+  margin-left: -15px;
+
+  &:before,
+  &:after {
+    content: ' ';
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+  }
+
+  .col-4 {
+    float: left;
+    margin-right: 15px;
+    margin-left: 15px;
+
+    word-break: break-all;
+
+    width: 33.3333333%;
+
+    &:before,
+    &:after {
+      content: ' ';
+      display: table;
+    }
+
+    &:after {
+      clear: both;
+    }
+  }
+}
