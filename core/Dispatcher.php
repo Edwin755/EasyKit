@@ -31,13 +31,14 @@
          * @return void
          */
         function __construct() {
+            $this->debugHandler();
+
             try {
                 if (!$this->router = new Router) {
                     new Controller('404');
                     throw new Exception("Error Processing Request", 1);
                 }
 
-                $this->debugHandler();
                 $this->loadController();
             } catch (Exception $e) {
                 if (self::getAppFile()['debug']) {
@@ -82,10 +83,13 @@
             $app = self::getAppFile();
 
             if ($app['debug']) {
-                ini_set('display_error', 'On');
-                error_reporting(E_ALL | E_STRICT);
+                ini_set('display_error', 1);
+                error_reporting('E_ALL');
+                ini_set('log_errors', 0);
+                if(function_exists('xdebug_disable')) { xdebug_disable(); }
+                new ErrorHandler();
             } else {
-                ini_set('display_error', 'Off');
+                ini_set('display_error', 0);
                 error_reporting(0);
             }
         }

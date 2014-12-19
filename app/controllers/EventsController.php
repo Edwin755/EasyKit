@@ -120,6 +120,8 @@
         function admin_show($id = null) {
             $this->loadModel('Events');
 
+            trigger_error('hello');
+
             if ($id != null) {
                 $data['event'] = current($this->getJSON($this->link('api/events/get/' . $id)));
                 if (!empty($data['event'])) {
