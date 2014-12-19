@@ -121,6 +121,8 @@
         function admin_show($id = null) {
             $this->loadModel('Events');
 
+            throw new \PDOException('hello', 1);
+
             if ($id != null) {
                 $data['event'] = current($this->getJSON($this->link('api/events/get/' . $id)));
                 if (!empty($data['event'])) {

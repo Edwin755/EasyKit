@@ -75,7 +75,7 @@ body {
       color: #D85650;
       font-weight: 600;
       font-size: 1.2em;
-      line-height:  1.2em;
+      line-height: 1.2em;
     }
 
     .message {
@@ -102,8 +102,28 @@ body {
       background: #ddd;
     }
 
-    pre {
-      margin-top: 0;
+    .filecontent {
+      display: table;
+      width: 100%;
+
+      .lines {
+        display: table-cell;
+        margin: 0;
+        padding: 0;
+        padding-left: 15px;
+
+        color: darken(#fff, 30%);
+        font-family: monospace, serif;
+
+        background: #23241F;
+
+        list-style: none;
+      }
+
+      pre {
+        display: table-cell;
+        margin-top: 0;
+      }
     }
   }
 }

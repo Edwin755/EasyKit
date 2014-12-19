@@ -37,17 +37,24 @@
             </div>
             <div class="file">
                 <div class="filename"><?= $errfile ?></div>
-                <pre><code class="language-php"><?= $errlines ?></code></pre>
+                <div class="filecontent">
+                    <ul class="lines">
+                        <?php for ($i = $errline - 6; $i <= $errline + 3; $i++) : ?>
+                            <li><?= $i ?>.</li>
+                        <?php endfor ?>
+                    </ul>
+                    <pre><code class="language-php"><?= $errlines ?></code></pre>
+                </div>
             </div>
             <div class="traces">
                 <div class="row">
                     <div class="col-4">
                         <h3>Session</h3>
-                        <?php var_dump($_SESSION); ?>
+                        <pre><?php var_dump($_SESSION); ?></pre>
                     </div>
                     <div class="col-4">
                         <h3>Cookie</h3>
-                        <?php var_dump($_COOKIE); ?>
+                        <pre><?php var_dump($_COOKIE); ?></pre>
                     </div>
                     <div class="col-4">
 
