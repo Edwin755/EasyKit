@@ -63,7 +63,6 @@
         /**
          * Set Flash message
          *
-         * @param $key
          * @param $status
          * @param $message
          */
@@ -77,7 +76,6 @@
         /**
          * Get Flash
          *
-         * @param $key
          * @return string
          */
         static function getFlash() {

@@ -6,7 +6,7 @@
      * Time: 02:08
      */
 
-    namespace Core;
+    namespace Core\Exceptions;
 
     use Exception;
 

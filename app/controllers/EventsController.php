@@ -13,7 +13,7 @@
     use Core\Controller;
     use Core\View;
     use Core\Cookie;
-    use Exception;
+    use Core\Exceptions\NotFoundHTTPException;
 
     /**
      * Events Controller
@@ -120,17 +120,17 @@
          */
         function admin_show($id = null) {
             $this->loadModel('Events');
-            $this->loadModel('leold');
 
             if ($id != null) {
                 $data['event'] = current($this->getJSON($this->link('api/events/get/' . $id)));
                 if (!empty($data['event'])) {
                     View::$title = $data['event']->events_name;
                     View::make('events.admin_show', $data, 'admin');
+                } else {
+                    throw new NotFoundHTTPException('This event doesn\'t exists.');
                 }
             } else {
-                $this->httpStatus(404);
-                View::make('errors.404', null, 'admin');
+                throw new NotFoundHTTPException('You haven\'t specified any id.');
             }
         }
     }
