@@ -11,8 +11,39 @@ body {
   background: #efefef;
 }
 
+table {
+  font-family: monospace, sans-serif;
+
+  .key {
+    padding-right: 50px;
+    vertical-align: top;
+
+    font-weight: 600;
+  }
+
+  .value {
+    vertical-align: top;
+
+    color: lighten(#000, 46%);
+    word-break: break-all;
+
+    pre {
+      margin: 0;
+    }
+  }
+}
+
+h3 {
+  padding: 5px 0;
+
+  color: #519BD7;
+  font-family: monospace, sans-serif;
+
+  border-bottom: 1px solid #ccc;
+}
+
 .sidebar {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
@@ -47,6 +78,7 @@ body {
 
       word-break: break-all;
       color: darken(#fff, 13%);
+      font-family: monospace, sans-serif;
 
       .line {
         color: #519BD7;
@@ -56,35 +88,32 @@ body {
   }
 }
 
-.content {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 350px;
+.error {
+  margin-left: 350px;
+  padding: 40px 20px;
 
-  overflow-y: scroll;
+  background: #23241F;
+  border-left: 4px solid #D85650;
 
-  .error {
-    padding: 40px 20px;
-
-    background: #23241F;
-    border-left: 4px solid #D85650;
-
-    .title {
-      color: #D85650;
-      font-weight: 600;
-      font-size: 1.2em;
-      line-height: 1.2em;
-    }
-
-    .message {
-      margin-top: 15px;
-
-      font-size: 2em;
-      color: #fff;
-    }
+  .title {
+    color: #D85650;
+    font-weight: 600;
+    font-size: 1.2em;
+    line-height: 1.2em;
   }
+
+  .message {
+    margin-top: 15px;
+
+    font-size: 2em;
+    color: #fff;
+  }
+}
+
+.content {
+  margin-left: 350px;
+
+  border-left: 4px solid #519BD7;
 
   .file {
     margin: 5px;

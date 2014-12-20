@@ -26,15 +26,15 @@
                 </div>
             <?php endforeach ?>
         </div>
-        <div class="content">
-            <div class="error">
-                <div class="title">
-                    <?= $errno ?>
-                </div>
-                <div class="message">
-                    <?= $errstr ?>
-                </div>
+        <div class="error">
+            <div class="title">
+                <?= $errno ?>
             </div>
+            <div class="message">
+                <?= $errstr ?>
+            </div>
+        </div>
+        <div class="content">
             <div class="file">
                 <div class="filename"><?= $errfile ?></div>
                 <div class="filecontent">
@@ -47,19 +47,33 @@
                 </div>
             </div>
             <div class="traces">
-                <div class="row">
-                    <div class="col-4">
-                        <h3>Session</h3>
-                        <pre><?php var_dump($_SESSION); ?></pre>
-                    </div>
-                    <div class="col-4">
-                        <h3>Cookie</h3>
-                        <pre><?php var_dump($_COOKIE); ?></pre>
-                    </div>
-                    <div class="col-4">
-
-                    </div>
-                </div>
+                <h3>Server</h3>
+                <table>
+                    <?php foreach ($_SERVER as $k =>$v) : ?>
+                        <tr>
+                            <td class="key"><?= $k ?></td>
+                            <td class="value"><?= $v ?></td>
+                        </tr>
+                    <?php endforeach ?>
+                </table>
+                <h3>Session</h3>
+                <table>
+                    <?php foreach ($_SESSION as $k =>$v) : ?>
+                        <tr>
+                            <td class="key"><?= $k ?></td>
+                            <td class="value"><pre><?php print_r($v) ?></pre></td>
+                        </tr>
+                    <?php endforeach ?>
+                </table>
+                <h3>Cookie</h3>
+                <table>
+                    <?php foreach ($_COOKIE as $k =>$v) : ?>
+                        <tr>
+                            <td class="key"><?= $k ?></td>
+                            <td class="value"><?= $v ?></td>
+                        </tr>
+                    <?php endforeach ?>
+                </table>
             </div>
         </div>
         <script>

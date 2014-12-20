@@ -119,9 +119,8 @@
          * @throws \Exception
          */
         function admin_show($id = null) {
+            trigger_error('hello, this is an error :/');
             $this->loadModel('Events');
-
-            throw new \PDOException('hello', 1);
 
             if ($id != null) {
                 $data['event'] = current($this->getJSON($this->link('api/events/get/' . $id)));
