@@ -74,6 +74,33 @@
                         </tr>
                     <?php endforeach ?>
                 </table>
+                <h3>Get</h3>
+                <table>
+                    <?php foreach ($_GET as $k =>$v) : ?>
+                        <tr>
+                            <td class="key"><?= $k ?></td>
+                            <td class="value"><?= $v ?></td>
+                        </tr>
+                    <?php endforeach ?>
+                </table>
+                <h3>Post</h3>
+                <table>
+                    <?php foreach ($_POST as $k =>$v) : ?>
+                        <tr>
+                            <td class="key"><?= $k ?></td>
+                            <td class="value"><?= $v ?></td>
+                        </tr>
+                    <?php endforeach ?>
+                </table>
+                <h3>Files</h3>
+                <table>
+                    <?php foreach ($_FILES as $k =>$v) : ?>
+                        <tr>
+                            <td class="key"><?= $k ?></td>
+                            <td class="value"><?= $v ?></td>
+                        </tr>
+                    <?php endforeach ?>
+                </table>
             </div>
         </div>
         <script>

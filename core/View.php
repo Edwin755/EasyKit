@@ -82,10 +82,8 @@
                     self::$rendered = true;
                     return true;
                 } else {
-                    new Controller('404');
-
                     self::$rendered = true;
-                    return false;
+                    throw new NotFoundHTTPException('View not found');
                 }
             } else {
                 return false;

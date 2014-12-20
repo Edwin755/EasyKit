@@ -41,6 +41,8 @@
                 }
 
                 $this->loadController();
+            } catch (NotFoundHTTPException $e) {
+                new Controller(404);
             } catch (Exception $e) {
                 new ErrorHandler($e);
             }
@@ -65,14 +67,12 @@
                 if (class_exists($classController)) {
                     new $classController($this->router->action, $this->router->params);
                 } else {
-                    new Controller(404);
-                    throw new Exception('Route matches, Controller file found, but class Controller not found', 1);
+                    throw new NotFoundHTTPException('Route matches, Controller file found, but class Controller not found', 1);
                 }
 
                 return true;
             } else {
-                new Controller(404);
-                throw new Exception('Route matches but does not found any Controller file.', 1);
+                throw new NotFoundHTTPException('Route matches but does not found any Controller file.', 1);
             }
         }
 

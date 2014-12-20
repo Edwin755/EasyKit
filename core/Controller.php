@@ -181,7 +181,7 @@
                     $class = '\\App\\Models\\' . $model;
                     $this->$model = new $class();
                 } else {
-                    throw new \Exception('Model was not found.', 1);
+                    throw new Exception('Model was not found.', 1);
                 }
             }
         }

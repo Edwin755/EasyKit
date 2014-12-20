@@ -119,8 +119,8 @@
          * @throws \Exception
          */
         function admin_show($id = null) {
-            trigger_error('hello, this is an error :/');
             $this->loadModel('Events');
+            $this->loadModel('leold');
 
             if ($id != null) {
                 $data['event'] = current($this->getJSON($this->link('api/events/get/' . $id)));
