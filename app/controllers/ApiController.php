@@ -60,7 +60,7 @@
                 $params = array();
             }
 
-            $action = $action != null ? $action : 'index';
+            $action = $action != null ? $action : 'get';
 
             require 'UsersController.php';
             new UsersController('api_' . $action, $params);
@@ -87,6 +87,29 @@
 
             require 'EventsController.php';
             new EventsController('api_' . $action, $params);
+        }
+
+        /**
+         * Packs Action
+         *
+         * @return void
+         */
+        function packs() {
+            $args = func_get_args();
+
+            if (!empty($args)) {
+                $action = trim($args[0], '/');
+                array_shift($args);
+                $params = $args;
+            } else {
+                $action = null;
+                $params = array();
+            }
+
+            $action = $action != null ? $action : 'get';
+
+            require 'PacksController.php';
+            new PacksController('api_' . $action, $params);
         }
 
         /**

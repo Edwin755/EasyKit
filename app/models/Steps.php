@@ -1,7 +1,7 @@
 <?php
 
     /**
-     * Post Model
+     * Steps Model
      * 
      * @author Edwin Dayot <edwin.dayot@sfr.fr>
      * @copyright 2014
@@ -12,9 +12,11 @@
     use Core\Model;
 
     /**
-     * Post
+     * Class Steps
+     *
+     * @package App\Models
      */
-    class Post extends Model
+    class Steps extends Model
     {
-        
+
     }

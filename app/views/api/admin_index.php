@@ -18,7 +18,7 @@
         </thead>
         <tbody>
             <tr>
-                <td rowspan="4"><strong>Users</strong></td>
+                <td rowspan="6"><strong>Users</strong></td>
             </tr>
             <tr>
                 <td>Créer utilisateur</td>
@@ -36,10 +36,20 @@
                 <td><a href="<?= HTML::link('api/users/auth/' . $token) ?>"><?= HTML::link('api/users/auth/' . $token) ?></a></td>
             </tr>
             <tr>
+                <td>Liste utilisateurs (20)</td>
+                <td>GET</td>
+                <td><a href="<?= HTML::link('api/users') ?>"><?= HTML::link('api/users') ?></a></td>
+            </tr>
+            <tr>
+                <td>Utilisateurs spécifique par ID</td>
+                <td>GET</td>
+                <td><a href="<?= HTML::link('api/users/get/1') ?>"><?= HTML::link('api/users/get/1') ?></a></td>
+            </tr>
+            <tr>
                 <td rowspan="3"><strong>Events</strong></td>
             </tr>
             <tr>
-                <td>Liste événements</td>
+                <td>Liste événements (20)</td>
                 <td>GET</td>
                 <td><a href="<?= HTML::link('api/events') ?>"><?= HTML::link('api/events') ?></a></td>
             </tr>
@@ -47,6 +57,19 @@
                 <td>Evénement spécifique par ID</td>
                 <td>GET</td>
                 <td><a href="<?= HTML::link('api/events/get/1') ?>"><?= HTML::link('api/events/get/1') ?></a></td>
+            </tr>
+            <tr>
+                <td rowspan="3"><strong>Packs</strong></td>
+            </tr>
+            <tr>
+                <td>Liste packs (20)</td>
+                <td>GET</td>
+                <td><a href="<?= HTML::link('api/packs') ?>"><?= HTML::link('api/packs') ?></a></td>
+            </tr>
+            <tr>
+                <td>Pack spécifique par ID</td>
+                <td>GET</td>
+                <td><a href="<?= HTML::link('api/packs/get/1') ?>"><?= HTML::link('api/packs/get/1') ?></a></td>
             </tr>
         </tbody>
     </table>

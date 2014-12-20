@@ -55,6 +55,11 @@
         /**
          * @var array
          */
+        protected $join;
+
+        /**
+         * @var array
+         */
         protected $fields;
 
         /**
@@ -444,6 +449,7 @@
         public function hasMany($name, $req = array()) {
             $name = strtolower($name);
             $this->tables = array($this->table . '_' . $name, $name);
+            $this->join = 'has';
 
             $return = $this->select($req);
 
@@ -467,6 +473,23 @@
             ));
 
             $return = current($this->select($req));
+
+            return $return;
+        }
+
+        /**
+         * @param $name string
+         * @param array $req
+         *
+         * @return array|bool
+         *
+         * @throws Exception
+         */
+        public function belongsToMany($name, $req = array()) {
+            $name = strtolower($name);
+            $this->tables = array($name . '_' . $this->table, $name);
+
+            $return = $this->select($req);
 
             return $return;
         }

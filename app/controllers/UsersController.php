@@ -159,8 +159,40 @@
          * 
          * @return void
          */
-        function api_index() {
-            $data = array('Users controller');
+        function api_get($id = null) {
+            $this->loadModel('Users');
+
+            if ($id != null) {
+                $data['user'] = current($this->Users->select(array(
+                    'conditions'    => array(
+                        'id'            => $id
+                    ),
+                )));
+
+                unset($data['user']->users_password);
+
+                $data['user']->media = $this->Users->media(array(
+                    'id'    => $data['user']->users_medias_id
+                ));
+            } else {
+                $nb = 20;
+                $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                $page = (($page - 1) * $nb);
+
+                $data['users'] = $this->Users->select(array(
+                    'order' => 'desc',
+                    'limit' => array($page, $page + $nb),
+                ));
+
+                foreach ($data['users'] as $user) {
+                    unset($user->users_password);
+
+                    $user->media = $this->Users->media(array(
+                        'id'    => $user->users_medias_id
+                    ));
+                }
+            }
+
             View::make('api.index', json_encode($data), false, 'application/json');
         }
 
@@ -349,14 +381,8 @@
         function admin_index() {
             View::$title = 'Liste des utilisateurs';
             $this->loadModel('Users');
-            $nb = 12;
-            $page = isset($_GET['page']) ? $_GET['page'] : 1;
-            $page = (($page - 1) * $nb);
 
-            $data['users'] = $this->Users->select(array(
-                'order' => 'desc',
-                'limit' => array($page, $page + $nb),
-            ));
+            $data['users'] = current($this->getJSON($this->link('api/users/')));
 
             $data['count'] = $this->Users->select(array('count' => true));
 

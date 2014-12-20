@@ -30,7 +30,6 @@
          */
         function api_get($id = null) {
             $this->loadModel('Events');
-            $this->loadModel('Users');
 
             if ($id != null) {
                 $data['event'] = current($this->Events->select(array(
@@ -40,19 +39,7 @@
                 )));
 
                 if (!empty($data['event'])) {
-                    $data['event']->user = $this->Events->user(array(
-                        'conditions'    => array(
-                            'id'            => $id
-                        )
-                    ));
-
-                    unset($data['event']->user->users_password);
-
-                    $data['event']->user->users_media = $this->Users->media(array(
-                        'conditions'    => array(
-                            'medias_id'            => $data['event']->user->users_medias_id,
-                        ),
-                    ));
+                    $data['event']->user = current($this->getJSON($this->link('api/users/get/' . $data['event']->events_users_id)));
 
                     $data['event']->events_medias = $this->Events->medias(array(
                         'conditions'     => array(
@@ -71,19 +58,7 @@
                 ));
 
                 foreach ($data['events'] as $event) {
-                    $event->user = $this->Events->user(array(
-                        'conditions'    => array(
-                            'users_id'            => $event->events_users_id,
-                        )
-                    ));
-
-                    unset($event->user->users_password);
-
-                    $event->user->users_media = $this->Users->media(array(
-                        'conditions'    => array(
-                            'medias_id'            => $event->user->users_medias_id,
-                        ),
-                    ));
+                    $event->user = current($this->getJSON($this->link('api/users/get/' . $event->events_users_id)));
 
                     $event->events_medias = $this->Events->medias(array(
                         'conditions'     => array(
