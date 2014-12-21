@@ -20,11 +20,6 @@
     {
 
         /**
-         * Rendered
-         */
-        static private $rendered;
-
-        /**
          * Current Page
          */
         static public $current;
@@ -33,13 +28,6 @@
          * Current Page
          */
         static public $title;
-
-        /**
-         * 
-         */
-        static function getRendered() {
-            return self::$rendered;
-        }
 
         /**
          * Make the view including datas
@@ -54,51 +42,45 @@
          * @throws NotFoundHTTPException
          */
         static function make($view, $data = array(), $layout = false, $content_type = 'text/html') {
-            if (!self::$rendered) {
-                header('Content-type: ' . $content_type);
-                $view = explode('.', $view);
+            header('Content-type: ' . $content_type);
+            $view = explode('.', $view);
 
-                if (is_array($data)) {
-                    extract($data);
-                }
+            if (is_array($data)) {
+                extract($data);
+            }
 
-                $filename = __DIR__ . '/../app/views/' . $view[0];
+            $filename = __DIR__ . '/../app/views/' . $view[0];
 
-                $view = array_slice($view, 1);
+            $view = array_slice($view, 1);
 
-                foreach ($view as $v) {
-                    $filename .= '/' . $v;
-                }
+            foreach ($view as $v) {
+                $filename .= '/' . $v;
+            }
 
-                $filename .= '.php';
+            $filename .= '.php';
 
-                if (file_exists($filename)) {
-                    if ($layout !== false) {
-                        require_once 'HTML.php';
+            if (file_exists($filename)) {
+                if ($layout !== false) {
+                    require_once 'HTML.php';
 
-                        ob_start();
-                        require $filename;
-                        $content_for_layout = ob_get_clean();
+                    ob_start();
+                    require $filename;
+                    $content_for_layout = ob_get_clean();
 
-                        $layout_file = __DIR__ . '/../app/views/layouts/' . $layout . '.php';
+                    $layout_file = __DIR__ . '/../app/views/layouts/' . $layout . '.php';
 
-                        if (file_exists($layout_file)) {
-                            require $layout_file;
-                        } else {
-                            throw new NotFoundHTTPException('Layout not found.');
-                        }
+                    if (file_exists($layout_file)) {
+                        require $layout_file;
                     } else {
-                        require $filename;
+                        throw new NotFoundHTTPException('Layout not found.');
                     }
-
-                    self::$rendered = true;
-                    return true;
                 } else {
-                    self::$rendered = true;
-                    throw new NotFoundHTTPException('View not found.');
+                    require $filename;
                 }
+
+                return true;
             } else {
-                return false;
+                throw new NotFoundHTTPException('View not found.');
             }
         }
     }

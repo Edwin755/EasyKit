@@ -67,11 +67,7 @@
                     }
                 }
 
-                $this->pageNotFound($layout);
-            }
-
-            if (!View::getRendered()) {
-                $this->pageNotFound($layout);
+                throw new NotFoundHTTPException('Method ' . $action . ' doesn\'t exists.', 1, $layout);
             }
 
             return true;
@@ -82,8 +78,8 @@
          * 
          * @return boolean
          */
-        public function pageNotFound($layout) {
-            $this->httpStatus(404);
+        static public function pageNotFound($layout = 'default') {
+            self::httpStatus(404);
 
             View::make('errors.404', '', $layout);
             return true;
@@ -97,7 +93,7 @@
          * @throws Exception when HTTP Status given isn't planned
          * @return boolean
          */
-        protected function httpStatus($code) {
+        static public function httpStatus($code) {
             switch ($code) {
                 case 404:
                     header('HTTP/1.1 404 Not Found');
@@ -105,6 +101,10 @@
 
                 case 200:
                     header('HTTP/1.1 200 OK');
+                    break;
+
+                case 500:
+                    header('HTTP/1.0 500 Internal Server Error');
                     break;
                 
                 default:
@@ -227,12 +227,12 @@
                 if (class_exists($classController)) {
                     new $classController($prefix . $action, $params, $layout);
                 } else {
-                    throw new NotFoundHTTPException('Route matches, Controller file found, but class Controller not found', 1);
+                    throw new NotFoundHTTPException('Controller file found, but class ' . $controller . ' not found.', 1);
                 }
 
                 return true;
             } else {
-                throw new NotFoundHTTPException('Route matches but does not found any Controller file.', 1);
+                throw new NotFoundHTTPException('Controller ' . $controller . ' not found.', 1);
             }
         }
     }

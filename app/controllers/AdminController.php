@@ -11,6 +11,7 @@
 
     use Core;
     use Core\Controller;
+    use Core\Exceptions\NotFoundHTTPException;
     use Core\Session;
     use Core\View;
     use Core\Cookie;
@@ -38,10 +39,6 @@
             } else if ($this->link('admin1259/users/signin') != $this->getCurrentURL()) {
                 $this->redirect('admin1259/users/signin');
             }
-        }
-
-        function defaultAction() {
-            throw new Core\Exceptions\NotFoundHTTPException('Page not found', 1, 'admin');
         }
 
         /**

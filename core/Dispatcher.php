@@ -38,20 +38,21 @@
             $this->debugHandler();
 
             try {
-                if (!$this->router = new Router) {
-                    new Controller('404');
-                    throw new Exception("Error Processing Request", 1);
-                }
+                $this->router = new Router;
 
                 $this->loadController();
             } catch (NotFoundHTTPException $e) {
                 if ($this->debug) {
                     new ErrorHandler($e);
                 } else {
-                    new Controller(404, array(), $e->getLayout());
+                    Controller::pageNotFound($e->getLayout());
                 }
             } catch (Exception $e) {
-                new ErrorHandler($e);
+                Controller::httpStatus(500);
+
+                if ($this->debug) {
+                    new ErrorHandler($e);
+                }
             }
         }
 
@@ -74,12 +75,14 @@
                 if (class_exists($classController)) {
                     new $classController($this->router->action, $this->router->params);
                 } else {
-                    throw new NotFoundHTTPException('Route matches, Controller file found, but class Controller not found', 1);
+                    throw new NotFoundHTTPException('Controller file found, but class ' . $controller . ' not found.', 1);
                 }
 
                 return true;
+            } else if ($this->router->controller == null) {
+                throw new NotFoundHTTPException('Route ' . $this->router->url['controller'] . ' not found.', 1);
             } else {
-                throw new NotFoundHTTPException('Route matches but does not found any Controller file.', 1);
+                throw new NotFoundHTTPException('Controller ' . $controller . ' not found.', 1);
             }
         }
 
