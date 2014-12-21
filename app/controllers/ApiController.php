@@ -49,7 +49,7 @@
          * @return void
          */
         function users() {
-            $this->loadController('Users', 'api_', func_get_args(), 'get');
+            $this->loadController('Users', 'api_', func_get_args(), false, 'get');
         }
 
         /**
@@ -58,7 +58,7 @@
          * @return void
          */
         function events() {
-            $this->loadController('Events', 'api_', func_get_args(), 'get');
+            $this->loadController('Events', 'api_', func_get_args(), false, 'get');
         }
 
         /**
@@ -67,7 +67,7 @@
          * @return void
          */
         function packs() {
-            $this->loadController('Packs', 'api_', func_get_args(), 'get');
+            $this->loadController('Packs', 'api_', func_get_args(), false, 'get');
         }
 
         /**

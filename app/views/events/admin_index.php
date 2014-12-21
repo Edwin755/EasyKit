@@ -12,7 +12,7 @@
             <h4><?= $count ?> Événement<?= $count != 1 ? 's' : '' ?></h4>
         </div>
         <div class="col-3">
-            <a href="<?= HTML::link('admin1259/users/create') ?>" class="btn btn-primary right">Ajouter un événement</a>
+            <a href="<?= HTML::link('admin1259/events/create') ?>" class="btn btn-primary right">Ajouter un événement</a>
         </div>
     </div>
     <div class="rowcards">

@@ -251,8 +251,6 @@
 
             extract($data);
 
-            require __DIR__ . '/../core/HTML.php';
-
             require __DIR__ . '/../core/ErrorHandling/index.php';
         }
     }

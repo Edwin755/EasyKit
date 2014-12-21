@@ -80,7 +80,13 @@
                         require $filename;
                         $content_for_layout = ob_get_clean();
 
-                        require __DIR__ . '/../app/views/layouts/' . $layout . '.php';
+                        $layout_file = __DIR__ . '/../app/views/layouts/' . $layout . '.php';
+
+                        if (file_exists($layout_file)) {
+                            require $layout_file;
+                        } else {
+                            throw new NotFoundHTTPException('Layout not found.');
+                        }
                     } else {
                         require $filename;
                     }
@@ -89,7 +95,7 @@
                     return true;
                 } else {
                     self::$rendered = true;
-                    throw new NotFoundHTTPException('View not found');
+                    throw new NotFoundHTTPException('View not found.');
                 }
             } else {
                 return false;

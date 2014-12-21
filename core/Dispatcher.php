@@ -26,6 +26,8 @@
          * Router
          */
         private $router;
+
+        private $debug;
         
         /**
          * Construct
@@ -43,8 +45,11 @@
 
                 $this->loadController();
             } catch (NotFoundHTTPException $e) {
-                new Controller(404, array(), $e->getLayout());
-                new ErrorHandler($e);
+                if ($this->debug) {
+                    new ErrorHandler($e);
+                } else {
+                    new Controller(404, array(), $e->getLayout());
+                }
             } catch (Exception $e) {
                 new ErrorHandler($e);
             }
@@ -81,7 +86,9 @@
         private function debugHandler() {
             $app = self::getAppFile();
 
-            if ($app['debug']) {
+            $this->debug = $app['debug'];
+
+            if ($this->debug) {
                 ini_set('display_error', 1);
                 error_reporting('E_ALL');
                 ini_set('log_errors', 0);

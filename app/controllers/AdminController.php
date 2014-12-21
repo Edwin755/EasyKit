@@ -23,6 +23,8 @@
     class AdminController extends Controller
     {
 
+        protected $layout = 'admin';
+
         /**
          * Constructor
          *
@@ -39,8 +41,7 @@
         }
 
         function defaultAction() {
-            $this->httpStatus(404);
-            View::make('errors.404', null, 'admin');
+            throw new Core\Exceptions\NotFoundHTTPException('Page not found', 1, 'admin');
         }
 
         /**
@@ -70,27 +71,27 @@
          * Index Action
          */
         function index() {
-            $this->loadController('Home', 'admin_', func_get_args());
+            $this->loadController('Home', 'admin_', func_get_args(), $this->layout);
         }
 
         /**
          * Events Action
          */
         function events() {
-            $this->loadController('Events', 'admin_', func_get_args());
+            $this->loadController('Events', 'admin_', func_get_args(), $this->layout);
         }
 
         /**
          * Users Action
          */
         function users() {
-            $this->loadController('Users', 'admin_', func_get_args());
+            $this->loadController('Users', 'admin_', func_get_args(), $this->layout);
         }
 
         /**
          * Apis Action
          */
         function api() {
-            $this->loadController('Api', 'admin_', func_get_args());
+            $this->loadController('Api', 'admin_', func_get_args(), $this->layout);
         }
     }

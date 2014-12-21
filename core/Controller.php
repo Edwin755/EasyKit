@@ -25,6 +25,11 @@
         private $actions;
 
         /**
+         * @var
+         */
+        protected $layout = null;
+
+        /**
          * Construct
          * 
          * @param string $action
@@ -32,13 +37,19 @@
          * 
          * @return boolean
          */
-        function __construct($action, $params = array(), $layout = 'default') {
+        function __construct($action, $params = array(), $layout = null) {
             new Session();
             Cookie::init();
 
             $this->initLink();
 
             $this->actions = get_class_methods($this);
+
+            if ($layout == null && $this->layout == null) {
+                $layout = 'default';
+            } else if ($layout == null && $this->layout != null) {
+                $layout = $this->layout;
+            }
 
             if (in_array($action, $this->actions)) {
                 $this->httpStatus(200);
@@ -191,12 +202,12 @@
         }
 
         /**
-         * Load the Controller associated to route
+         * Load the Controller
          *
          * @throws Exception when Controller file or class not found
          * @return boolean
          */
-        protected function loadController($name, $prefix = '', $params, $default = 'index') {
+        protected function loadController($name, $prefix = '', $params, $layout = false, $default = 'index') {
             $controller = ucfirst($name) . 'Controller';
 
             if (empty($params)) {
@@ -214,7 +225,7 @@
                 $classController = '\\App\\Controllers\\' . $controller;
 
                 if (class_exists($classController)) {
-                    new $classController($prefix . $action, $params);
+                    new $classController($prefix . $action, $params, $layout);
                 } else {
                     throw new NotFoundHTTPException('Route matches, Controller file found, but class Controller not found', 1);
                 }
