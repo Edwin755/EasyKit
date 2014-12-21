@@ -171,7 +171,7 @@
 
                 unset($data['user']->users_password);
 
-                $data['user']->media = $this->Users->media(array(
+                $data['user']->users_media = $this->Users->media(array(
                     'id'    => $data['user']->users_medias_id
                 ));
             } else {
@@ -187,7 +187,7 @@
                 foreach ($data['users'] as $user) {
                     unset($user->users_password);
 
-                    $user->media = $this->Users->media(array(
+                    $user->users_media = $this->Users->media(array(
                         'id'    => $user->users_medias_id
                     ));
                 }

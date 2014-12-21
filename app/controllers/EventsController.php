@@ -102,10 +102,10 @@
                     View::$title = $data['event']->events_name;
                     View::make('events.admin_show', $data, 'admin');
                 } else {
-                    throw new NotFoundHTTPException('This event doesn\'t exists.');
+                    throw new NotFoundHTTPException('This event doesn\'t exists.', 1, 'admin');
                 }
             } else {
-                throw new NotFoundHTTPException('You haven\'t specified any id.');
+                throw new NotFoundHTTPException('You haven\'t specified any id.', 1, 'admin');
             }
         }
     }

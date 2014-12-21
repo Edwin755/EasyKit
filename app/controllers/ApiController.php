@@ -49,21 +49,7 @@
          * @return void
          */
         function users() {
-            $args = func_get_args();
-
-            if (!empty($args)) {
-                $action = trim($args[0], '/');
-                array_shift($args);
-                $params = $args;
-            } else {
-                $action = null;
-                $params = array();
-            }
-
-            $action = $action != null ? $action : 'get';
-
-            require 'UsersController.php';
-            new UsersController('api_' . $action, $params);
+            $this->loadController('Users', 'api_', func_get_args(), 'get');
         }
 
         /**
@@ -72,21 +58,7 @@
          * @return void
          */
         function events() {
-            $args = func_get_args();
-
-            if (!empty($args)) {
-                $action = trim($args[0], '/');
-                array_shift($args);
-                $params = $args;
-            } else {
-                $action = null;
-                $params = array();
-            }
-
-            $action = $action != null ? $action : 'get';
-
-            require 'EventsController.php';
-            new EventsController('api_' . $action, $params);
+            $this->loadController('Events', 'api_', func_get_args(), 'get');
         }
 
         /**
@@ -95,21 +67,7 @@
          * @return void
          */
         function packs() {
-            $args = func_get_args();
-
-            if (!empty($args)) {
-                $action = trim($args[0], '/');
-                array_shift($args);
-                $params = $args;
-            } else {
-                $action = null;
-                $params = array();
-            }
-
-            $action = $action != null ? $action : 'get';
-
-            require 'PacksController.php';
-            new PacksController('api_' . $action, $params);
+            $this->loadController('Packs', 'api_', func_get_args(), 'get');
         }
 
         /**

@@ -43,7 +43,7 @@
 
                 $this->loadController();
             } catch (NotFoundHTTPException $e) {
-                new Controller(404);
+                new Controller(404, array(), $e->getLayout());
                 new ErrorHandler($e);
             } catch (Exception $e) {
                 new ErrorHandler($e);

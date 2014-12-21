@@ -9,8 +9,12 @@
 
     namespace Core;
 
+    use Core\Exceptions\NotFoundHTTPException;
+
     /**
-     * View Class
+     * Class View
+     *
+     * @package Core
      */
     class View
     {
@@ -36,16 +40,18 @@
         static function getRendered() {
             return self::$rendered;
         }
-     
+
         /**
          * Make the view including datas
-         * 
+         *
          * @param string $view
          * @param array $data
          * @param string|boolean $layout But boolean by default
          * @param string $content_type
-         * 
-         * @return boolean
+         *
+         * @return bool
+         *
+         * @throws NotFoundHTTPException
          */
         static function make($view, $data = array(), $layout = false, $content_type = 'text/html') {
             if (!self::$rendered) {
@@ -69,7 +75,7 @@
                 if (file_exists($filename)) {
                     if ($layout !== false) {
                         require_once 'HTML.php';
-                        
+
                         ob_start();
                         require $filename;
                         $content_for_layout = ob_get_clean();

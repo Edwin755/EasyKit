@@ -8,10 +8,14 @@
      */
 
     namespace Core;
+
+    use Core\Exceptions\NotFoundHTTPException;
     use Exception;
 
     /**
-     * Controller Class
+     * Class Controller
+     *
+     * @package Core
      */
     class Controller
     {
@@ -28,7 +32,7 @@
          * 
          * @return boolean
          */
-        function __construct($action, $params = array()) {
+        function __construct($action, $params = array(), $layout = 'default') {
             new Session();
             Cookie::init();
 
@@ -52,11 +56,11 @@
                     }
                 }
 
-                $this->pageNotFound();
+                $this->pageNotFound($layout);
             }
 
             if (!View::getRendered()) {
-                $this->pageNotFound();
+                $this->pageNotFound($layout);
             }
 
             return true;
@@ -67,10 +71,10 @@
          * 
          * @return boolean
          */
-        public function pageNotFound() {
+        public function pageNotFound($layout) {
             $this->httpStatus(404);
 
-            View::make('errors.404', '', 'default');
+            View::make('errors.404', '', $layout);
             return true;
         }
 
@@ -183,6 +187,41 @@
                 } else {
                     throw new Exception('Model was not found.', 1);
                 }
+            }
+        }
+
+        /**
+         * Load the Controller associated to route
+         *
+         * @throws Exception when Controller file or class not found
+         * @return boolean
+         */
+        protected function loadController($name, $prefix = '', $params, $default = 'index') {
+            $controller = ucfirst($name) . 'Controller';
+
+            if (empty($params)) {
+                $action = $default;
+            } else {
+                $action = $params[0];
+                array_shift($params);
+            }
+
+            $filename = __DIR__ . '/../app/controllers/' . $controller .  '.php';
+
+            if (file_exists($filename)) {
+                require $filename;
+
+                $classController = '\\App\\Controllers\\' . $controller;
+
+                if (class_exists($classController)) {
+                    new $classController($prefix . $action, $params);
+                } else {
+                    throw new NotFoundHTTPException('Route matches, Controller file found, but class Controller not found', 1);
+                }
+
+                return true;
+            } else {
+                throw new NotFoundHTTPException('Route matches but does not found any Controller file.', 1);
             }
         }
     }
