@@ -39,22 +39,24 @@
                     ),
                 )));
 
-                $data['pack']->steps = $this->Steps->select(array(
-                    'conditions'    => array(
-                        'packs_id'      => $data['pack']->packs_id
-                    ),
-                ));
+                if (!empty($data['pack'])) {
+                    $data['pack']->steps = $this->Steps->select(array(
+                        'conditions'    => array(
+                            'packs_id'      => $data['pack']->packs_id
+                        ),
+                    ));
 
-                $data['pack']->user = current($this->getJSON($this->link('api/users/get/' . $data['pack']->packs_users_id)));
+                    $data['pack']->user = current($this->getJSON($this->link('api/users/get/' . $data['pack']->packs_users_id)));
 
-                $events = $this->Packs->events(array(
-                    'conditions'    => array(
-                        'id'      => $data['pack']->packs_id,
-                    ),
-                ));
+                    $events = $this->Packs->events(array(
+                        'conditions'    => array(
+                            'id'      => $data['pack']->packs_id,
+                        ),
+                    ));
 
-                foreach ($events as $event) {
-                    $data['pack']->events = current($this->getJSON($this->link('api/events/get/' . $event->events_packs_events_id)));
+                    foreach ($events as $event) {
+                        $data['pack']->events = current($this->getJSON($this->link('api/events/get/' . $event->events_packs_events_id)));
+                    }
                 }
             } else {
                 $nb = 20;
