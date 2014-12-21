@@ -25,7 +25,7 @@
         /**
          * Router
          */
-        private $router;
+        static private $router;
 
         private $debug;
         
@@ -38,7 +38,7 @@
             $this->debugHandler();
 
             try {
-                $this->router = new Router;
+                self::$router = new Router;
 
                 $this->loadController();
             } catch (NotFoundHTTPException $e) {
@@ -62,8 +62,18 @@
          * @throws Exception when Controller file or class not found
          * @return boolean
          */
-        private function loadController() {
-            $controller = ucfirst($this->router->controller) . 'Controller';
+        static public function loadController($req = array()) {
+            if (!empty($req)) {
+                $controller = ucfirst($req['controller']) . 'Controller';
+                $action = $req['action'];
+                $params = $req['params'];
+                $layout = $req['layout'];
+            } else {
+                $controller = ucfirst(self::$router->controller) . 'Controller';
+                $action = self::$router->action;
+                $params = self::$router->params;
+                $layout = null;
+            }
 
             $filename = __DIR__ . '/../app/controllers/' . $controller .  '.php';
 
@@ -73,14 +83,14 @@
                 $classController = '\\App\\Controllers\\' . $controller;
 
                 if (class_exists($classController)) {
-                    new $classController($this->router->action, $this->router->params);
+                    new $classController($action, $params, $layout);
                 } else {
                     throw new NotFoundHTTPException('Controller file found, but class ' . $controller . ' not found.', 1);
                 }
 
                 return true;
-            } else if ($this->router->controller == null) {
-                throw new NotFoundHTTPException('Route ' . $this->router->url['controller'] . ' not found.', 1);
+            } else if (self::$router->controller == null) {
+                throw new NotFoundHTTPException('Route ' . self::$router->url['controller'] . ' not found.', 1);
             } else {
                 throw new NotFoundHTTPException('Controller ' . $controller . ' not found.', 1);
             }

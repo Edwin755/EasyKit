@@ -43,6 +43,7 @@
          */
         static function make($view, $data = array(), $layout = false, $content_type = 'text/html') {
             header('Content-type: ' . $content_type);
+            $viewname = $view;
             $view = explode('.', $view);
 
             if (is_array($data)) {
@@ -72,7 +73,7 @@
                     if (file_exists($layout_file)) {
                         require $layout_file;
                     } else {
-                        throw new NotFoundHTTPException('Layout not found.');
+                        throw new NotFoundHTTPException('Layout ' . $layout . ' not found.');
                     }
                 } else {
                     require $filename;
@@ -80,7 +81,7 @@
 
                 return true;
             } else {
-                throw new NotFoundHTTPException('View not found.');
+                throw new NotFoundHTTPException('View ' . $viewname . ' not found.');
             }
         }
     }

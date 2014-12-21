@@ -68,27 +68,27 @@
          * Index Action
          */
         function index() {
-            $this->loadController('Home', 'admin_', func_get_args(), $this->layout);
+            $this->useController('Home', 'admin_', func_get_args(), $this->layout);
         }
 
         /**
          * Events Action
          */
         function events() {
-            $this->loadController('Events', 'admin_', func_get_args(), $this->layout);
+            $this->useController('Events', 'admin_', func_get_args(), $this->layout);
         }
 
         /**
          * Users Action
          */
         function users() {
-            $this->loadController('Users', 'admin_', func_get_args(), $this->layout);
+            $this->useController('Users', 'admin_', func_get_args(), $this->layout);
         }
 
         /**
          * Apis Action
          */
         function api() {
-            $this->loadController('Api', 'admin_', func_get_args(), $this->layout);
+            $this->useController('Api', 'admin_', func_get_args(), $this->layout);
         }
     }

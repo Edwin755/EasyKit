@@ -67,7 +67,9 @@
                     }
                 }
 
-                throw new NotFoundHTTPException('Method ' . $action . ' doesn\'t exists.', 1, $layout);
+                $class = explode('\\', get_class($this));
+
+                throw new NotFoundHTTPException('Method ' . $action . ' in ' . end($class) . ' doesn\'t exists.', 1, $layout);
             }
 
             return true;
@@ -196,20 +198,23 @@
                     $class = '\\App\\Models\\' . $model;
                     $this->$model = new $class();
                 } else {
-                    throw new Exception('Model was not found.', 1);
+                    throw new Exception('Model ' . $model . ' was not found.', 1);
                 }
             }
         }
 
         /**
-         * Load the Controller
+         * Use the controller
          *
-         * @throws Exception when Controller file or class not found
-         * @return boolean
+         * @param string $name
+         * @param string $prefix
+         * @param array $params
+         * @param bool $layout
+         * @param string $default
+         *
+         * @throws NotFoundHTTPException
          */
-        protected function loadController($name, $prefix = '', $params, $layout = false, $default = 'index') {
-            $controller = ucfirst($name) . 'Controller';
-
+        protected function useController($name, $prefix = '', $params, $layout = false, $default = 'index') {
             if (empty($params)) {
                 $action = $default;
             } else {
@@ -217,22 +222,14 @@
                 array_shift($params);
             }
 
-            $filename = __DIR__ . '/../app/controllers/' . $controller .  '.php';
+            $req = array(
+                'controller'    => ucfirst($name),
+                'action'        => $prefix . $action,
+                'params'        => $params,
+                'layout'        => $layout,
 
-            if (file_exists($filename)) {
-                require $filename;
+            );
 
-                $classController = '\\App\\Controllers\\' . $controller;
-
-                if (class_exists($classController)) {
-                    new $classController($prefix . $action, $params, $layout);
-                } else {
-                    throw new NotFoundHTTPException('Controller file found, but class ' . $controller . ' not found.', 1);
-                }
-
-                return true;
-            } else {
-                throw new NotFoundHTTPException('Controller ' . $controller . ' not found.', 1);
-            }
+            Dispatcher::loadController($req);
         }
     }
