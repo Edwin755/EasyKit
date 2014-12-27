@@ -1,0 +1,181 @@
+%white {
+  color: rgba(255, 255, 255, 1);
+}
+
+%grey {
+  color: rgba(255, 255, 255, 0.870588);
+}
+
+%dark {
+  color: rgba(0, 0, 0, 0.870588);
+}
+
+.bloc {
+  padding: 20px;
+
+  h1,h2,h3,h4,h5,h6 {
+    color: inherit;
+  }
+}
+
+.loading {
+  position: relative;
+
+  &:before {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  &:after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -10px;
+    margin-left: -10px;
+
+    content: "\f1ce";
+    display: inline-block;
+
+    @extend %dark;
+    font: normal normal normal 20px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+  }
+}
+
+.red {
+  @extend %white;
+
+  background: #F44336;
+}
+
+.pink {
+  @extend %white;
+
+  background: #E91E63;
+}
+
+.purple {
+  @extend %grey;
+
+  background: #9C27B0;
+}
+
+.deep-purple {
+  @extend %grey;
+
+  background: #673AB7;
+}
+
+.indigo {
+  @extend %grey;
+
+  background: #3F51B5;
+}
+
+.blue {
+  @extend %white;
+
+  background: #2196F3;
+}
+
+.light-blue {
+  @extend %white;
+
+  background: #03A9F4;
+}
+
+.cyan {
+  @extend %white;
+
+  background: #00BCD4;
+}
+
+.teal {
+  @extend %white;
+
+  background: #009688;
+}
+
+.green {
+  @extend %white;
+
+  background: #4CAF50;
+}
+
+.light-green {
+  @extend %white;
+
+  background: #8BC34A;
+}
+
+.lime {
+  @extend %dark;
+
+  background: #CDDC39;
+}
+
+.yellow {
+  @extend %dark;
+
+  background: #FFEB3B;
+}
+
+.amber {
+  @extend %dark;
+
+  background: #FFC107;
+}
+
+.orange {
+  @extend %dark;
+
+  background: #FF9800;
+}
+
+.deep-orange {
+  @extend %white;
+
+  background: #FF5722;
+}
+
+.brown {
+  @extend %grey;
+
+  background: #795548;
+}
+
+.grey {
+  @extend %dark;
+
+  background: #9E9E9E;
+}
+
+.blue-grey {
+  @extend %white;
+
+  background: #607D8B;
+}
+
+.black {
+  @extend %white;
+
+  background: #000;
+}
+
+.white {
+  @extend %dark;
+
+  background: #fff;
+}

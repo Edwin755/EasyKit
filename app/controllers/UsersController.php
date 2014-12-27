@@ -435,6 +435,19 @@
         }
 
         /**
+         * Admin Count Action
+         *
+         * @return void
+         */
+        function admin_count() {
+            $this->loadModel('Users');
+
+            $data['count'] = $this->Users->select(array('count' => true));
+
+            View::make('api.index', json_encode($data), false, 'application/json');
+        }
+
+        /**
          * Admin Create
          *
          * @return void

@@ -31,7 +31,7 @@
                         </ul>
                     </li>
                     <li class="item">
-                        <a href="#"><span class="fa fa-cube"></span>Packs</a>
+                        <a href="<?= HTML::link('admin1259/packs') ?>"><span class="fa fa-cube"></span>Packs</a>
                     </li>
                     <li class="item">
                         <a href="#" data-subitem><span class="fa fa-user"></span>Utilisateurs<span class="label label-danger">3</span></a>

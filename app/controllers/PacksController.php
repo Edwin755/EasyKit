@@ -91,4 +91,42 @@
 
             View::make('api.index', json_encode($data), false, 'application/json');
         }
+
+        /**
+         * @throws Core\Exceptions\NotFoundHTTPException
+         */
+        function api_create() {
+            $data['status'] = 'success';
+            View::make('api.index', json_encode($data), false, 'application/json');
+        }
+
+        /**
+         * Admin Index Action
+         *
+         * @return void
+         */
+        function admin_index() {
+            View::$title = 'Packs';
+
+            $this->loadModel('Packs');
+
+            $data['count'] = $this->Packs->select(array('count' => true));
+
+            $data['packs'] = current($this->getJSON($this->link('api/packs')));
+
+            View::make('packs.admin_index', $data, 'admin');
+        }
+
+        /**
+         * Admin Count Action
+         *
+         * @return void
+         */
+        function admin_count() {
+            $this->loadModel('Packs');
+
+            $data['count'] = $this->Packs->select(array('count' => true));
+
+            View::make('api.index', json_encode($data), false, 'application/json');
+        }
     }

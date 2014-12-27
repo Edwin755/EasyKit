@@ -81,6 +81,13 @@
         }
 
         /**
+         * Events Action
+         */
+        function packs() {
+            $this->useController('Packs', 'admin_', func_get_args(), $this->layout);
+        }
+
+        /**
          * Users Action
          */
         function users() {

@@ -108,4 +108,17 @@
                 throw new NotFoundHTTPException('You haven\'t specified any id.', 1, 'admin');
             }
         }
+
+        /**
+         * Admin Count Action
+         *
+         * @return void
+         */
+        function admin_count() {
+            $this->loadModel('Events');
+
+            $data['count'] = $this->Events->select(array('count' => true));
+
+            View::make('api.index', json_encode($data), false, 'application/json');
+        }
     }
