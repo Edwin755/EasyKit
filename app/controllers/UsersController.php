@@ -33,10 +33,11 @@
         private $remember;
         private $firstname;
         private $lastname;
+        private $birth;
 
         /**
          * Get the Email
-         * 
+         *
          * @return string
          */
         function getEmail() {
@@ -72,7 +73,7 @@
 
         /**
          * Get the Firstname
-         * 
+         *
          * @return string
          */
         function getFirstname() {
@@ -81,7 +82,7 @@
 
         /**
          * Get the Firstname
-         * 
+         *
          * @return string
          */
         function getLastname() {
@@ -89,10 +90,19 @@
         }
 
         /**
+         * Get the Firstname
+         *
+         * @return string
+         */
+        function getBirth() {
+            return $this->birth;
+        }
+
+        /**
          * Set the Email
          *
          * @param string $value
-         * 
+         *
          * @return string
          */
         function setEmail($value) {
@@ -136,7 +146,7 @@
          * Set the Firstname
          *
          * @param string $value
-         * 
+         *
          * @return string
          */
         function setFirstname($value) {
@@ -147,7 +157,7 @@
          * Set the Firstname
          *
          * @param string $value
-         * 
+         *
          * @return string
          */
         function setLastname($value) {
@@ -155,8 +165,19 @@
         }
 
         /**
+         * Set the Birth
+         *
+         * @param string $value
+         *
+         * @return string
+         */
+        function setBirth($value) {
+            $this->birth = $value;
+        }
+
+        /**
          * Index Action
-         * 
+         *
          * @return void
          */
         function api_get($id = null) {
@@ -198,7 +219,7 @@
 
         /**
          * Register Action
-         * 
+         *
          * @return void
          */
         function api_create() {
@@ -238,12 +259,17 @@
                     $this->setLastname($_POST['lastname']);
                 }
 
+                if (isset($_POST['birth'])) {
+                    $this->setLastname($_POST['birth']);
+                }
+
                 if (empty($this->errors)) {
                     $this->Users->save(array(
                         'password'  => md5(sha1($this->getPassword())),
                         'email'     => $this->getEmail(),
                         'firstname' => $this->getFirstname(),
                         'lastname'  => $this->getLastname(),
+                        'birth'     => $this->getBirth(),
                         ));
 
                     $data['success'] = true;
@@ -277,7 +303,7 @@
          * Check token Method
          *
          * @param string $token
-         * 
+         *
          * @return array / boolean
          */
         function api_checkToken($token) {
@@ -302,7 +328,7 @@
          * Auth Action
          *
          * @param string $token
-         * 
+         *
          * @return void
          */
         function api_auth($token = null) {
@@ -320,7 +346,7 @@
                 } else {
                     $this->setPassword($_POST['password']);
                 }
-                        
+
                 unset($_POST);
 
                 $this->loadModel('Users');
@@ -355,7 +381,7 @@
                             $this->errors['token'] = 'token disabled';
                         }
 
-                        
+
                     } else {
                         $this->errors['credentials'] = 'wrong credentials.';
                     }
@@ -455,6 +481,9 @@
                             Cookie::set('admin_security', md5($_SERVER['HTTP_USER_AGENT'] . current($admin)->admin_username));
                         }
 
+                        $message = 'Bienvenue, ' . current($admin)->admin_username . '.';
+                        Session::setFlash('success', $message);
+
                         $this->redirect('admin1259');
                     } else {
                         $message = 'Nom d\'utilisateur ou mot de passe incorrect.';
@@ -477,6 +506,10 @@
 
                 if (count($admin) == 1 && Cookie::get('admin_security') == md5($_SERVER['HTTP_USER_AGENT'] . Cookie::get('admin_username'))) {
                     Session::set('admin', current($admin));
+
+                    $message = 'Bienvenue, ' . current($admin)->admin_username . '.';
+                    Session::setFlash('success', $message);
+
                     $this->redirect('admin1259');
                 } else {
                     Cookie::destroy('admin_security');

@@ -2,6 +2,7 @@ app/config/database.php
 vendor/*
 docs/*
 logs/*
+dumps/*
 .DS_STORE
 *.tmp
 .idea

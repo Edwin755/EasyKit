@@ -28,6 +28,10 @@
             <label for="firstname">Prénom</label>
             <input class="input" id="firstname" name="firstname" type="text" placeholder="Prénom">
         </div>
+        <div class="form-control inline">
+            <label for="birth">Date de naissance</label>
+            <input class="input" id="birth" name="birth" type="date">
+        </div>
         <div class="form-control">
             <button class="btn btn-primary" id="send">Ajouter</button>
         </div>
@@ -50,7 +54,8 @@
                     'email': $('#email').val(),
                     'password': $('#password').val(),
                     'lastname': $('#lastname').val(),
-                    'firstname': $('#firstname').val()
+                    'firstname': $('#firstname').val(),
+                    'birth': $('#birth').val()
                 },
                 beforeSend: function(){
                     sendbutton.removeClass('btn-primary');
@@ -61,7 +66,6 @@
                     sendbutton.removeClass('btn-default');
                     sendbutton.addClass('btn-primary');
                     sendbutton.text('Ajouter');
-                    console.log(json.errors);
                     var status;
                     var msg;
                     if (json.success == false) {

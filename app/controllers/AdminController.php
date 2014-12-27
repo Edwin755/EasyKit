@@ -15,6 +15,8 @@
     use Core\Session;
     use Core\View;
     use Core\Cookie;
+    use Ifsnop\Mysqldump as IMysqldump;
+    use \Exception;
 
     /**
      * AdminController Class
@@ -90,5 +92,36 @@
          */
         function api() {
             $this->useController('Api', 'admin_', func_get_args(), $this->layout);
+        }
+
+        /**
+         * @throws NotFoundHTTPException
+         */
+        function dump() {
+            $database = require __DIR__ . '/../config/database.php';
+            $database = $database['connections'][$database['default']];
+
+            if (isset($_POST)) {
+                if (isset($_POST['datas']) && $_POST['datas'] == true) {
+                    $datas = false;
+                } else {
+                    $datas = true;
+                }
+            } else {
+                $datas = true;
+            }
+
+            try {
+                $dump = new IMysqldump\Mysqldump($database['database'], $database['username'], $database['password'], $database['host'], 'mysql', array('no-data' => $datas));
+                $filename = date('Y-m-d') . '-' . $database['database'] . '.sql';
+                $dump->start(__DIR__ . '/../../dumps/' . $filename);
+                $data['status'] = 'success';
+                $data['message'] = 'Export terminé. <ul><li>Emplacement: <strong>' . realpath(__DIR__ . '/../../dumps/' . $filename) . '</strong></li></ul>';
+            } catch (Exception $e) {
+                $data['status'] = 'danger';
+                $data['message'] = $e->getMessage();
+            }
+
+            View::make('api.index', json_encode($data), false);
         }
     }
