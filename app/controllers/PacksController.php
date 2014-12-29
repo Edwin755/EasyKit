@@ -16,10 +16,9 @@
     use Core\Cookie;
 
     /**
-     * PacksController Class
-     *
-     * @property  Packs
-     * @property  Steps
+     * Class PacksController
+     * 
+     * @package App\Controllers
      */
     class PacksController extends Controller
     {
@@ -198,10 +197,14 @@
                         'endtime'   => $this->getEnd(),
                         'users_id'   => $this->getUser(),
                     ));
-                }
 
-                $data['sucess'] = true;
+                    $data['sucess'] = true;
+                } else {
+                    $data['success'] = false;
+                }
             } else {
+                $data['success'] = false;
+
                 $this->errors['POST'] = 'No data received';
             }
 

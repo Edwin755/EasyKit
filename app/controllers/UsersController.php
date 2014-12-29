@@ -173,7 +173,11 @@
          * @return string
          */
         function setBirth($value) {
-            $this->birth = $value;
+            if (Validation::validateDate($value, 'Y-m-d')) {
+                $this->birth = $value;
+            } else {
+                $this->errors['date'] = 'Wrong date.';
+            }
         }
 
         /**
@@ -224,8 +228,6 @@
          * @return void
          */
         function api_create() {
-            $data = 'No POST received.';
-
             if (!empty($_POST)) {
                 $data = array();
                 $this->loadModel('Users');
@@ -261,7 +263,7 @@
                 }
 
                 if (isset($_POST['birth'])) {
-                    $this->setLastname($_POST['birth']);
+                    $this->setBirth($_POST['birth']);
                 }
 
                 if (empty($this->errors)) {
@@ -277,11 +279,13 @@
                 } else {
                     $data['success'] = false;
                 }
-
-                $data['errors'] = $this->errors;
             } else {
+                $data['success'] = false;
 
+                $this->errors['POST'] = 'No POST received.';
             }
+
+            $data['errors'] = $this->errors;
 
             View::make('api.index', json_encode($data), false, 'application/json');
         }
