@@ -1,7 +1,7 @@
 <div class="breadcrumb">
     <ul>
         <li class="item"><strong><a href="<?= HTML::link('admin1259') ?>">DASHBOARD</a></strong></li>
-        <li class="item"><a href="<?= HTML::link('admin1259/users') ?>">Événements</a></li>
+        <li class="item"><a href="<?= HTML::link('admin1259/events') ?>">Événements</a></li>
         <li class="item current">Liste des événements</li>
     </ul>
 </div>

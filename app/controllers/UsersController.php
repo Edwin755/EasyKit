@@ -11,6 +11,7 @@
 
     use Core;
     use Core\Controller;
+    use Core\Validation;
     use Core\View;
     use Core\Session;
     use Core\Cookie;
@@ -229,7 +230,7 @@
                 $data = array();
                 $this->loadModel('Users');
 
-                if (!isset($_POST['email']) || $_POST['email'] == null || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                if (!isset($_POST['email']) || $_POST['email'] == null || !Validation::validateEmail($_POST['email'])) {
                     $this->errors['email'] = 'Wrong email';
                 } else {
                     $user = $this->Users->select(array(

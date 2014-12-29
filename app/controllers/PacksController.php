@@ -11,6 +11,7 @@
 
     use Core;
     use Core\Controller;
+    use Core\Validation;
     use Core\View;
     use Core\Cookie;
 
@@ -22,6 +23,80 @@
      */
     class PacksController extends Controller
     {
+
+        private $errors;
+        private $name;
+        private $end;
+
+        /**
+         * Set Name
+         *
+         * @param $value
+         */
+        function setName($value) {
+            $this->name = $value;
+        }
+
+        /**
+         * Get Name
+         *
+         * @param $value
+         */
+        function getName() {
+            return $this->name;
+        }
+
+        /**
+         * Set End
+         *
+         * @param $value
+         */
+        function setEnd($value) {
+            if (Validation::validateDate($value)) {
+                $this->end = $value;
+            } else {
+                $this->errors['end'] = 'Not a datetime';
+            }
+        }
+
+        /**
+         * Get End
+         *
+         * @param $value
+         */
+        function getEnd() {
+            return $this->end;
+        }
+
+        /**
+         * Set User
+         *
+         * @param $value
+         */
+        function setUser($value) {
+            $this->loadModel('Users');
+
+            $user = $this->Users->select(array(
+                'conditions'    => array(
+                    'id'            => $value,
+                ),
+            ));
+
+            if (count($user) == 1) {
+                $this->user = $value;
+            } else {
+                $this->errors['user'] = 'User doesn\'t exists.';
+            }
+        }
+
+        /**
+         * Get User
+         *
+         * @param $value
+         */
+        function getUser() {
+            return $this->user;
+        }
         
         /**
          * Index API Action
@@ -69,7 +144,7 @@
                 ));
 
                 foreach ($data['packs'] as $pack) {
-                    $pack->steps = $this->Steps->select(array(
+                    $pack->steps = $this->Steps->pack(array(
                         'conditions'    => array(
                             'packs_id'      => $pack->packs_id,
                         ),
@@ -96,7 +171,42 @@
          * @throws Core\Exceptions\NotFoundHTTPException
          */
         function api_create() {
-            $data['status'] = 'success';
+            if (!empty($_POST)) {
+                if (!empty($_POST['name'])) {
+                    $this->setName($_POST['name']);
+                } else {
+                    $this->errors['name'] = 'Wrong name.';
+                }
+
+                if (!empty($_POST['end'])) {
+                    $this->setEnd($_POST['end']);
+                } else {
+                    $this->errors['end'] = 'Wrong end time.';
+                }
+
+                if (!empty($_POST['user'])) {
+                    $this->setUser($_POST['user']);
+                } else {
+                    $this->errors['user'] = 'Wrong user.';
+                }
+
+                $this->loadModel('Packs');
+
+                if (empty($this->errors)) {
+                    $this->Packs->save(array(
+                        'name'      => $this->getName(),
+                        'endtime'   => $this->getEnd(),
+                        'users_id'   => $this->getUser(),
+                    ));
+                }
+
+                $data['sucess'] = true;
+            } else {
+                $this->errors['POST'] = 'No data received';
+            }
+
+            $data['errors'] = $this->errors;
+
             View::make('api.index', json_encode($data), false, 'application/json');
         }
 

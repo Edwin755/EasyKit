@@ -384,7 +384,9 @@
                     throw new Exception('Error Processing Request. binValue error : ' . $param . ' => ' . $value, 1);
                 }
             }
-            if ($pre->execute()) {
+
+            try {
+                $pre->execute();
                 $this->lastInsertId = $this->pdo->lastInsertId();
                 $this->params = null;
 
@@ -392,7 +394,7 @@
                 // log_write('sql', $query);
 
                 return $this->lastInsertId;
-            } else {
+            } catch (PDOException $e) {
                 return false;
             }
         }
@@ -488,6 +490,30 @@
         public function belongsToMany($name, $req = array()) {
             $name = strtolower($name);
             $this->tables = array($name . '_' . $this->table, $name);
+
+            $return = $this->select($req);
+
+            return $return;
+        }
+
+        /**
+         * @param $name string
+         * @param array $req
+         *
+         * @return array|bool
+         *
+         * @throws Exception
+         */
+        public function belongsTo($name, $req = array()) {
+            $name = strtolower($name);
+            $this->fields = $name;
+            $req['fields'] = array(
+                $this->table . '.*'
+            );
+            $req['join'] = array(array(
+                'name'      => $name,
+                'direction' => 'left',
+            ));
 
             $return = $this->select($req);
 

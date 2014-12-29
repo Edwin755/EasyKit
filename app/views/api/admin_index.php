@@ -59,7 +59,12 @@
                 <td><a href="<?= HTML::link('api/events/get/1') ?>"><?= HTML::link('api/events/get/1') ?></a></td>
             </tr>
             <tr>
-                <td rowspan="3"><strong>Packs</strong></td>
+                <td rowspan="4"><strong>Packs</strong></td>
+            </tr>
+            <tr>
+                <td>Créer pack</td>
+                <td>POST</td>
+                <td><a href="<?= HTML::link('api/packs/create') ?>"><?= HTML::link('api/packs/create') ?></a></td>
             </tr>
             <tr>
                 <td>Liste packs (20)</td>

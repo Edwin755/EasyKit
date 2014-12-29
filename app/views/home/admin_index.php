@@ -6,39 +6,43 @@
 <h3 class="page_title">Tableau de bord</h3>
 <div class="page_content">
     <?= Core\Session::getFlash() ?>
-    <form action="<?= HTML::link('admin1259/dump') ?>" id="dump">
-        <div class="form-control">
-            <input type="checkbox" class="checkbox" name="datas" id="datas" value="1" checked="checked">
-            <label for="datas">Inclure les données</label>
-        </div>
-        <div class="form-control">
-            <button type="submit" class="btn btn-primary" id="send">Exporter la base de données</button>
-        </div>
-    </form>
-    <h2 class="margtop">Statistiques</h2>
+    <h2>Statistiques</h2>
     <div class="row margtop">
         <div class="col-3">
-            <div class="bloc red">
+            <a href="<?= HTML::link('admin1259/packs') ?>" class="bloc red">
                 <h3 id="packs"><span class="count"></span></h3>
-            </div>
+            </a>
         </div>
         <div class="col-3">
-            <div class="bloc blue">
+            <a href="<?= HTML::link('admin1259/events') ?>" class="bloc blue">
                 <h3 id="events"><span class="count"></span></h3>
-            </div>
+            </a>
         </div>
         <div class="col-3">
-            <div class="bloc green">
+            <a href="<?= HTML::link('admin1259/users') ?>" class="bloc green">
                 <h3 id="users"><span class="count"></span></h3>
-            </div>
+            </a>
         </div>
         <div class="col-3">
-            <div class="bloc orange">
+            <a href="<?= HTML::link('admin1259/') ?>" class="bloc orange">
                 <h3 id="messages"><span class="count">15</span> Messages</h3>
-            </div>
+            </a>
         </div>
     </div>
-
+    <h2 class="margtop">Base de données</h2>
+    <div class="row margtop">
+        <div class="col-12">
+            <form action="<?= HTML::link('admin1259/dump') ?>" id="dump">
+                <div class="form-control">
+                    <input type="checkbox" class="checkbox" name="datas" id="datas" value="1" checked="checked">
+                    <label for="datas">Inclure les données</label>
+                </div>
+                <div class="form-control">
+                    <button type="submit" class="btn btn-primary" id="send">Exporter la base de données</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 <script>
     (function () {

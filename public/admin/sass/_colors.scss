@@ -1,17 +1,49 @@
 %white {
-  color: rgba(255, 255, 255, 1);
+  color: #fff;
+
+  &:hover {
+    color: #fff;
+  }
 }
 
 %grey {
   color: rgba(255, 255, 255, 0.870588);
+
+  &:hover {
+    color: rgba(255, 255, 255, 0.870588);
+  }
 }
 
 %dark {
   color: rgba(0, 0, 0, 0.870588);
+
+  &:hover {
+    color: rgba(0, 0, 0, 0.870588);
+  }
 }
 
 .bloc {
+  position: relative;
+  display: block;
   padding: 20px;
+
+  @include box-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+  @include border-radius(2px);
+
+  &:hover {
+    text-decoration: none;
+
+    &:before {
+      content: ' ';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      background: rgba(0, 0, 0, 0.05);
+    }
+  }
 
   h1,h2,h3,h4,h5,h6 {
     color: inherit;

@@ -18,5 +18,7 @@
      */
     class Steps extends Model
     {
-
+        function pack($req) {
+            return $this->belongsTo('Packs', $req);
+        }
     }

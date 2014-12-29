@@ -129,6 +129,6 @@
                 $data['message'] = $e->getMessage();
             }
 
-            View::make('api.index', json_encode($data), false);
+            View::make('api.index', json_encode($data), false, 'application/json');
         }
     }
