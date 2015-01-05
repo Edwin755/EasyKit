@@ -314,19 +314,19 @@
         function api_checkToken($token) {
             $this->loadModel('Tokens');
             $user = $this->Tokens->select(array(
-                'join'          => array(
-                    array(
+                'join'          => [
+                    [
                         'name'      => 'Users',
                         'direction' => 'right',
-                        ),
-                    ),
-                'conditions'    => array(
+                    ],
+                ],
+                'conditions'    => [
                     'token'         => $token,
                     'device'        => $_SERVER['HTTP_USER_AGENT'],
-                    ),
+                ],
                 ));
 
-            return !empty($user) ? true : false;
+            return count($user) == 1 ? true : false;
         }
 
         /**
@@ -395,7 +395,7 @@
                 $data['errors'] = $this->errors;
             } else if ($token != null) {
                 $data['authed'] = $this->api_checkToken($token);
-                !$data['authed'] ? $this->errors['token'] = 'invalid token.' : '';
+                !$data['authed'] ? $this->errors['token'] = 'invalid token.' : true;
                 $data['errors'] = $this->errors;
             } else {
                 $data = 'Nothing was sent';

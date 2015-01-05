@@ -18,22 +18,27 @@
         /**
          * URL
          */
-        public $url;
+        static public $url;
 
         /**
          * Controller
          */
-        public $controller;
+        static public $controller;
 
         /**
          * Action
          */
-        public $action;
+        static public $action;
 
         /**
          * Params
          */
-        public $params;
+        static public $params;
+
+        /**
+         * Closure
+         */
+        static public $closure;
         
         /**
          * Construct
@@ -41,13 +46,65 @@
          * @return boolean
          */
         function __construct() {
-            $this->parse();
+            require __DIR__ . '/../app/config/routes.php';
+        }
 
-            if ($this->matchRoutes()) {
-                return true;
+        public static function isClosure($value = null) {
+            if ($value == null) {
+                return self::$closure;
             } else {
-                return false;
+                self::$closure = $value;
+
+                return true;
             }
+        }
+
+        /**
+         * @param null $key
+         *
+         * @return mixed
+         */
+        public static function getUrl($key = null) {
+            if ($key == null) {
+                return self::$url;
+            } else {
+                return self::$url[$key];
+            }
+        }
+
+        /**
+         * @param $value
+         */
+        public static function setController($value) {
+            static::$controller = $value;
+        }
+
+        /**
+         * @return mixed
+         */
+        public static function getController() {
+            return static::$controller;
+        }
+
+        /**
+         * @param $value
+         */
+        public static function setAction($value) {
+            self::$action = $value;
+        }
+
+        /**
+         * @return mixed
+         */
+        public static function getAction() {
+            return self::$action;
+        }
+
+        /**
+         * @return mixed
+         */
+        function getParams() {
+            return self::$params;
         }
 
         /**
@@ -55,49 +112,72 @@
          * 
          * @return void
          */
-        function parse() {
+        static private function parse() {
             $url = isset($_SERVER['PATH_INFO']) ? trim(substr($_SERVER['PATH_INFO'], 1), '/') : '';
 
             $query = explode('/', $url);
 
-            $this->url['controller'] = isset($query[0]) ? $query[0] : '/';
+            self::$url['controller'] = isset($query[0]) ? $query[0] : '/';
 
-            $this->url['action'] = isset($query[1]) ? $query[1] : '';
+            self::$url['action'] = isset($query[1]) ? $query[1] : '';
 
-            $this->params = array_slice($query, 2);
+            self::$params = array_slice($query, 2);
         }
 
         /**
-         * Match the route associated to URL
-         * 
-         * @return boolean
+         *
+         *
+         * @param $url string
+         * @param $do string|object
          */
-        function matchRoutes() {
-            $routes = require __DIR__ . '/../app/config/routes.php';
-
-            $query = $this->url['controller'] . '/';
-            $query .= !empty($this->url['action']) ? $this->url['action'] . '/' : '';
-
-            foreach ($routes as $url => $route) {
-                $multiple = explode('/', $url);
-
-                if ($url == $query) {
-                    $route = explode('.', $route);
-
-                    $this->controller = $route[0];
-                    $this->action = isset($route[1]) ? $route[1] : 'index';
-
-                    return true;
-                } else if ($multiple[0] == $this->url['controller'] && $multiple[1] == '*') {
-                    $route = explode('.', $route);
-
-                    $this->controller = $route[0];
-                    $this->action = !empty($this->url['action']) ? $this->url['action'] : 'index';
-
-                    return true;
-                }
+        static public function get($url, $do) {
+            self::parse();
+            $query = self::getUrl('controller');
+            $query .= self::getUrl('action') != '' ? '/' . self::getUrl('action') : '';
+            foreach (self::$params as $param) {
+                $query .= '/' . $param;
             }
 
-            return false;
+            $query = $query == '' ? '/' : $query;
+
+            if (preg_match('#{[a-z]*}#', $url)) {
+                preg_match_all('#{([a-z]*)}#', $url, $matches);
+                $args = array();
+                foreach ($matches[1] as $match) {
+                    preg_match("#(.*)\{$match\}(.*)#", $url, $beforeafter);
+                    if(preg_match("#{$beforeafter[1]}([a-zA-Z0-9]*)#", $query, $result)) {
+                        $url = str_replace('{' . $match . '}', $result[1],$beforeafter[0]);
+                    }
+                    preg_match("#$beforeafter[1]([a-zA-Z0-9]*)$beforeafter[2]#", $url, $args[$match]);
+                }
+            } else {
+                $args = [];
+            }
+
+            if ($url == $query) {
+                if (is_object($do)) {
+                    self::isClosure(true);
+
+                    if (!empty($args)) {
+                        foreach ($args as $key => $value) {
+                            $args[$key] = $value[1];
+                        }
+                        call_user_func_array($do, $args);
+                    } else {
+                        $do();
+                    }
+                } else {
+                    self::isClosure(false);
+                    $do = explode('@', $do);
+
+                    self::setController($do[0]);
+                    self::setAction(isset($do[1]) ? $do[1] : 'index');
+                }
+            } else if (preg_match("#^{$url}#", $query) && !preg_match('#@#', $do)) {
+                $do = explode('@', $do);
+
+                self::setController($do[0]);
+                self::setAction(self::getUrl('action') != null ? self::getUrl('action') : 'index');
+            }
         }
     }

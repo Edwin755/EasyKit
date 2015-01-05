@@ -25,6 +25,7 @@
 
         private $errors;
         private $name;
+        private $description;
         private $end;
 
         /**
@@ -43,6 +44,24 @@
          */
         function getName() {
             return $this->name;
+        }
+
+        /**
+         * Set Description
+         *
+         * @param $value
+         */
+        function setDescription($value) {
+            $this->description = $value;
+        }
+
+        /**
+         * Get Description
+         *
+         * @param $value
+         */
+        function getDescription() {
+            return $this->description;
         }
 
         /**
@@ -189,13 +208,18 @@
                     $this->errors['user'] = 'Wrong user.';
                 }
 
+                if (!empty($_POST['description'])) {
+                    $this->setDescription($_POST['description']);
+                }
+
                 $this->loadModel('Packs');
 
                 if (empty($this->errors)) {
                     $this->Packs->save(array(
-                        'name'      => $this->getName(),
-                        'endtime'   => $this->getEnd(),
-                        'users_id'   => $this->getUser(),
+                        'name'          => $this->getName(),
+                        'description'   => $this->getDescription(),
+                        'endtime'       => $this->getEnd(),
+                        'users_id'      => $this->getUser(),
                     ));
 
                     $data['sucess'] = true;

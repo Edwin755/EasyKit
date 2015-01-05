@@ -69,9 +69,9 @@
                 $params = $req['params'];
                 $layout = $req['layout'];
             } else {
-                $controller = ucfirst(self::$router->controller) . 'Controller';
-                $action = self::$router->action;
-                $params = self::$router->params;
+                $controller = self::$router->getController();
+                $action = self::$router->getAction();
+                $params = self::$router->getParams();
                 $layout = null;
             }
 
@@ -89,8 +89,12 @@
                 }
 
                 return true;
-            } else if (self::$router->controller == null) {
-                throw new NotFoundHTTPException('Route ' . self::$router->url['controller'] . ' not found.', 1);
+            } else if (self::$router->getController() == null) {
+                if (!Router::isClosure()) {
+                    throw new NotFoundHTTPException('Route ' . self::$router->getUrl('controller') . ' not found.', 1);
+                } else {
+                    return false;
+                }
             } else {
                 throw new NotFoundHTTPException('Controller ' . $controller . ' not found.', 1);
             }

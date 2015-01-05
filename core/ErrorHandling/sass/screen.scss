@@ -6,6 +6,7 @@
 
 body {
   margin: auto;
+  margin-left: 350px;
   font: 16px/21px normal Arial, sans-serif;
 
   background: #efefef;
@@ -89,7 +90,6 @@ h3 {
 }
 
 .error {
-  margin-left: 350px;
   padding: 40px 20px;
 
   background: #23241F;
@@ -112,8 +112,6 @@ h3 {
 }
 
 .content {
-  margin-left: 350px;
-
   border-left: 4px solid #519BD7;
 
   .file {

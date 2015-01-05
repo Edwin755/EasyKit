@@ -1,21 +1,33 @@
 <?php
 
-    /**
-     * Routing file
-     * 
-     * @author Edwin Dayot <edwin.dayot@sfr.fr>
-     * @copyright 2014
-     */
+/**
+ * Routing file
+ *
+ * @author Edwin Dayot <edwin.dayot@sfr.fr>
+ * @copyright 2014
+ */
 
-    /**
-     * Syntax :
-     * 
-     * @example 'hello/' => 'hello.world'
-     */
-    return array(
+use Core\Dispatcher;
+use Core\Router;
+use Core\View;
 
-        '/'             => 'home.index',
-        'api/*'         => 'api',
-        'admin1259/*'   => 'admin',
+Router::get('/', function () {
+    return View::make('home.index', null, 'default');
+});
 
-    );
+Router::get('users/{id}/edit', function ($id) {
+    return Dispatcher::loadController(array(
+        'controller'    => 'Users',
+        'action'        => 'edit',
+        'params'        => array($id),
+        'layout'        => 'default',
+    ));
+});
+
+/*Router::group(['prefix' => 'admin1259'], function () {
+    Router::get('users', 'UsersController');
+});*/
+
+Router::get('admin1259', 'AdminController');
+Router::get('api', 'ApiController');
+//Router::get('users', 'UsersController@index');
