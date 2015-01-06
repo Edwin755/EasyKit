@@ -1,0 +1,69 @@
+<?php
+
+    class Dispatcher
+    {
+        private $context;
+
+        private $args;
+
+        function __construct($arguments) {
+            array_shift($arguments);
+
+            $this->context = $this->parse($arguments[0]);
+
+            array_shift($arguments);
+
+            $this->args = $arguments;
+
+            call_user_func_array(array(ucfirst($this->context[0]), $this->context[1]), $this->args);
+        }
+
+        function parse($context) {
+            return explode(':', $context);
+        }
+    }
+
+    class Controller
+    {
+        private static $dir;
+
+        private static $defaultResources = array(
+            'index'     => "/**\n\t\t * index\n\t\t */",
+            'create'    => "/**\n\t\t * create\n\t\t */",
+            'store'     => "/**\n\t\t * store/save\n\t\t */",
+            'show'      => "/**\n\t\t * show\n\t\t */",
+            'edit'      => "/**\n\t\t * edit\n\t\t */",
+            'update'    => "/**\n\t\t * update\n\t\t */",
+            'destroy'   => "/**\n\t\t * destroy\n\t\t */",
+        );
+
+        function __construct() {
+            self::$dir = realpath(__DIR__ . '/app/controllers');
+        }
+
+        public static function make($name, $options = null) {
+            new self;
+            $dir = self::$dir;
+            touch("$dir\\$name.php");
+
+            $file = file_get_contents(__DIR__ . '/core/Worker/controller');
+            $file = str_replace('{{name}}', $name, $file);
+
+            preg_match('~{{funcstart}}(.*){{funcend}}~s', $file, $match);
+            foreach (self::$defaultResources as $resource => $comment) {
+                preg_match('~{{funcstart}}(.*){{funcend}}~s', $file, $match);
+                $modified = str_replace('{{comment}}', $comment, $match[0]);
+                $modified = str_replace('{{func}}', $resource, $modified);
+                $file = preg_replace('~{{funcstart}}(.*){{funcend}}~s', $modified, $file);
+
+                $file = str_replace('{{funcstart}}', '', $file);
+                $file = str_replace('{{funcend}}', "\n" . $match[0], $file);
+            }
+            $file = preg_replace('~{{funcstart}}(.*){{funcend}}~s', '', $file);
+            $file = str_replace('{{funcstart}}', '', $file);
+            $file = str_replace('{{funcend}}', '', $file);
+            file_put_contents("$dir\\$name.php", $file);
+        }
+    }
+
+    new Dispatcher($argv);

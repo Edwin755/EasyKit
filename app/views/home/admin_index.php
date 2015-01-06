@@ -43,6 +43,66 @@
             </form>
         </div>
     </div>
+    <h2 class="margtop">Reminder</h2>
+    <div class="row margtop">
+        <div class="col-12">
+            <h4>Bonnes pratiques</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Verb</th>
+                    <th>Path</th>
+                    <th>Action</th>
+                    <th>Route Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>GET</td>
+                    <td>/resource</td>
+                    <td>index</td>
+                    <td>resource.index</td>
+                </tr>
+                <tr>
+                    <td>GET</td>
+                    <td>/resource/create</td>
+                    <td>create</td>
+                    <td>resource.create</td>
+                </tr>
+                <tr>
+                    <td>POST</td>
+                    <td>/resource</td>
+                    <td>store</td>
+                    <td>resource.store</td>
+                </tr>
+                <tr>
+                    <td>GET</td>
+                    <td>/resource/{resource}</td>
+                    <td>show</td>
+                    <td>resource.show</td>
+                </tr>
+                <tr>
+                    <td>GET</td>
+                    <td>/resource/{resource}/edit</td>
+                    <td>edit</td>
+                    <td>resource.edit</td>
+                </tr>
+                <tr>
+                    <td>PUT/PATCH</td>
+                    <td>/resource/{resource}</td>
+                    <td>update</td>
+                    <td>resource.update</td>
+                </tr>
+                <tr>
+                    <td>DELETE</td>
+                    <td>/resource/{resource}</td>
+                    <td>destroy</td>
+                    <td>resource.destroy</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 <script>
     (function () {

@@ -1,0 +1,30 @@
+<?php
+
+    /**
+     * {{name}} file
+     *
+     * Created by worker
+     */
+
+    namespace App\Controllers;
+    
+    use Core;
+    use Core\Controller;
+    use Core\Validation;
+    use Core\View;
+    use Core\Session;
+    use Core\Cookie;
+
+    /**
+     * Class {{name}}
+     */
+    class {{name}} extends Controller
+    {
+
+        {{funcstart}}
+        {{comment}}
+        function {{func}}() {
+            // Something
+        }
+        {{funcend}}
+    }
