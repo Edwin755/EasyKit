@@ -52,7 +52,9 @@ h3 {
 
   background: #23241F;
 
-  overflow-y: scroll;
+  overflow-y: auto;
+
+  @include box-shadow(0 0 15px rgba(0, 0, 0, 0.5));
 
   .backtrace {
     width: 325px;
@@ -112,13 +114,12 @@ h3 {
 }
 
 .content {
-  border-left: 4px solid #519BD7;
-
   .file {
-    margin: 5px;
+    padding: 5px;
 
     overflow: hidden;
 
+    border-left: 4px solid #519BD7;
     @include border-radius(3px);
 
     .filename {

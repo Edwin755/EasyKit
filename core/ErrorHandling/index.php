@@ -58,21 +58,21 @@
                 </table>
                 <h3>Session</h3>
                 <table>
-                    <?php foreach ($_SESSION as $k =>$v) : ?>
+                    <?php if (isset($_SESSION)) { foreach ($_SESSION as $k =>$v) { ?>
                         <tr>
                             <td class="key"><?= $k ?></td>
                             <td class="value"><pre><?php print_r($v) ?></pre></td>
                         </tr>
-                    <?php endforeach ?>
+                    <?php }} ?>
                 </table>
                 <h3>Cookie</h3>
                 <table>
-                    <?php foreach ($_COOKIE as $k =>$v) : ?>
+                    <?php if (isset($_COOKIE)) { foreach ($_COOKIE as $k =>$v) { ?>
                         <tr>
                             <td class="key"><?= $k ?></td>
                             <td class="value"><?= $v ?></td>
                         </tr>
-                    <?php endforeach ?>
+                    <?php }} ?>
                 </table>
                 <h3>Get</h3>
                 <table>

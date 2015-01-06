@@ -15,11 +15,11 @@ Router::get('/', function () {
     return View::make('home.index', null, 'default');
 });
 
-Router::get('users/{id}/edit', function ($id) {
+Router::get('users/{id}-{name}/edit', function ($id, $name) {
     return Dispatcher::loadController(array(
         'controller'    => 'Users',
         'action'        => 'edit',
-        'params'        => array($id),
+        'params'        => array($id, $name),
         'layout'        => 'default',
     ));
 });

@@ -525,9 +525,6 @@
                 if (count($admin) == 1 && Cookie::get('admin_security') == md5($_SERVER['HTTP_USER_AGENT'] . Cookie::get('admin_username'))) {
                     Session::set('admin', current($admin));
 
-                    $message = 'Bienvenue, ' . current($admin)->admin_username . '.';
-                    Session::setFlash('success', $message);
-
                     $this->redirect('admin1259');
                 } else {
                     Cookie::destroy('admin_security');
@@ -550,5 +547,9 @@
             Cookie::destroy('admin_username');
             Cookie::destroy('admin_security');
             $this->redirect('admin1259/users/signin');
+        }
+
+        function edit($id, $name) {
+
         }
     }
