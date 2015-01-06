@@ -1,4 +1,5 @@
 app/config/database.php
+app/config/app.php
 vendor/*
 docs/*
 logs/*
