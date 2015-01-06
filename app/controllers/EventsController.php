@@ -14,6 +14,7 @@
     use Core\View;
     use Core\Cookie;
     use Core\Exceptions\NotFoundHTTPException;
+    use HTML;
 
     /**
      * Events Controller
@@ -65,6 +66,10 @@
                             'id'            => $event->events_id,
                         ),
                     ));
+
+                    foreach ($event->events_medias as $media) {
+                        $media->medias_file = HTML::link('uploads/' . $media->medias_file);
+                    }
                 }
             }
 

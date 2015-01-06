@@ -41,6 +41,8 @@
             new Session();
             Cookie::init();
 
+            require_once 'HTML.php';
+
             $this->initLink();
 
             $this->actions = get_class_methods($this);

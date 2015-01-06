@@ -17,7 +17,7 @@
          * Security
          */
         'secure_key'    => 'o1Xc7m9KJ2S9X8307jFK67Fr',
-        'debug'         => gethostname() == 'Edwin' ? true : false,
+        'debug'         => gethostname() == 'Heyden' ? true : false,
 
 
     );
