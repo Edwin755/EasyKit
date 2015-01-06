@@ -39,7 +39,12 @@
          * Closure
          */
         static public $closure;
-        
+
+        /**
+         * Resource
+         */
+        private static $resource = false;
+
         /**
          * Construct
          * 
@@ -130,7 +135,7 @@
          * @param $url string
          * @param $do string|object
          */
-        static public function get($url, $do) {
+        static public function get($url, $do, $context = array()) {
             self::parse();
             $query = self::getUrl('controller');
             $query .= self::getUrl('action') != '' ? '/' . self::getUrl('action') : '';
@@ -174,10 +179,36 @@
                     self::setAction(isset($do[1]) ? $do[1] : 'index');
                 }
             } else if (preg_match("#^{$url}#", $query) && !preg_match('#@#', $do)) {
-                $do = explode('@', $do);
+                $valid = true;
 
-                self::setController($do[0]);
-                self::setAction(self::getUrl('action') != null ? self::getUrl('action') : 'index');
+                if (!empty($context)) {
+                    if (isset($context['only'])) {
+                        $valid = false;
+
+                        foreach ($context['only'] as $only) {
+                            if ($only == self::getUrl('action')) {
+                                $valid = true;
+                            }
+                        }
+                    } else if (isset($context['exclude'])) {
+                        $valid = true;
+
+                        foreach ($context['exclude'] as $exclude) {
+                            if ($exclude == self::getUrl('action')) {
+                                $valid = false;
+                            }
+                        }
+                    }
+                }
+
+                if ($valid == true) {
+                    self::setController($do);
+                    self::setAction(self::getUrl('action') != null ? self::getUrl('action') : 'index');
+                }
             }
+        }
+
+        static public function resource($url, $do) {
+            self::$resource = true;
         }
     }

@@ -30,4 +30,9 @@ Router::get('users/{id}-{name}/edit', function ($id, $name) {
 
 Router::get('admin1259', 'AdminController');
 Router::get('api', 'ApiController');
-//Router::get('users', 'UsersController@index');
+Router::get('users', 'UsersController', [
+    'only'      => [
+        'index',
+        'api_get'
+    ]
+]);
