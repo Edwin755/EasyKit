@@ -548,8 +548,4 @@
             Cookie::destroy('admin_security');
             $this->redirect('admin1259/users/signin');
         }
-
-        function edit($id, $name) {
-
-        }
     }
