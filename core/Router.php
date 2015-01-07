@@ -70,6 +70,11 @@
         private static $parentDo;
 
         /**
+         * Resource
+         */
+        private static $resource = false;
+
+        /**
          * Construct
          * 
          * @return boolean
@@ -188,7 +193,7 @@
 
             if (preg_match('#{[a-z]*}#', $url)) {
                 preg_match_all('#{([a-z]*)}#', $url, $matches);
-                self::$args = array();
+                self::$args = [];
                 foreach ($matches[1] as $match) {
                     preg_match("#(.*)\{$match\}(.*)#", $url, $beforeafter);
                     if(preg_match("#{$beforeafter[1]}([a-zA-Z0-9]*)#", $query, $result)) {
@@ -207,6 +212,9 @@
                     if (!empty(self::$args)) {
                         foreach (self::$args as $key => $value) {
                             self::$args[$key] = $value[1];
+                        }
+                        if (!self::$resource) {
+                            call_user_func_array($do, self::$args);
                         }
                     } else {
                         $do();
@@ -257,97 +265,102 @@
          */
         static public function resource($url, $do, $context = array()) {
             self::$parentDo = $do;
+            self::$resource = true;
             self::parse();
 
-            if (isset($context['only'])) {
-                foreach(self::$defaultContext as $k => $v) {
-                    $context['only'][$k] = false;
-                }
-
-                foreach ($context['only'] as $k => $v) {
-                    $context['only'][$v] = true;
-                }
-
-                $context = array_merge(self::$defaultContext, $context['only']);
-            } else if (isset($context['exclude'])) {
-                foreach(self::$defaultContext as $k => $v) {
-                    $context['exclude'][$k] = true;
-                }
-
-                foreach ($context['exclude'] as $k => $v) {
-                    $context['exclude'][$v] = false;
-                }
-
-                $context = array_merge(self::$defaultContext, $context['exclude']);
-            }
-
-            if (!empty($_POST)) {
-                if (self::getUrl('action') == 'store') {
-                    if ($context['store']) {
-                        Router::get($url . '/' . self::getUrl('action'), $do . '@store');
+            if (self::getUrl('controller') == $url) {
+                if (isset($context['only'])) {
+                    foreach(self::$defaultContext as $k => $v) {
+                        $context['only'][$k] = false;
                     }
+
+                    foreach ($context['only'] as $k => $v) {
+                        $context['only'][$v] = true;
+                    }
+
+                    $context = array_merge(self::$defaultContext, $context['only']);
+                } else if (isset($context['exclude'])) {
+                    foreach(self::$defaultContext as $k => $v) {
+                        $context['exclude'][$k] = true;
+                    }
+
+                    foreach ($context['exclude'] as $k => $v) {
+                        $context['exclude'][$v] = false;
+                    }
+
+                    $context = array_merge(self::$defaultContext, $context['exclude']);
                 } else {
-                    if ($context['update']) {
-                        Router::get($url . '/{id}', function ($id) use ($do) {
-                            return Dispatcher::loadController(array(
-                                'controller'    => str_replace('Controller', '', $do),
-                                'action'        => 'update',
-                                'params'        => array($id),
-                                'layout'        => false,
-                            ));
-                        })->where(['id' => '([0-9]*)']);
-                    }
+                    $context = self::$defaultContext;
                 }
-            } else {
-                if (in_array('edit', self::getParams())) {
-                    if ($context['edit']) {
-                        Router::get($url . '/{id}/edit', function ($id) use ($do) {
-                            return Dispatcher::loadController(array(
-                                'controller' => str_replace('Controller', '', $do),
-                                'action' => 'edit',
-                                'params' => array($id),
-                                'layout' => false,
-                            ));
-                        })->where(['id' => '([0-9]*)']);
-                    }
-                } else if (in_array('destroy', self::getParams())) {
-                    if ($context['destroy']) {
-                        Router::get($url . '/{id}/destroy', function ($id) use ($do) {
-                            return Dispatcher::loadController(array(
-                                'controller'    => str_replace('Controller', '', $do),
-                                'action'        => 'destroy',
-                                'params'        => array($id),
-                                'layout'        => false,
-                            ));
-                        })->where(['id' => '([0-9]*)']);
-                    }
-                } else if (in_array('create', self::getUrl())) {
-                    if ($context['create']) {
-                        Router::get($url . '/create', $do . '@create');
-                    }
-                } else {
-                    if ((self::getUrl('action') == 'index' || self::getUrl('action') == '')) {
-                        if ($context['index']) {
-                            $url = $url . (self::getUrl('action') == '' ? '' : '/' . self::getUrl('action'));
-                            Router::get($url, $do . '@index');
+
+                if (!empty($_POST)) {
+                    if (self::getUrl('action') == 'store') {
+                        if ($context['store']) {
+                            Router::get($url . '/' . self::getUrl('action'), $do . '@store');
                         }
                     } else {
-                        if ($context['show']) {
+                        if ($context['update']) {
                             Router::get($url . '/{id}', function ($id) use ($do) {
                                 return Dispatcher::loadController(array(
                                     'controller'    => str_replace('Controller', '', $do),
-                                    'action'        => 'show',
+                                    'action'        => 'update',
                                     'params'        => array($id),
                                     'layout'        => false,
                                 ));
                             })->where(['id' => '([0-9]*)']);
                         }
                     }
+                } else {
+                    if (in_array('edit', self::getParams())) {
+                        if ($context['edit']) {
+                            Router::get($url . '/{id}/edit', function ($id) use ($do) {
+                                return Dispatcher::loadController(array(
+                                    'controller' => str_replace('Controller', '', $do),
+                                    'action' => 'edit',
+                                    'params' => array($id),
+                                    'layout' => false,
+                                ));
+                            })->where(['id' => '([0-9]*)']);
+                        }
+                    } else if (in_array('destroy', self::getParams())) {
+                        if ($context['destroy']) {
+                            Router::get($url . '/{id}/destroy', function ($id) use ($do) {
+                                return Dispatcher::loadController(array(
+                                    'controller'    => str_replace('Controller', '', $do),
+                                    'action'        => 'destroy',
+                                    'params'        => array($id),
+                                    'layout'        => false,
+                                ));
+                            })->where(['id' => '([0-9]*)']);
+                        }
+                    } else if (in_array('create', self::getUrl())) {
+                        if ($context['create']) {
+                            Router::get($url . '/create', $do . '@create');
+                        }
+                    } else {
+                        if ((self::getUrl('action') == 'index' || self::getUrl('action') == '')) {
+                            if ($context['index']) {
+                                $url = $url . (self::getUrl('action') == '' ? '' : '/' . self::getUrl('action'));
+                                Router::get($url, $do . '@index');
+                            }
+                        } else {
+                            if ($context['show'] && self::getUrl('action') != 'store' && self::getUrl('action') != 'update') {
+                                Router::get($url . '/{id}', function ($id) use ($do) {
+                                    return Dispatcher::loadController(array(
+                                        'controller'    => str_replace('Controller', '', $do),
+                                        'action'        => 'show',
+                                        'params'        => array($id),
+                                        'layout'        => false,
+                                    ));
+                                })->where(['id' => '([0-9]*)']);
+                            }
+                        }
+                    }
                 }
-            }
 
-            if (self::getAction() == null) {
-                throw new NotFoundHTTPException('Route definition banned this URL.', 1);
+                if (self::getAction() == null) {
+                    throw new NotFoundHTTPException('Route definition banned this URL or wrong context (POST/GET).', 1);
+                }
             }
         }
     }
