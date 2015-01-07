@@ -19,8 +19,7 @@ Router::get('admin1259', 'AdminController');
 Router::get('api', 'ApiController');
 
 Router::resource('users', 'UsersController', [
-    'only'  => [
-        'index',
-        'edit'
+    'exclude'  => [
+        'index'
     ]
 ]);

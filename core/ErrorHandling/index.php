@@ -35,15 +35,12 @@
             </div>
         </div>
         <div class="content">
-            <div class="file">
-                <div class="filename"><?= $errfile ?></div>
-                <div class="filecontent">
-                    <ul class="lines">
-                        <?php for ($i = $errline - 6; $i <= $errline + 3; $i++) : ?>
-                            <li><?= $i ?>.</li>
-                        <?php endfor ?>
-                    </ul>
-                    <pre><code class="language-php"><?= $errlines ?></code></pre>
+            <div class="file-container">
+                <div class="file">
+                    <div class="filename"><?= $errfile ?><span class="frame-line"><?= $errline ?></span></div>
+                    <div class="filecontent">
+                        <pre class="prettyprint linenums:<?= $errline - 6 ?> language-php"><?= $errlines ?></pre>
+                    </div>
                 </div>
             </div>
             <div class="traces">
@@ -107,13 +104,27 @@
             <?= file_get_contents(__DIR__ . '/../../core/ErrorHandling/scripts/jquery.min.js'); ?>
         </script>
         <script>
-            <?= file_get_contents(__DIR__ . '/../../core/ErrorHandling/scripts/highlight.pack.js'); ?>
+            <?= file_get_contents(__DIR__ . '/../../core/ErrorHandling/scripts/prettify.js'); ?>
         </script>
         <script>
             (function($) {
-                $('.language-php').each(function(i, block) {
-                    hljs.highlightBlock(block);
-                });
+                prettyPrint();
+
+                var highlightCurrentLine = function() {
+                    // Highlight the active and neighboring lines for this frame:
+                    var activeLineNumber = +($('.frame-line').text());
+                    var $lines           = $('.linenums li');
+                    var firstLine        = +($lines.first().val());
+
+                    console.log()
+
+                    $($lines[activeLineNumber - firstLine - 1]).addClass('current');
+                    $($lines[activeLineNumber - firstLine]).addClass('current active');
+                    $($lines[activeLineNumber - firstLine + 1]).addClass('current');
+                };
+
+                // Highlight the active for the first frame:
+                highlightCurrentLine();
             })(jQuery);
         </script>
     </body>
