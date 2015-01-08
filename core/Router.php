@@ -162,10 +162,18 @@
         public function where($vars) {
             $valid = true;
             foreach ($vars as $var => $regex) {
-                if (!preg_match('#^' . $regex . '$#', self::$args[$var])) {
-                    self::setController(self::$parentDo);
-                    self::setAction(self::getUrl('action'));
-                    $valid = false;
+                if (is_array(self::$args)) {
+                    if (!preg_match('#^' . $regex . '$#', self::$args[$var][0])) {
+                        self::setController(self::$parentDo);
+                        self::setAction(self::getUrl('action'));
+                        $valid = false;
+                    }
+                } else {
+                    if (!preg_match('#^' . $regex . '$#', self::$args[$var])) {
+                        self::setController(self::$parentDo);
+                        self::setAction(self::getUrl('action'));
+                        $valid = false;
+                    }
                 }
             }
 
@@ -226,32 +234,34 @@
                     self::setController($do[0]);
                     self::setAction(isset($do[1]) ? $do[1] : 'index');
                 }
-            } else if (preg_match("#^{$url}#", $query) && !preg_match('#@#', $do)) {
-                $valid = true;
+            } else if (!is_object($do)) {
+                if(preg_match("#^{$url}#", $query) && !preg_match('#@#', $do)) {
+                    $valid = true;
 
-                if (!empty($context)) {
-                    if (isset($context['only'])) {
-                        $valid = false;
+                    if (!empty($context)) {
+                        if (isset($context['only'])) {
+                            $valid = false;
 
-                        foreach ($context['only'] as $only) {
-                            if ($only == self::getUrl('action')) {
-                                $valid = true;
+                            foreach ($context['only'] as $only) {
+                                if ($only == self::getUrl('action')) {
+                                    $valid = true;
+                                }
                             }
-                        }
-                    } else if (isset($context['exclude'])) {
-                        $valid = true;
+                        } else if (isset($context['exclude'])) {
+                            $valid = true;
 
-                        foreach ($context['exclude'] as $exclude) {
-                            if ($exclude == self::getUrl('action')) {
-                                $valid = false;
+                            foreach ($context['exclude'] as $exclude) {
+                                if ($exclude == self::getUrl('action')) {
+                                    $valid = false;
+                                }
                             }
                         }
                     }
-                }
 
-                if ($valid == true) {
-                    self::setController($do);
-                    self::setAction(self::getUrl('action') != null ? self::getUrl('action') : 'index');
+                    if ($valid == true) {
+                        self::setController($do);
+                        self::setAction(self::getUrl('action') != null ? self::getUrl('action') : 'index');
+                    }
                 }
             }
 
