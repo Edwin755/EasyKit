@@ -71,6 +71,15 @@
         }
 
         /**
+         * Medias Action
+         *
+         * @return void
+         */
+        function medias() {
+            $this->useController('Medias', 'api_', func_get_args(), false, 'get');
+        }
+
+        /**
          * Admin index Action
          *
          * @return void

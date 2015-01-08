@@ -69,9 +69,43 @@
             return self::$request_scheme . '://' . trim($_SERVER['SERVER_NAME'], '/') . self::$server_port . $script_name . $link;
         }
 
+        /**
+         * Return the current URL
+         *
+         * @return string
+         */
         static function getCurrentURL() {
             self::init();
             
             return self::$request_scheme . '://' . $_SERVER['SERVER_NAME'] . self::$server_port . $_SERVER['REQUEST_URI'];
+        }
+
+        /**
+         * Return the amount of time ago
+         *
+         * @example just now, 13 minutes ago, Yesterday at 21:05
+         *
+         * @param $date
+         */
+        static function timeago($date) {
+            $datetime = new DateTime($date);
+            $interval = $datetime->diff(new DateTime('now'));
+
+            $date = strtotime($date);
+
+            if ($interval->m > 1) {
+                return date('F j Y', $date);
+            } else if ($interval->m < 2 && $interval->d > 1) {
+                return date('F j', $date) . ' at ' . date('H:i', $date);
+            } else if ($interval->m < 2 && $interval->d < 2 && $interval->h > 1) {
+                return $interval->h . ' hours';
+            } else if ($interval->m < 2 && $interval->d < 2 && $interval->h < 2 && $interval->m > 1) {
+                return $interval->i . ' mins';
+            } else {
+                var_dump($interval);
+                return 'Just now';
+            }
+
+            var_dump($interval);
         }
     }

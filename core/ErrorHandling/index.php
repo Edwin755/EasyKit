@@ -15,10 +15,10 @@
             <?php foreach ($errbacktrace as $backtrace) : ?>
                 <div class="backtrace">
                     <div class="class">
-                        <?= $backtrace['class'] ?>
+                        <?= isset($backtrace['class']) ? $backtrace['class'] : '' ?>
                     </div>
                     <div class="function">
-                        <?= $backtrace['function'] ?>
+                        <?= isset($backtrace['function']) ? $backtrace['function'] : '' ?>
                     </div>
                     <div class="file">
                         <?= isset($backtrace['object']->errfile) ? str_replace(__DIR__, '', $backtrace['object']->errfile) : $backtrace['file'] ?><span class="line"><?= isset($backtrace['line']) ? ':' . $backtrace['line'] : '' ?></span>
@@ -49,7 +49,7 @@
                     <?php foreach ($_SERVER as $k =>$v) : ?>
                         <tr>
                             <td class="key"><?= $k ?></td>
-                            <td class="value"><?= $v ?></td>
+                            <td class="value"><?php print_r($v) ?></td>
                         </tr>
                     <?php endforeach ?>
                 </table>

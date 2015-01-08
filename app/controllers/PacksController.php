@@ -14,6 +14,7 @@
     use Core\Validation;
     use Core\View;
     use Core\Cookie;
+    use HTML;
 
     /**
      * Class PacksController
@@ -147,6 +148,8 @@
                         ),
                     ));
 
+                    $data['pack']->timeago = HTML::timeago($data['pack']->packs_created_at);
+
                     foreach ($events as $event) {
                         $data['pack']->events = current($this->getJSON($this->link('api/events/get/' . $event->events_packs_events_id)));
                     }
@@ -175,6 +178,8 @@
                             'id'      => $pack->packs_id,
                         ),
                     ));
+
+                    $pack->timeago = HTML::timeago($pack->packs_created_at);
 
                     foreach ($events as $event) {
                         $pack->events = current($this->getJSON($this->link('api/events/get/' . $event->events_packs_events_id)));
@@ -248,8 +253,6 @@
             $this->loadModel('Packs');
 
             $data['count'] = $this->Packs->select(array('count' => true));
-
-            $data['packs'] = current($this->getJSON($this->link('api/packs')));
 
             View::make('packs.admin_index', $data, 'admin');
         }

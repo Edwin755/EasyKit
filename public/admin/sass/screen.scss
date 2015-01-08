@@ -359,3 +359,73 @@ a {
     }
   }
 }
+
+.panel {
+  position: relative;
+  padding: 15px;
+
+  background: #fff;
+
+  @include border-radius(3px);
+  @include box-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+
+  @extend %beforeafter;
+
+  & + .panel {
+    margin-top: 15px;
+  }
+
+  .user {
+    float: left;
+    width: 200px;
+
+    .img-circle {
+      float: left;
+      margin-right: 15px;
+    }
+
+    span {
+      display: table;
+    }
+
+    p {
+      margin-top: 5px;
+      float: left;
+      display: table;
+
+      font-size: 0.8em;
+      color: lighten(#000, 46%);
+    }
+  }
+
+  .panel-content {
+    float: left;
+  }
+
+  &.loading {
+    height: 77px;
+
+    .user {
+      .img-circle {
+        background: #E3F2FD;
+      }
+
+      span {
+        color: #E3F2FD;
+        background: #E3F2FD;
+      }
+
+      p {
+        color: #E3F2FD;
+        background: #E3F2FD;
+      }
+    }
+
+    .panel-content {
+      p {
+        color: #E3F2FD;
+        background: #E3F2FD;
+      }
+    }
+  }
+}

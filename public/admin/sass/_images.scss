@@ -1,6 +1,7 @@
 .img-circle {
   border: 2px solid #fff;
   @include border-radius(50%);
+  @include box-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
 }
 
 .rowcards {

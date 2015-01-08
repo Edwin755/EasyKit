@@ -17,27 +17,27 @@
     </div>
     <div class="rowcards">
         <?php foreach ($events as $event): ?>
-        <div class="card">
-            <div class="image">
-                <ul class="slides" data-slide data-delay="<?= rand(3500, 5000) ?>">
-                    <?php foreach ($event->events_medias as $media): ?>
-                        <li class="item" style="background-image: url(<?= $media->medias_file ?>);"></li>
-                    <?php endforeach ?>
-                </ul>
-            </div>
-            <div class="informations">
-                <div class="name"><?= $event->events_name ?></div>
-                <div class="complement">Créé par: <?= $event->user->users_firstname ?> <?= $event->user->users_lastname ?></div>
-                <div class="options">
-                    <a href="#" data-toggle><span class="fa fa-ellipsis-v"></span></a>
-                    <ul class="menu">
-                        <li class="item"><a href="<?= HTML::link('admin1259/events/show/' . $event->events_id) ?>">Voir</a></li>
-                        <li class="item"><a href="<?= HTML::link('admin1259/events/edit/' . $event->events_id) ?>">Modifier</a></li>
-                        <li class="item"><a href="<?= HTML::link('admin1259/events/delete/' . $event->events_id) ?>">Supprimer</a></li>
+            <div class="card">
+                <div class="image">
+                    <ul class="slides" data-slide data-delay="<?= rand(3500, 5000) ?>">
+                        <?php foreach ($event->events_medias as $media): ?>
+                            <li class="item" style="background-image: url(<?= $media->medias_file ?>);"></li>
+                        <?php endforeach ?>
                     </ul>
                 </div>
+                <div class="informations">
+                    <div class="name"><?= $event->events_name ?></div>
+                    <div class="complement">Créé par: <?= $event->user->users_firstname ?> <?= $event->user->users_lastname ?></div>
+                    <div class="options">
+                        <a href="#" data-toggle><span class="fa fa-ellipsis-v"></span></a>
+                        <ul class="menu">
+                            <li class="item"><a href="<?= HTML::link('admin1259/events/show/' . $event->events_id) ?>">Voir</a></li>
+                            <li class="item"><a href="<?= HTML::link('admin1259/events/edit/' . $event->events_id) ?>">Modifier</a></li>
+                            <li class="item"><a href="<?= HTML::link('admin1259/events/delete/' . $event->events_id) ?>">Supprimer</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-        </div>
         <?php endforeach ?>
     </div>
 </div>

@@ -15,6 +15,7 @@
     use Core\View;
     use Core\Session;
     use Core\Cookie;
+    use HTML;
 
     /**
      * UsersController Class
@@ -197,9 +198,8 @@
 
                 unset($data['user']->users_password);
 
-                $data['user']->users_media = $this->Users->media(array(
-                    'id'    => $data['user']->users_medias_id
-                ));
+                $data['user']->users_media = current($this->getJSON($this->link('api/medias/get/' . $data['user']->users_medias_id)));
+                $data['user']->users_media->medias_file = HTML::link('uploads/' . $data['user']->users_media->medias_file);
             } else {
                 $nb = 20;
                 $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -213,9 +213,9 @@
                 foreach ($data['users'] as $user) {
                     unset($user->users_password);
 
-                    $user->users_media = $this->Users->media(array(
-                        'id'    => $user->users_medias_id
-                    ));
+                    $user->users_media = current($this->getJSON($this->link('api/medias/get/' . $user->users_medias_id)));
+
+                    $user->users_media->medias_file = HTML::link('uploads/' . $user->users_media->medias_file);
                 }
             }
 
@@ -416,14 +416,6 @@
             $data['users'] = current($this->getJSON($this->link('api/users/')));
 
             $data['count'] = $this->Users->select(array('count' => true));
-
-            foreach ($data['users'] as $user) {
-                $user->media = $this->Users->media(array(
-                    'conditions'    => array(
-                        'medias_id'            => $user->users_medias_id,
-                    ),
-                ));
-            }
 
             View::make('users.admin_index', $data, 'admin');
         }
