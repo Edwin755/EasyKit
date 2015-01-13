@@ -74,7 +74,7 @@
     content: "\f1ce";
     display: inline-block;
 
-    @extend %dark;
+    color: lighten(#000, 46%);
     font: normal normal normal 20px/1 FontAwesome;
     font-size: inherit;
     text-rendering: auto;

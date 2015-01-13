@@ -247,8 +247,8 @@ a {
 }
 
 .breadcrumb {
-  position: absolute;
-  top: -70px;
+  position: fixed;
+  top: 0;
   float: left;
 
   font-size: 1.125em;

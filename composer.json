@@ -13,5 +13,6 @@
         }
     },
     "require": {
+        "ifsnop/mysqldump-php": "1.4.1"
     }
 }

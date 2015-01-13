@@ -11,7 +11,11 @@
         <div class="col-9">
             <h4><?= $count ?> Pack<?= $count != 1 ? 's' : '' ?></h4>
         </div>
-        <div class="col-3"></div>
+        <div class="col-3">
+            <div class="form-control">
+                <input class="input" id="search" type="search" placeholder="Rechercher">
+            </div>
+        </div>
     </div>
 </div>
 <div class="row margtop" id="loading">

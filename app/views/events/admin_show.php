@@ -30,7 +30,7 @@
                     <div class="complement">Inscrit le <?= date('j M Y', strtotime($event->user->users_created_at)) . ' à ' . date('G:i:s', strtotime($event->user->users_created_at)) ?></div>
                 </div>
                 <div class="image">
-                    <img class="img-circle" src="<?= HTML::link('uploads/' . $event->user->users_media->medias_file) ?>" alt="">
+                    <img class="img-circle" src="<?= $event->user->users_media->medias_file ?>" alt="">
                 </div>
             </div>
             <div class="text-right addon">

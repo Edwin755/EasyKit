@@ -27,7 +27,7 @@
                 </div>
                 <div class="informations">
                     <div class="name"><?= $event->events_name ?></div>
-                    <div class="complement">Créé par: <?= $event->user->users_firstname ?> <?= $event->user->users_lastname ?></div>
+                    <div class="complement"><span class="fa fa-calendar"></span>Du <strong><?= date('j M Y', strtotime($event->events_starttime)) ?></strong> au <strong><?= date('j M Y', strtotime($event->events_endtime)) ?></strong></div>
                     <div class="options">
                         <a href="#" data-toggle><span class="fa fa-ellipsis-v"></span></a>
                         <ul class="menu">

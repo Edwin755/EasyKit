@@ -95,17 +95,16 @@
 
             if ($interval->m > 1) {
                 return date('F j Y', $date);
-            } else if ($interval->m < 2 && $interval->d > 1) {
+            } else if ($interval->m < 2 && $interval->d > 2) {
                 return date('F j', $date) . ' at ' . date('H:i', $date);
+            } else if ($interval->m < 2 && $interval->d == 2) {
+                return 'Yesterday at ' . date('H:i', $date);
             } else if ($interval->m < 2 && $interval->d < 2 && $interval->h > 1) {
                 return $interval->h . ' hours';
-            } else if ($interval->m < 2 && $interval->d < 2 && $interval->h < 2 && $interval->m > 1) {
+            } else if ($interval->m < 2 && $interval->d < 2 && $interval->h < 2 && $interval->i > 1) {
                 return $interval->i . ' mins';
             } else {
-                var_dump($interval);
                 return 'Just now';
             }
-
-            var_dump($interval);
         }
     }
