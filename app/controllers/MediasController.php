@@ -23,9 +23,10 @@
     class MediasController extends Controller
     {
 
-        
+        private $errors = array();
+
         /**
-		 * index
+		 * Get
 		 */
         function api_get($id = null) {
             $this->loadModel('Medias');
@@ -46,6 +47,22 @@
                     ]
                 ]));
             }
+
+            View::make('api.index', json_encode($data), false, 'application/json');
+        }
+
+        /**
+         * Send
+         */
+        function api_send() {
+            if (!empty($_FILES)) {
+                $data['file'] = $_FILES;
+            } else {
+                $this->errors['file'] = 'No file was sent.';
+            }
+
+
+            $data['errors'] = $this->errors;
 
             View::make('api.index', json_encode($data), false, 'application/json');
         }

@@ -297,7 +297,7 @@
 
             $this->Tokens->save(array(
                 'token'     => $token,
-                'device'    => $_SERVER['HTTP_USER_AGENT'],
+                'device'    => $_SERVER['REMOTE_ADDR'],
                 'users_id'  => $id,
                 ));
 
@@ -311,22 +311,29 @@
          *
          * @return array / boolean
          */
-        function api_checkToken($token) {
+        function api_checkToken($token = null) {
             $this->loadModel('Tokens');
-            $user = $this->Tokens->select(array(
-                'join'          => [
-                    [
-                        'name'      => 'Users',
-                        'direction' => 'right',
-                    ],
-                ],
-                'conditions'    => [
-                    'token'         => $token,
-                    'device'        => $_SERVER['HTTP_USER_AGENT'],
-                ],
-                ));
 
-            return count($user) == 1 ? true : false;
+            if ($token != null) {
+                $user = $this->Tokens->select([
+                    'conditions'    => [
+                        'token'         => $token,
+                        'device'        => $_SERVER['REMOTE_ADDR'],
+                    ],
+                ]);
+
+                if (count($user) != 1) {
+                    $this->errors['user'] = 'No user.';
+                }
+            } else {
+                $this->errors['token'] = 'No token sent.';
+            }
+
+            $data['errors'] = $this->errors;
+
+            $data['valid'] = empty($this->errors) ? true : false;
+
+            View::make('api.index', json_encode($data), false, 'application/json');
         }
 
         /**
@@ -341,13 +348,13 @@
                 $data = array();
 
                 if (!isset($_POST['email']) || $_POST['email'] == null || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-                    $this->errors['email'] = 'wrong email';
+                    $this->errors['email'] = 'Wrong email';
                 } else {
                     $this->setEmail($_POST['email']);
                 }
 
                 if (!isset($_POST['password']) || $_POST['password'] == null || strlen($_POST['password']) < 6) {
-                    $this->errors['password'] = 'wrong password';
+                    $this->errors['password'] = 'Wrong password';
                 } else {
                     $this->setPassword($_POST['password']);
                 }
@@ -371,35 +378,64 @@
                         $user->users_tokens = $this->Tokens->select(array(
                             'conditions'    => array(
                                 'users_id'      => $user->users_id,
-                                'device'        => $_SERVER['HTTP_USER_AGENT'],
+                                'device'        => $_SERVER['REMOTE_ADDR'],
                                 ),
                             ));
 
                         if (count($user->users_tokens) < 1) {
                             $token = $this->api_generateToken($user->users_id);
-                            $data['authed'] = $this->api_checkToken($token);
+                            $data['authed'] = $this->getJSON($this->link('api/users/checkToken/' . $token))->valid;
                             $data['token'] = $token;
                         } else if (current($user->users_tokens)->tokens_disabled == 0) {
-                            $data['authed'] = $this->api_checkToken(current($user->users_tokens)->tokens_token);
+                            $data['authed'] = $this->getJSON($this->link('api/users/checkToken/' . current($user->users_tokens)->tokens_token))->valid;
                             $data['token'] = current($user->users_tokens)->tokens_token;
                         } else {
-                            $this->errors['token'] = 'token disabled';
+                            $this->errors['token'] = 'Token disabled';
                         }
 
 
                     } else {
-                        $this->errors['credentials'] = 'wrong credentials.';
+                        $this->errors['credentials'] = 'Wrong credentials.';
                     }
                 }
 
                 $data['errors'] = $this->errors;
             } else if ($token != null) {
-                $data['authed'] = $this->api_checkToken($token);
-                !$data['authed'] ? $this->errors['token'] = 'invalid token.' : true;
+                $data['authed'] = $this->getJSON($this->link('api/users/checkToken/' . $token))->valid;
+                !$data['authed'] ? $this->errors['token'] = 'Invalid token.' : true;
                 $data['errors'] = $this->errors;
             } else {
                 $data = 'Nothing was sent';
             }
+
+            View::make('api.index', json_encode($data), false, 'application/json');
+        }
+
+        function api_tokens($id = null) {
+            if ($id != null) {
+                $this->loadModel('Users');
+                $this->loadModel('Tokens');
+
+                $user = $this->Users->select([
+                    'conditions'    => [
+                        'id'            => $id,
+                    ],
+                ]);
+
+                if (count($user) == 1) {
+                    $data['tokens'] = $this->Tokens->select([
+                        'conditions'    => [
+                            'users_id'      => $id,
+                        ]
+                    ]);
+                } else {
+                    $this->errors['id'] = 'No user with this id';
+                }
+            } else {
+                $this->errors['id'] = 'No id sent';
+            }
+
+            $data['errors'] = $this->errors;
 
             View::make('api.index', json_encode($data), false, 'application/json');
         }

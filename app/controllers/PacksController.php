@@ -18,7 +18,9 @@
 
     /**
      * Class PacksController
-     * 
+     *
+     * @property mixed Users
+     * @property mixed Token
      * @package App\Controllers
      */
     class PacksController extends Controller
@@ -28,6 +30,8 @@
         private $name;
         private $description;
         private $end;
+        private $user;
+        private $token;
 
         /**
          * Set Name
@@ -104,7 +108,7 @@
             if (count($user) == 1) {
                 $this->user = $value;
             } else {
-                $this->errors['user'] = 'User doesn\'t exists.';
+                $this->errors['user'] = 'User doesn\'t exists';
             }
         }
 
@@ -115,6 +119,29 @@
          */
         function getUser() {
             return $this->user;
+        }
+
+        /**
+         * @param $value
+         */
+        function setToken($value) {
+            $this->loadModel('Token');
+
+            $token = $this->Token->select([
+                'conditions'    => [
+                    'token'         => $value,
+                ]
+            ]);
+
+            if (count($token) == 1) {
+                $this->token = $value;
+            } else {
+                $this->errors['token'] = 'Wrong token';
+            }
+        }
+
+        function getToken() {
+            return $this->token;
         }
         
         /**
@@ -211,6 +238,16 @@
                     $this->setUser($_POST['user']);
                 } else {
                     $this->errors['user'] = 'Wrong user.';
+                }
+
+                if (!empty($_POST['token'])) {
+                    $this->setToken($_POST['token']);
+                } else {
+                    $this->errors['token'] = 'Wrong token.';
+                }
+
+                if (current($this->getJSON($this->link('api/users/token/' . $this->getUser()->users_id)-> == $this->getToken()) {
+
                 }
 
                 if (!empty($_POST['description'])) {
