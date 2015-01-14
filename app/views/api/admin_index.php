@@ -76,6 +76,29 @@
                 <td>GET</td>
                 <td><a href="<?= HTML::link('api/packs/get/1') ?>"><?= HTML::link('api/packs/get/1') ?></a></td>
             </tr>
+            <tr>
+                <td rowspan="5"><strong>Medias</strong></td>
+            </tr>
+            <tr>
+                <td>Envoyer un média (Redimensionnement Outbound par défaut)</td>
+                <td>POST</td>
+                <td><a href="<?= HTML::link('api/medias/send') ?>"><?= HTML::link('api/medias/send') ?></a></td>
+            </tr>
+            <tr>
+                <td>Envoyer un média (Redimensionnement Inset)</td>
+                <td>POST</td>
+                <td><a href="<?= HTML::link('api/medias/send/inset') ?>"><?= HTML::link('api/medias/send/inset') ?></a></td>
+            </tr>
+            <tr>
+                <td>Liste médias (20)</td>
+                <td>GET</td>
+                <td><a href="<?= HTML::link('api/medias') ?>"><?= HTML::link('api/medias') ?></a></td>
+            </tr>
+            <tr>
+                <td>Média spécifique par ID</td>
+                <td>GET</td>
+                <td><a href="<?= HTML::link('api/medias/get/1') ?>"><?= HTML::link('api/medias/get/1') ?></a></td>
+            </tr>
         </tbody>
     </table>
 </div>
