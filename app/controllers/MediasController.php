@@ -15,6 +15,7 @@
     use Core\Session;
     use Core\Cookie;
     use Imagine\Gd\Imagine;
+    use Imagine\Image\ImageInterface;
     use Imagine\Image\Box;
 
     /**
@@ -56,31 +57,46 @@
         /**
          * Send
          */
-        function api_send() {
+        function api_send($mode = null) {
             if (!empty($_FILES)) {
                 $files = ['image/jpeg', 'image/gif', 'image/png', 'video/mpeg', 'video/mp4', 'video/webm'];
+                $images = ['image/jpeg', 'image/gif', 'image/png'];
 
                 $data['upload'] = $this->upload($_FILES['file'], $files);
 
-                $sizes = [
-                    '50'    => '50',
-                    '160'   => '160'
-                ];
+                if (in_array($_FILES['file']['type'], $images)) {
+                    $sizes = [
+                        '50'    => '50',
+                        '160'   => '160'
+                    ];
 
-                $imagine = new Imagine();
+                    $imagine = new Imagine();
 
-                foreach ($sizes as $key => $value) {
-                    $filename = preg_replace('#.' . $data['upload']['extension'] . '$#', '', $data['upload']['file']);
+                    if ($mode == 'outbound') {
+                        $mode = ImageInterface::THUMBNAIL_OUTBOUND;
+                    } elseif ($mode == 'inset') {
+                        $mode = ImageInterface::THUMBNAIL_INSET;
+                    } else {
+                        $mode = ImageInterface::THUMBNAIL_OUTBOUND;
+                    }
 
-                    $imagine->open($data['upload']['file'])
-                            ->thumbnail(new Box($key, $value))
+                    foreach ($sizes as $key => $value) {
+                        $filename = preg_replace('#.' . $data['upload']['extension'] . '$#', '', $data['upload']['file']);
+
+                        $imagine->open($data['upload']['file'])
+                            ->thumbnail(new Box($key, $value), $mode)
                             ->save($filename . '-x' . $key . '.' . $data['upload']['extension']);
+                    }
                 }
 
+                $this->loadModel('Medias');
+                $this->Medias->save([
+                    'file'  => $data['upload']['filename'] . '.' . $data['upload']['extension'],
+                    'type'  => $_FILES['file']['type'],
+                ]);
             } else {
                 $this->errors['file'] = 'No file have been sent.';
             }
-
 
             $data['errors'] = $this->errors;
 
