@@ -8,4 +8,5 @@ dumps/*
 *.tmp
 .idea
 composer.lock
+public/uploads/*
 *.scssc
