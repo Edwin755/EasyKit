@@ -13,6 +13,6 @@
         </div>
         
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script src="<?= HTML::link('js/bootstrap.min.js'); ?>"></script>
+        <script src="<?= HTML::link('js/angular.min.js'); ?>"></script>
     </body>
 </html>
