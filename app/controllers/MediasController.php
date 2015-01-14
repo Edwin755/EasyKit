@@ -14,6 +14,8 @@
     use Core\View;
     use Core\Session;
     use Core\Cookie;
+    use Imagine\Gd\Imagine;
+    use Imagine\Image\Box;
 
     /**
      * Class MediasController
@@ -59,6 +61,22 @@
                 $files = ['image/jpeg', 'image/gif', 'image/png', 'video/mpeg', 'video/mp4', 'video/webm'];
 
                 $data['upload'] = $this->upload($_FILES['file'], $files);
+
+                $sizes = [
+                    '50'    => '50',
+                    '160'   => '160'
+                ];
+
+                $imagine = new Imagine();
+
+                foreach ($sizes as $key => $value) {
+                    $filename = preg_replace('#.' . $data['upload']['extension'] . '$#', '', $data['upload']['file']);
+
+                    $imagine->open($data['upload']['file'])
+                            ->thumbnail(new Box($key, $value))
+                            ->save($filename . '-x' . $key . '.' . $data['upload']['extension']);
+                }
+
             } else {
                 $this->errors['file'] = 'No file have been sent.';
             }

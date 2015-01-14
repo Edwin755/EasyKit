@@ -263,7 +263,8 @@
                 if (move_uploaded_file($file['tmp_name'], $directory)) {
                     $return = [
                         'success'   => true,
-                        'directory' => realpath($directory),
+                        'file'      => realpath($directory),
+                        'filename'  => pathinfo($directory, PATHINFO_FILENAME),
                         'extension' => pathinfo($directory, PATHINFO_EXTENSION)
                     ];
                 } else {
