@@ -29,6 +29,9 @@
          */
         protected $layout = null;
 
+        private $request_scheme;
+        private $server_port;
+
         /**
          * Construct
          * 
@@ -233,5 +236,45 @@
             );
 
             Dispatcher::loadController($req);
+        }
+
+        /**
+         * Upload file
+         *
+         * @param $file
+         * @param array $permission
+         */
+        protected function upload($file, $permission = array()) {
+            if (in_array($file['type'], $permission)) {
+                $directory = __DIR__ . '/../public/uploads/';
+
+                $type = explode('/', $file['type']);
+
+                foreach ($type as $value) {
+                    if (!is_dir($directory . $value)) {
+                        mkdir($directory . $value, 0755);
+                    }
+
+                    $directory .= $value . '/';
+                }
+
+                $directory .= '/' . md5(uniqid(mt_rand(), true)) . $file['name'];
+
+                if (move_uploaded_file($file['tmp_name'], $directory)) {
+                    $return = [
+                        'success'   => true,
+                        'directory' => realpath($directory),
+                        'extension' => pathinfo($directory, PATHINFO_EXTENSION)
+                    ];
+                } else {
+                    $return = [
+                        'success'   => false
+                    ];
+                }
+
+                return $return;
+            } else {
+                return false;
+            }
         }
     }

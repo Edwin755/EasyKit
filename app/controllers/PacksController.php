@@ -246,10 +246,6 @@
                     $this->errors['token'] = 'Wrong token.';
                 }
 
-                if (current($this->getJSON($this->link('api/users/token/' . $this->getUser()->users_id)-> == $this->getToken()) {
-
-                }
-
                 if (!empty($_POST['description'])) {
                     $this->setDescription($_POST['description']);
                 }

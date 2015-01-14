@@ -56,9 +56,11 @@
          */
         function api_send() {
             if (!empty($_FILES)) {
-                $data['file'] = $_FILES;
+                $files = ['image/jpeg', 'image/gif', 'image/png', 'video/mpeg', 'video/mp4', 'video/webm'];
+
+                $data['upload'] = $this->upload($_FILES['file'], $files);
             } else {
-                $this->errors['file'] = 'No file was sent.';
+                $this->errors['file'] = 'No file have been sent.';
             }
 
 
