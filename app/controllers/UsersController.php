@@ -199,7 +199,6 @@
                 unset($data['user']->users_password);
 
                 $data['user']->users_media = current($this->getJSON($this->link('api/medias/get/' . $data['user']->users_medias_id)));
-                $data['user']->users_media->medias_file = HTML::link('uploads/' . $data['user']->users_media->medias_file);
             } else {
                 $nb = 20;
                 $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -214,8 +213,6 @@
                     unset($user->users_password);
 
                     $user->users_media = current($this->getJSON($this->link('api/medias/get/' . $user->users_medias_id)));
-
-                    $user->users_media->medias_file = HTML::link('uploads/' . $user->users_media->medias_file);
                 }
             }
 

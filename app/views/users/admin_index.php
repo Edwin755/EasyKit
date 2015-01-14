@@ -30,7 +30,7 @@
         <?php foreach ($users as $user) : ?>
             <tr>
                 <td><?= $user->users_id ?></td>
-                <td><img src="<?= $user->users_media->medias_file ?>" class="img-circle" alt="avatar" width="50"></td>
+                <td><img src="<?= $user->users_media->medias_thumb50 ?>" class="img-circle" alt="avatar" width="50"></td>
                 <td><?= $user->users_lastname ?></td>
                 <td><?= $user->users_firstname ?></td>
                 <td><a href="mailto:<?= $user->users_email ?>"><?= $user->users_email ?></a></td>

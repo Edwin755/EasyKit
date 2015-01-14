@@ -7,13 +7,14 @@
      */
 
     namespace App\Controllers;
-    
+
     use Core;
     use Core\Controller;
     use Core\Validation;
     use Core\View;
     use Core\Session;
     use Core\Cookie;
+    use HTML;
     use Imagine\Gd\Imagine;
     use Imagine\Image\ImageInterface;
     use Imagine\Image\Box;
@@ -21,7 +22,7 @@
     /**
      * Class MediasController
      *
-     * @property  Medias
+     * @property Medias
      */
     class MediasController extends Controller
     {
@@ -29,8 +30,12 @@
         private $errors = array();
 
         /**
-		 * Get
-		 */
+         * Get
+         *
+         * @param null $id
+         * @throws Core\Exceptions\NotFoundHTTPException
+         * @throws \Exception
+         */
         function api_get($id = null) {
             $this->loadModel('Medias');
 
@@ -49,6 +54,15 @@
                         'id'            => $id
                     ]
                 ]));
+
+                $file = pathinfo(realpath(__DIR__ . '/../../public/uploads/' . $data['media']->medias_type . '/' . $data['media']->medias_file));
+                $filename = $file['filename'];
+                $extension = $file['extension'];
+                $baselink = HTML::link('/uploads/' . $data['media']->medias_type . '/' . $filename);
+
+                $data['media']->medias_file = $baselink . '.' . $extension;
+                $data['media']->medias_thumb50 = $baselink . '-x50.' . $extension;
+                $data['media']->medias_thumb160 = $baselink . '-x160.' . $extension;
             }
 
             View::make('api.index', json_encode($data), false, 'application/json');
@@ -56,6 +70,10 @@
 
         /**
          * Send
+         *
+         * @param null $mode
+         * @throws Core\Exceptions\NotFoundHTTPException
+         * @throws \Exception
          */
         function api_send($mode = null) {
             if (!empty($_FILES)) {

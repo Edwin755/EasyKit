@@ -47,6 +47,13 @@
                             'id'            => $id,
                         ),
                     ));
+
+                    foreach ($data['event']->events_medias as $media) {
+                        $mediafile = current($this->getJSON($this->link('api/medias/get/' . $media->medias_id)));
+                        $media->medias_file = $mediafile->medias_file;
+                        $media->medias_thumb50 = $mediafile->medias_thumb50;
+                        $media->medias_thumb160 = $mediafile->medias_thumb160;
+                    }
                 }
             } else {
                 $nb = 20;
@@ -68,7 +75,10 @@
                     ));
 
                     foreach ($event->events_medias as $media) {
-                        $media->medias_file = HTML::link('uploads/' . $media->medias_file);
+                        $mediafile = current($this->getJSON($this->link('api/medias/get/' . $media->medias_id)));
+                        $media->medias_file = $mediafile->medias_file;
+                        $media->medias_thumb50 = $mediafile->medias_thumb50;
+                        $media->medias_thumb160 = $mediafile->medias_thumb160;
                     }
                 }
             }

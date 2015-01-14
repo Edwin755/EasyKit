@@ -17,31 +17,31 @@
             </div>
         </div>
     </div>
-</div>
-<div class="row margtop" id="loading">
-    <div class="col-12">
-        <div class="panel loading">
-            <div class="user">
-                <div class="img-circle" style="width: 45px; height: 45px;"></div>
-                <span class="name">Name</span>
-                <p><?= date('F j') ?> at <?= date('H:i') ?></p>
-            </div>
-            <div class="panel-content">
-                <p>A créé le pack "hello world".</p>
+    <div class="row margtop" id="loading">
+        <div class="col-12">
+            <div class="panel loading">
+                <div class="user">
+                    <div class="img-circle" style="width: 45px; height: 45px;"></div>
+                    <span class="name">Name</span>
+                    <p><?= date('F j') ?> at <?= date('H:i') ?></p>
+                </div>
+                <div class="panel-content">
+                    <p>A créé le pack "hello world".</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row margtop" ng-app="Packs">
-    <div class="col-12" ng-controller="PacksController">
-        <div class="panel" ng-repeat="pack in packs">
-            <div class="user">
-                <img class="img-circle" src="{{pack.user.users_media.medias_file}}" width="45" alt="">
-                <span class="name"><a href="">{{pack.user.users_firstname}} {{pack.user.users_lastname}}</a></span>
-                <p>{{pack.timeago}}</p>
-            </div>
-            <div class="panel-content">
-                <p>A créé le pack "<a href="">{{pack.packs_name}}</a>".</p>
+    <div class="row margtop" ng-app="Packs">
+        <div class="col-12" ng-controller="PacksController">
+            <div class="panel" ng-repeat="pack in packs">
+                <div class="user">
+                    <img class="img-circle" src="{{pack.user.users_media.medias_file}}" width="45" alt="">
+                    <span class="name"><a href="">{{pack.user.users_firstname}} {{pack.user.users_lastname}}</a></span>
+                    <p>{{pack.timeago}}</p>
+                </div>
+                <div class="panel-content">
+                    <p>A créé le pack "<a href="">{{pack.packs_name}}</a>".</p>
+                </div>
             </div>
         </div>
     </div>
