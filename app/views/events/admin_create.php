@@ -37,7 +37,7 @@
                     <span class="text">Déposez vos fichiers ici.</span>
                 </div>
                 <div class="details">
-                    <button class="btn btn-default">Test</button>
+                    <button class="btn btn-success">Test</button>
                 </div>
             </div>
         </div>
