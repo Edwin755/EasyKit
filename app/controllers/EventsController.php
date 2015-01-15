@@ -124,6 +124,17 @@
             }
         }
 
+        function admin_create() {
+            View::$title = 'Création d\'un événement';
+            View::make('events.admin_create', null, 'admin');
+        }
+
+        function admin_store() {
+            if (!empty($_POST)) {
+
+            }
+        }
+
         /**
          * Admin Count Action
          *

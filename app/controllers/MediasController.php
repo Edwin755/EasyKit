@@ -102,8 +102,8 @@
                         $filename = preg_replace('#.' . $data['upload']['extension'] . '$#', '', $data['upload']['file']);
 
                         $imagine->open($data['upload']['file'])
-                            ->thumbnail(new Box($key, $value), $mode)
-                            ->save($filename . '-x' . $key . '.' . $data['upload']['extension']);
+                                ->thumbnail(new Box($key, $value), $mode)
+                                ->save($filename . '-x' . $key . '.' . $data['upload']['extension']);
                     }
                 }
 
