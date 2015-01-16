@@ -30,7 +30,14 @@
          */
         protected $layout = null;
 
+        /**
+         * @var
+         */
         private $request_scheme;
+
+        /**
+         * @var
+         */
         private $server_port;
 
         /**

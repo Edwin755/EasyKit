@@ -27,6 +27,14 @@
          */
         static private $router;
 
+        /**
+         * @var
+         */
+        private static $loaded = false;
+
+        /**
+         * @var
+         */
         private $debug;
         
         /**
@@ -78,14 +86,17 @@
             $filename = __DIR__ . '/../app/controllers/' . $controller .  '.php';
 
             if (file_exists($filename)) {
-                require $filename;
+                if (!self::$loaded) {
+                    require $filename;
 
-                $classController = '\\App\\Controllers\\' . $controller;
+                    $classController = '\\App\\Controllers\\' . $controller;
 
-                if (class_exists($classController)) {
-                    new $classController($action, $params, $layout);
-                } else {
-                    throw new NotFoundHTTPException('Controller file found, but class ' . $controller . ' not found.', 1);
+                    if (class_exists($classController)) {
+                        new $classController($action, $params, $layout);
+                        self::$loaded = true;
+                    } else {
+                        throw new NotFoundHTTPException('Controller file found, but class ' . $controller . ' not found.', 1);
+                    }
                 }
 
                 return true;

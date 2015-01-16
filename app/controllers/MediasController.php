@@ -117,6 +117,8 @@
                             'file'  => $data['upload'][$i]['filename'] . '.' . $data['upload'][$i]['extension'],
                             'type'  => $file['type'],
                         ]);
+
+                        $data['upload'][$i]['medias_id'] = $this->Medias->lastInsertId;
                     }
 
                     $i++;
@@ -130,4 +132,50 @@
 
             View::make('api.index', json_encode($data), false, 'application/json');
         }
+
+        function api_destroy($id = null) {
+            $this->loadModel('Medias');
+
+            if ($id != null) {
+                $media = $this->Medias->select([
+                    'conditions'    => [
+                        'id'            => $id
+                    ]
+                ]);
+
+                if (count($media) == 1) {
+                    $media = current($media);
+                    $file = pathinfo($media->medias_file);
+                    $directory = __DIR__ . '/../../public/uploads/' . $media->medias_type . '/' . $file['filename'];
+
+                    $files = [
+                        $directory . '.' . $file['extension'],
+                        $directory . '-x50.' . $file['extension'],
+                        $directory . '-x160.' . $file['extension'],
+                    ];
+
+                    foreach ($files as $file) {
+                        if (file_exists($file)) {
+                            unlink($file);
+                        }
+                    }
+
+                    $this->Medias->delete($id);
+                    $data['success'] = true;
+                } else {
+                    $data['success'] = false;
+                    $this->errors['media'] = 'The media doesn\'t exists.';
+                }
+            } else {
+                $data['success'] = false;
+                $this->errors['id'] = 'No id have been sent.';
+            }
+
+            $data['errors'] = $this->errors;
+
+            View::make('api.index', json_encode($data), false, 'application/json');
+        }
     }
+
+
+

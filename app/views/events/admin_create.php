@@ -45,7 +45,7 @@
                         <div class="card" id="{{id}}">
                             <div class="image">
                                 <ul class="slides">
-                                    <li class="item" style="background-image: url({{name}});"></li>
+                                    <li class="item"></li>
                                 </ul>
                                 <div class="progress">
                                     <div class="bar"></div>
@@ -54,7 +54,7 @@
                             <div class="informations">
                                 <div class="complement">{{size}}</div>
                                 <div class="options">
-                                    <a href="#"><span class="fa fa-trash"></span></a>
+                                    <a href="<?= HTML::link('api/medias'); ?>/{{medias_id}}/delete"><span class="fa fa-trash"></span></a>
                                 </div>
                             </div>
                         </div>
@@ -124,6 +124,7 @@
             current.find('.slides .item').css('background-image', 'url(' + data.upload[0].url + ')');
             current.find('.slides .item').fadeIn(500);
             current.find('.progress').fadeOut(500);
+            current.find('.fa-trash').parent().attr('href', '<?= HTML::link('api/medias') ?>/' + data.upload[0].medias_id + '/delete');
         }
     });
 
