@@ -448,17 +448,25 @@ a {
     .text {
       display: block;
       position: absolute;
-      top: 50%;
+      top: 45px;
       right: 0;
       left: 0;
       margin-top: -9px;
 
       color: #ccc;
-      font-size: 18px;
+      font-size: 13px;
       text-align: center;
+
+      p {
+        font-size: 18px;
+      }
+
+      span {
+        display: block;
+      }
     }
 
-    &:hover {
+    &.hover {
       border-color: lighten(#308ddc, 13%);
 
       .text {

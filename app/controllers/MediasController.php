@@ -121,12 +121,12 @@
 
                     $i++;
                 }
-
             } else {
                 $this->errors['file'] = 'No file have been sent.';
             }
 
             $data['errors'] = $this->errors;
+            $data['success'] = !empty($this->errors) ? false : true;
 
             View::make('api.index', json_encode($data), false, 'application/json');
         }
