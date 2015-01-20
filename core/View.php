@@ -65,7 +65,7 @@
             $viewname = $view;
             $view = explode('.', $view);
 
-            self::setFolders(str_replace('.', '/', $view));
+            self::setFolders(str_replace('.', '/', $viewname));
 
             if (is_array($data)) {
                 extract($data);
