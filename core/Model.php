@@ -23,52 +23,36 @@
     {
 
         /**
-         * List of connections and params in database file
+         * Database Informations
+         *
+         * @var array $connections
+         * @var array $connection
+         * @var object $pdo
+         * @var array $table
+         * @var array $join
+         * @var array $fields
+         * @var string $prefix
          */
-        protected $connections;
-
-        /**
-         * Infos on database selected
-         */
-        protected $connection;
-
-        /**
-         * PDO Object
-         */
-        protected $pdo;
+        protected $connections, $connection, $pdo, $table, $join, $fields, $prefix;
 
         /**
          * Params for bindValue
+         *
+         * @var array $params
          */
         protected $params = array();
 
         /**
-         * Table to affect for modifications
-         */
-        protected $table;
-
-        /**
+         * Tables
+         *
          * @var array
          */
         protected $tables = array();
 
         /**
-         * @var array
-         */
-        protected $join;
-
-        /**
-         * @var array
-         */
-        protected $fields;
-
-        /**
-         * prefix of the table
-         */
-        protected $prefix;
-
-        /**
          * Default primary key
+         *
+         * @var string $pk
          */
         protected $pk = 'id';
         
@@ -301,7 +285,9 @@
                     throw new Exception('Error Processing Request. binValue error : ' . $param . ' => ' . $value, 1);
                 }
             }
-            if ($pre->execute()) {
+
+            try {
+                $pre->execute();
                 $return = $pre->fetchAll($this->connections['fetch']);
                 $pre->closeCursor();
                 $this->params = array();
@@ -316,7 +302,7 @@
                 // log_write('sql', $query);
 
                 return $return;
-            } else {
+            } catch (PDOException $e) {
                 return false;
             }
         }
@@ -401,6 +387,8 @@
 
         /**
          * Get the lastest saved entity
+         *
+         * @return array|bool
          */
         public function getLastSaved() {
             return $this->select(array(
@@ -441,6 +429,8 @@
         }
 
         /**
+         * Has many
+         *
          * @param $name string
          * @param array $req
          *
@@ -459,6 +449,8 @@
         }
 
         /**
+         * Has one
+         *
          * @param $name
          * @param array $req
          *
@@ -480,6 +472,8 @@
         }
 
         /**
+         * Belongs to many
+         *
          * @param $name string
          * @param array $req
          *
@@ -497,6 +491,8 @@
         }
 
         /**
+         * Belongs to
+         *
          * @param $name string
          * @param array $req
          *

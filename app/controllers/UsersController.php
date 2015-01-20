@@ -27,15 +27,25 @@
     class UsersController extends Controller
     {
 
+        /**
+         * Errors
+         *
+         * @var array $errors
+         */
         private $errors = array();
 
-        private $email;
-        private $username;
-        private $password;
-        private $remember;
-        private $firstname;
-        private $lastname;
-        private $birth;
+        /**
+         * Datas for model
+         *
+         * @var string $email
+         * @var string $username
+         * @var string $password
+         * @var boolean $remember
+         * @var string $firstname
+         * @var string $lastname
+         * @var string $birth
+         */
+        private $email, $username, $password, $remember, $firstname, $lastname, $birth;
 
         /**
          * Get the Email
@@ -287,6 +297,15 @@
             View::make('api.index', json_encode($data), false, 'application/json');
         }
 
+        /**
+         * API Generate Token
+         *
+         * @param $id
+         *
+         * @return string
+         *
+         * @throws \Exception
+         */
         function api_generateToken($id) {
             $this->loadModel('Tokens');
 
@@ -416,6 +435,14 @@
             View::make('api.index', json_encode($data), false, 'application/json');
         }
 
+        /**
+         * API Tokens
+         *
+         * @param null $id
+         *
+         * @throws Core\Exceptions\NotFoundHTTPException
+         * @throws \Exception
+         */
         function api_tokens($id = null) {
             if ($id != null) {
                 $this->loadModel('Users');

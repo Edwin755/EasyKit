@@ -5,27 +5,37 @@
      *
      * @author Edwin Dayot <edwin.dayot@sfr.fr>
      * @copyright 2014
-     *
-     * @package Core
      */
 
     namespace Core;
 
     use App\Controllers;
 
+    /**
+     * Class ErrorHandler
+     *
+     * @package App\Controllers
+     */
     class ErrorHandler
     {
 
-        private $errno;
-        private $errstr;
-        private $errfile;
-        private $errline;
-        private $errcontext;
-        private $errbacktrace;
-        private $errlines;
+        /**
+         * Error informations
+         *
+         * @var int $errno
+         * @var string $errstr
+         * @var string $errfile
+         * @var string $errline
+         * @var string $errcontext
+         * @var string $errbacktrace
+         * @var string $errlines
+         */
+        private $errno, $errstr, $errfile, $errline, $errcontext, $errbacktrace, $errlines;
 
         /**
          * Set up the ErrorHandler
+         *
+         * @param object $e
          *
          * @return void
          */
@@ -195,6 +205,14 @@
 
         /**
          * Custom Error Handler
+         *
+         * @param int $errno
+         * @param string $errstr
+         * @param string $errfile
+         * @param int $errline
+         * @param mixed $errcontext
+         *
+         * @return void
          */
         function customErrorHandler($errno, $errstr, $errfile, $errline, $errcontext = null) {
             $this->setErrNo($errno);
@@ -219,6 +237,10 @@
 
         /**
          * Custom Fatal Handler
+         *
+         * @param mixed $e
+         *
+         * @return void
          */
         function customFatalHandler($e = null) {
             $error = error_get_last();

@@ -20,7 +20,9 @@
     class NotFoundHTTPException extends Exception {
 
         /**
-         * @var null
+         * Layout
+         *
+         * @var string
          */
         protected $layout;
 
@@ -29,7 +31,7 @@
          *
          * @param string $message
          * @param int $code
-         * @param null $layout
+         * @param string $layout
          * @param Exception $previous
          */
         public function __construct($message = '', $code = 0, $layout = 'default', Exception $previous = null) {
@@ -38,6 +40,8 @@
         }
 
         /**
+         * Get Layout
+         *
          * @return string
          */
         public function getLayout() {
