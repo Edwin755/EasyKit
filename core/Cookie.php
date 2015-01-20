@@ -14,18 +14,22 @@
 
         /**
          * Array App file
+         *
+         * @var array $app
          */
         static public $app;
 
         /**
          * Cookies
+         *
+         * @var array $cookies
          */
         static public $cookies;
-
-        static private $iv;
         
         /**
          * Create first Cookie values
+         *
+         * @return void
          */
         static function init() {
             self::$app = Dispatcher::getAppFile();
@@ -38,6 +42,8 @@
          * @param string $value Value of the cookie
          * @param int $time Optional timeout instead of default timeout
          * @param string $path Optional path to save the cookie
+         *
+         * @return void
          */
         static function set($name, $value, $time = null, $path = '/') {
             setcookie(self::$app['cookie_name'] . '_' . $name, $value, time() + ($time != null ? $time : self::$app['cookie_time']), $path);

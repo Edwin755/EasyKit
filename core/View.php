@@ -21,13 +21,11 @@
 
         /**
          * Current Page
+         *
+         * @var string $current
+         * @var string $title
          */
-        static public $current;
-
-        /**
-         * Current Page
-         */
-        static public $title;
+        static public $current, $title;
 
         /**
          * Make the view including datas

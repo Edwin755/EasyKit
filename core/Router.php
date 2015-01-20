@@ -17,37 +17,33 @@
     {
 
         /**
-         * URL
+         * URL Parameters
+         *
+         * @var string $url
+         * @var string $controller
+         * @var string $action
+         * @var array $params
          */
-        static public $url;
-
-        /**
-         * Controller
-         */
-        static public $controller;
-
-        /**
-         * Action
-         */
-        static public $action;
-
-        /**
-         * Params
-         */
-        static public $params;
+        static public $url, $controller, $action, $params;
 
         /**
          * Do
+         *
+         * @var mixed $do
          */
         static private $do;
 
         /**
          * Closure
+         *
+         * @var boolean $closure
          */
         static public $closure;
 
         /**
          * Resource
+         *
+         * @var array $defaultContext
          */
         private static $defaultContext = array(
             'index'     => true,
@@ -61,16 +57,22 @@
 
         /**
          * Arguments
+         *
+         * @var array $args
          */
         private static $args;
 
         /**
          * Parent Do
+         *
+         * @var mixed $parentDo
          */
         private static $parentDo;
 
         /**
          * Resource
+         *
+         * @var boolean $resource
          */
         private static $resource = false;
 
@@ -83,6 +85,12 @@
             require_once __DIR__ . '/../app/config/routes.php';
         }
 
+        /**
+         * isClosure
+         *
+         * @param null $value
+         * @return bool
+         */
         public static function isClosure($value = null) {
             if ($value == null) {
                 return self::$closure;
@@ -94,6 +102,8 @@
         }
 
         /**
+         * Get URL
+         *
          * @param null $key
          *
          * @return mixed
@@ -107,6 +117,8 @@
         }
 
         /**
+         * Set Controller
+         *
          * @param $value
          */
         public static function setController($value) {
@@ -114,6 +126,8 @@
         }
 
         /**
+         * Get Controller
+         *
          * @return mixed
          */
         public static function getController() {
@@ -121,6 +135,8 @@
         }
 
         /**
+         * Set Action
+         *
          * @param $value
          */
         public static function setAction($value) {
@@ -128,6 +144,8 @@
         }
 
         /**
+         * Get Action
+         *
          * @return mixed
          */
         public static function getAction() {
@@ -135,6 +153,8 @@
         }
 
         /**
+         * Get Params
+         *
          * @return mixed
          */
         public static function getParams() {
@@ -159,6 +179,11 @@
 
         }
 
+        /**
+         * Condition for URL
+         *
+         * @param $vars
+         */
         public function where($vars) {
             $valid = true;
             foreach ($vars as $var => $regex) {
@@ -269,9 +294,14 @@
         }
 
         /**
-         * @param $url
-         * @param $do
+         * Resource
+         *
+         * @param string $url
+         * @param mixed $do
          * @param array $context
+         * @param null $prefix
+         *
+         * @throws NotFoundHTTPException
          */
         static public function resource($url, $do, $context = array(), $prefix = null) {
             self::$parentDo = $do;

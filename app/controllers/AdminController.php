@@ -21,11 +21,17 @@
     /**
      * AdminController Class
      *
+     * @package App\Controllers
      * @property mixed Admin
      */
     class AdminController extends Controller
     {
 
+        /**
+         * Layout
+         *
+         * @var string $layout
+         */
         protected $layout = 'admin';
 
         /**
@@ -102,6 +108,8 @@
         }
 
         /**
+         * Dump
+         *
          * @throws NotFoundHTTPException
          */
         function dump() {

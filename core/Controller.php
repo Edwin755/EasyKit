@@ -20,25 +20,22 @@
      */
     class Controller
     {
-        /**
-         * Action
-         */
-        private $actions;
 
         /**
-         * @var
+         * Layout
+         *
+         * @var string
          */
         protected $layout = null;
 
         /**
-         * @var
+         * Variables
+         *
+         * @var string $actions
+         * @var string $request_scheme
+         * @var string $server_port
          */
-        private $request_scheme;
-
-        /**
-         * @var
-         */
-        private $server_port;
+        private $actions, $request_scheme, $server_port;
 
         /**
          * Construct

@@ -18,6 +18,13 @@
      */
     class Steps extends Model
     {
+
+        /**
+         * Packs
+         *
+         * @param array $req
+         * @return array|bool
+         */
         function pack($req) {
             return $this->belongsTo('Packs', $req);
         }

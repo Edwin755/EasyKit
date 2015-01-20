@@ -5,8 +5,6 @@
      * 
      * @author Edwin Dayot <edwin.dayot@sfr.fr>
      * @copyright 2014
-     * 
-     * @package Core
      */
 
     namespace Core;
@@ -18,22 +16,30 @@
 
     /**
      * Dispatcher Class
+     *
+     * @package Core
      */
     class Dispatcher
     {
 
         /**
          * Router
+         *
+         * @var object $router
          */
-        static private $router;
+        private static $router;
 
         /**
-         * @var
+         * Loaded
+         *
+         * @var boolean $loaded
          */
         private static $loaded = false;
 
         /**
-         * @var
+         * Debug
+         *
+         * @var boolean $debug
          */
         private $debug;
         
@@ -111,6 +117,9 @@
             }
         }
 
+        /**
+         * Debug Handler
+         */
         private function debugHandler() {
             $app = self::getAppFile();
 
@@ -128,6 +137,11 @@
             }
         }
 
+        /**
+         * Get the App File
+         *
+         * @return array
+         */
         static function getAppFile() {
             return require __DIR__ . '/../app/config/app.php';
         }

@@ -9,4 +9,5 @@ dumps/*
 .idea
 composer.lock
 public/uploads/*
+public/docs/*
 *.scssc

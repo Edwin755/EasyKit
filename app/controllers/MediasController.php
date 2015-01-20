@@ -27,12 +27,17 @@
     class MediasController extends Controller
     {
 
+        /**
+         * Errors
+         *
+         * @var array $errors
+         */
         private $errors = array();
 
         /**
          * Get
          *
-         * @param null $id
+         * @param int $id
          * @throws Core\Exceptions\NotFoundHTTPException
          * @throws \Exception
          */
@@ -69,9 +74,9 @@
         }
 
         /**
-         * Send
+         * API Send
          *
-         * @param null $mode
+         * @param string $mode
          * @throws Core\Exceptions\NotFoundHTTPException
          * @throws \Exception
          */
@@ -133,6 +138,14 @@
             View::make('api.index', json_encode($data), false, 'application/json');
         }
 
+        /**
+         * API Destroy
+         *
+         * @param int $id
+         *
+         * @throws Core\Exceptions\NotFoundHTTPException
+         * @throws \Exception
+         */
         function api_destroy($id = null) {
             $this->loadModel('Medias');
 

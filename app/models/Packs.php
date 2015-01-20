@@ -18,6 +18,12 @@
      */
     class Packs extends Model
     {
+        /**
+         * Events
+         *
+         * @param array $req
+         * @return array|bool
+         */
         function events($req = array()) {
             return $this->belongsToMany('Events', $req);
         }

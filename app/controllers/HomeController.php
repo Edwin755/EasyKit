@@ -35,6 +35,11 @@
             View::make('home.index', $data, 'default');
         }
 
+        /**
+         * Admin Index
+         *
+         * @throws Core\Exceptions\NotFoundHTTPException
+         */
         function admin_index() {
             View::$current = 'dash';
             View::$title = 'Dashboard';

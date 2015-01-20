@@ -25,6 +25,116 @@
     class EventsController extends Controller {
 
         /**
+         * Datas for model
+         *
+         * @var string $name
+         * @var string $description
+         * @var string $starttime
+         * @var string $endtime
+         * @var int $user
+         */
+        private $name, $description, $starttime, $endtime, $user;
+
+        /**
+         * Errors
+         *
+         * @var array $errors
+         */
+        private $errors = [];
+
+        /**
+         * Get Name
+         *
+         * @return mixed
+         */
+        private function getName() {
+            return $this->name;
+        }
+
+        /**
+         * Set Name
+         *
+         * @param mixed $name
+         */
+        private function setName($name) {
+            $this->name = $name;
+        }
+
+        /**
+         * Get Description
+         *
+         * @return mixed
+         */
+        private function getDescription() {
+            return $this->description;
+        }
+
+        /**
+         * Set Description
+         *
+         * @param mixed $description
+         */
+        private function setDescription($description) {
+            $this->description = $description;
+        }
+
+        /**
+         * Get Start time
+         *
+         * @return mixed
+         */
+        private function getStarttime() {
+            return $this->starttime;
+        }
+
+        /**
+         * Set Start time
+         *
+         * @param mixed $starttime
+         */
+        private function setStarttime($starttime) {
+            $this->starttime = $starttime;
+        }
+
+        /**
+         * Get End time
+         *
+         * @return mixed
+         */
+        private function getEndtime() {
+            return $this->endtime;
+        }
+
+        /**
+         * Set End time
+         *
+         * @param mixed $endtime
+         */
+        private function setEndtime($endtime) {
+            $this->endtime = $endtime;
+        }
+
+        /**
+         * Get User ID
+         *
+         * @return mixed
+         */
+        private function getUser()
+        {
+            return $this->user;
+        }
+
+        /**
+         * Set User ID
+         *
+         * @param mixed $user
+         */
+        private function setUser($user)
+        {
+            $this->user = $user;
+        }
+
+        /**
          * Index Action
          *
          * @return void
@@ -87,6 +197,15 @@
         }
 
         /**
+         * API Create
+         */
+        function api_create() {
+            if (!empty($_POST)) {
+
+            }
+        }
+
+        /**
          * Admin Index Action
          *
          * @return void
@@ -106,7 +225,7 @@
         /**
          * Admin show
          *
-         * @throws \Exception
+         * @throws NotFoundHTTPException
          */
         function admin_show($id = null) {
             $this->loadModel('Events');
@@ -124,11 +243,19 @@
             }
         }
 
+        /**
+         * Admin create
+         *
+         * @throws NotFoundHTTPException
+         */
         function admin_create() {
             View::$title = 'Création d\'un événement';
             View::make('events.admin_create', null, 'admin');
         }
 
+        /**
+         * Admin Store
+         */
         function admin_store() {
             if (!empty($_POST)) {
 

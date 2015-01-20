@@ -26,12 +26,23 @@
     class PacksController extends Controller
     {
 
-        private $errors;
-        private $name;
-        private $description;
-        private $end;
-        private $user;
-        private $token;
+        /**
+         * Errors
+         *
+         * @var array $errors
+         */
+        private $errors = array();
+
+        /**
+         * Datas for model
+         *
+         * @var string $name
+         * @var string $description
+         * @var string $end
+         * @var int $user
+         * @var string $token
+         */
+        private $name, $description, $end, $user, $token;
 
         /**
          * Set Name
@@ -45,7 +56,7 @@
         /**
          * Get Name
          *
-         * @param $value
+         * @return string
          */
         function getName() {
             return $this->name;
@@ -54,7 +65,7 @@
         /**
          * Set Description
          *
-         * @param $value
+         * @param string $value
          */
         function setDescription($value) {
             $this->description = $value;
@@ -63,7 +74,7 @@
         /**
          * Get Description
          *
-         * @param $value
+         * @return string
          */
         function getDescription() {
             return $this->description;
@@ -72,7 +83,7 @@
         /**
          * Set End
          *
-         * @param $value
+         * @param string $value
          */
         function setEnd($value) {
             if (Validation::validateDate($value)) {
@@ -85,7 +96,7 @@
         /**
          * Get End
          *
-         * @param $value
+         * @return string
          */
         function getEnd() {
             return $this->end;
@@ -115,13 +126,15 @@
         /**
          * Get User
          *
-         * @param $value
+         * @return object
          */
         function getUser() {
             return $this->user;
         }
 
         /**
+         * Set Token
+         *
          * @param $value
          */
         function setToken($value) {
@@ -140,12 +153,19 @@
             }
         }
 
+        /**
+         * Get Token
+         *
+         * @return string
+         */
         function getToken() {
             return $this->token;
         }
         
         /**
          * Index API Action
+         *
+         * @param mixed $id
          * 
          * @return void
          */
@@ -218,6 +238,8 @@
         }
 
         /**
+         * API Create
+         *
          * @throws Core\Exceptions\NotFoundHTTPException
          */
         function api_create() {
