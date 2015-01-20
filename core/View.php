@@ -24,8 +24,29 @@
          *
          * @var string $current
          * @var string $title
+         * @var string $folders
          */
-        static public $current, $title;
+        static public $current, $title, $folders;
+
+        /**
+         * Set the folders
+         *
+         * @param $folders
+         */
+        private function setFolders($folders)
+        {
+            self::$folders = $folders;
+        }
+
+        /**
+         * Get the folders
+         *
+         * @return string
+         */
+        private static function getFolders()
+        {
+            return self::$folders;
+        }
 
         /**
          * Make the view including datas
@@ -43,6 +64,8 @@
             header('Content-type: ' . $content_type);
             $viewname = $view;
             $view = explode('.', $view);
+
+            self::setFolders(str_replace('.', '/', $view));
 
             if (is_array($data)) {
                 extract($data);
