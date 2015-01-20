@@ -12,7 +12,8 @@
             <?= $content_for_layout; ?>
         </div>
         
-        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="<?= HTML::link('js/jquery.js'); ?>"></script>
         <script src="<?= HTML::link('js/angular.min.js'); ?>"></script>
+        <script src="<?= HTML::link('js/function.js'); ?>"></script>
     </body>
 </html>
