@@ -273,7 +273,7 @@
          * @param $do
          * @param array $context
          */
-        static public function resource($url, $do, $context = array()) {
+        static public function resource($url, $do, $context = array(), $prefix = null) {
             self::$parentDo = $do;
             self::$resource = true;
             self::parse();
@@ -335,9 +335,10 @@
                     } else if (in_array('destroy', self::getParams())) {
                         if ($context['destroy']) {
                             Router::get($url . '/{id}/destroy', function ($id) use ($do) {
+                                var_dump(true);
                                 return Dispatcher::loadController(array(
                                     'controller'    => str_replace('Controller', '', $do),
-                                    'action'        => 'destroy',
+                                    'action'        => $prefix . 'destroy',
                                     'params'        => array($id),
                                     'layout'        => false,
                                 ));

@@ -199,7 +199,6 @@
                 unset($data['user']->users_password);
 
                 $data['user']->users_media = current($this->getJSON($this->link('api/medias/get/' . $data['user']->users_medias_id)));
-                $data['user']->users_media->medias_file = HTML::link('uploads/' . $data['user']->users_media->medias_file);
             } else {
                 $nb = 20;
                 $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -214,8 +213,6 @@
                     unset($user->users_password);
 
                     $user->users_media = current($this->getJSON($this->link('api/medias/get/' . $user->users_medias_id)));
-
-                    $user->users_media->medias_file = HTML::link('uploads/' . $user->users_media->medias_file);
                 }
             }
 
@@ -311,14 +308,14 @@
          *
          * @return array / boolean
          */
-        function api_checkToken($token = null) {
+        function api_checkToken($token = null, $address = null) {
             $this->loadModel('Tokens');
 
-            if ($token != null) {
+            if ($token != null && $address != null) {
                 $user = $this->Tokens->select([
                     'conditions'    => [
                         'token'         => $token,
-                        'device'        => $_SERVER['REMOTE_ADDR'],
+                        'device'        => $address,
                     ],
                 ]);
 
@@ -384,10 +381,18 @@
 
                         if (count($user->users_tokens) < 1) {
                             $token = $this->api_generateToken($user->users_id);
-                            $data['authed'] = $this->getJSON($this->link('api/users/checkToken/' . $token))->valid;
+                            $request = $this->getJSON($this->link('api/users/checkToken/' . $token . '/' . $_SERVER['REMOTE_ADDR']));
+                            $data['authed'] = $request->valid;
+                            if (!empty($request->errors)) {
+                                $this->errors = $request->errors;
+                            }
                             $data['token'] = $token;
                         } else if (current($user->users_tokens)->tokens_disabled == 0) {
-                            $data['authed'] = $this->getJSON($this->link('api/users/checkToken/' . current($user->users_tokens)->tokens_token))->valid;
+                            $request = $this->getJSON($this->link('api/users/checkToken/' . current($user->users_tokens)->tokens_token . '/' . $_SERVER['REMOTE_ADDR']));
+                            $data['authed'] = $request->valid;
+                            if (!empty($request->errors)) {
+                                $this->errors = $request->errors;
+                            }
                             $data['token'] = current($user->users_tokens)->tokens_token;
                         } else {
                             $this->errors['token'] = 'Token disabled';
@@ -401,7 +406,7 @@
 
                 $data['errors'] = $this->errors;
             } else if ($token != null) {
-                $data['authed'] = $this->getJSON($this->link('api/users/checkToken/' . $token))->valid;
+                $data['authed'] = $this->getJSON($this->link('api/users/checkToken/' . $token . '/' . $_SERVER['REMOTE_ADDR']))->valid;
                 !$data['authed'] ? $this->errors['token'] = 'Invalid token.' : true;
                 $data['errors'] = $this->errors;
             } else {

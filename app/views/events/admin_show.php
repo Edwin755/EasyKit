@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="image">
                     <ul class="slides" data-slide data-delay="<?= rand(3500, 5000) ?>">
-                        <li class="item" style="background-image: url(<?= HTML::link('uploads/' . $media->medias_file) ?>);"></li>
+                        <li class="item" style="background-image: url(<?= $media->medias_file; ?>);"></li>
                     </ul>
                 </div>
             </div>

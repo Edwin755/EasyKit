@@ -11,6 +11,7 @@
 
     use Core\Exceptions\NotFoundHTTPException;
     use Exception;
+    use HTML;
 
     /**
      * Class Controller
@@ -29,7 +30,14 @@
          */
         protected $layout = null;
 
+        /**
+         * @var
+         */
         private $request_scheme;
+
+        /**
+         * @var
+         */
         private $server_port;
 
         /**
@@ -244,37 +252,45 @@
          * @param $file
          * @param array $permission
          */
-        protected function upload($file, $permission = array()) {
-            if (in_array($file['type'], $permission)) {
-                $directory = __DIR__ . '/../public/uploads/';
+        protected function upload($files, $permission = array()) {
+            $return = [];
 
-                $type = explode('/', $file['type']);
+            foreach ($files as $file) {
+                if (in_array($file['type'], $permission)) {
+                    $directory = __DIR__ . '/../public/uploads/';
+                    $url = HTML::link('uploads') . '/';
 
-                foreach ($type as $value) {
-                    if (!is_dir($directory . $value)) {
-                        mkdir($directory . $value, 0755);
+                    $type = explode('/', $file['type']);
+
+                    foreach ($type as $value) {
+                        if (!is_dir($directory . $value)) {
+                            mkdir($directory . $value, 0755);
+                        }
+
+                        $directory .= $value . '/';
+                        $url .= $value . '/';
                     }
 
-                    $directory .= $value . '/';
+                    $filename = md5(uniqid(mt_rand(), true)) . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
+                    $directory .= $filename;
+                    $url .= $filename;
+
+                    if (move_uploaded_file($file['tmp_name'], $directory)) {
+                        $return[] = [
+                            'success'   => true,
+                            'file'      => realpath($directory),
+                            'url'       => $url,
+                            'filename'  => pathinfo($directory, PATHINFO_FILENAME),
+                            'extension' => pathinfo($directory, PATHINFO_EXTENSION)
+                        ];
+                    } else {
+                        $return[] = [
+                            'success'   => false
+                        ];
+                    }
                 }
-
-                $directory .= '/' . md5(uniqid(mt_rand(), true)) . $file['name'];
-
-                if (move_uploaded_file($file['tmp_name'], $directory)) {
-                    $return = [
-                        'success'   => true,
-                        'directory' => realpath($directory),
-                        'extension' => pathinfo($directory, PATHINFO_EXTENSION)
-                    ];
-                } else {
-                    $return = [
-                        'success'   => false
-                    ];
-                }
-
-                return $return;
-            } else {
-                return false;
             }
+
+            return $return;
         }
     }
