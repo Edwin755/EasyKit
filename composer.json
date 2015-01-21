@@ -15,7 +15,6 @@
     "require": {
         "ifsnop/mysqldump-php": "1.4.1",
         "imagine/imagine": "0.6.2",
-        "swiftmailer/swiftmailer": "@stable",
-        "phpdocumentor/phpdocumentor": "2.*"
+        "swiftmailer/swiftmailer": "@stable"
     }
 }

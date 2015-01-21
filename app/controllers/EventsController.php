@@ -11,6 +11,7 @@
 
     use Core;
     use Core\Controller;
+    use Core\Validation;
     use Core\View;
     use Core\Cookie;
     use Core\Exceptions\NotFoundHTTPException;
@@ -93,7 +94,11 @@
          * @param mixed $starttime
          */
         private function setStarttime($starttime) {
-            $this->starttime = $starttime;
+            if (Validation::validateDate($starttime)) {
+                $this->starttime = $starttime;
+            } else {
+                $this->errors['starttime'] = 'Not a datetime.';
+            }
         }
 
         /**
@@ -111,7 +116,11 @@
          * @param mixed $endtime
          */
         private function setEndtime($endtime) {
-            $this->endtime = $endtime;
+            if (Validation::validateDate($endtime)) {
+                $this->endtime = $endtime;
+            } else {
+                $this->errors['endtime'] = 'Not a datetime.';
+            }
         }
 
         /**
@@ -166,7 +175,7 @@
                     }
                 }
             } else {
-                $nb = 20;
+                $nb = isset($_GET['limit']) && $_GET['limit'] != null ? $_GET['limit'] : 20;
                 $page = isset($_GET['page']) ? $_GET['page'] : 1;
                 $page = (($page - 1) * $nb);
 
@@ -201,8 +210,59 @@
          */
         function api_create() {
             if (!empty($_POST)) {
+                if (isset($_POST['name']) && $_POST['name'] != null) {
+                    $this->setName($_POST['name']);
+                } else {
+                    $this->errors['name'] = 'Wrong name.';
+                }
 
+                if (isset($_POST['description']) && $_POST['description'] != null) {
+                    $this->setDescription($_POST['description']);
+                }
+
+                if (isset($_POST['starttime']) && $_POST['starttime'] != null) {
+                    $this->setStarttime($_POST['starttime']);
+                } else {
+                    $this->errors['starttime'] = 'Wrong start time.';
+                }
+
+                if (isset($_POST['endtime']) && $_POST['endtime'] != null) {
+                    $this->setEndtime($_POST['endtime']);
+                } else {
+                    $this->errors['endtime'] = 'Wrong endtime.';
+                }
+
+                if (isset($_POST['user']) && $_POST['user'] != null) {
+                    $this->setUser($_POST['user']);
+                } else {
+                    $this->errors['user'] = 'Wrong user.';
+                }
+
+                if (empty($this->errors)) {
+                    $this->loadModel('Events');
+                    $this->loadModel('Users');
+                    $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getUser() . '/' . $_SERVER['REMOTE_ADDR']));
+
+                    if ($user->valid) {
+                        $this->Events->save([
+                            'name'          => $this->getName(),
+                            'description'   => $this->getDescription(),
+                            'starttime'     => $this->getStarttime(),
+                            'endtime'       => $this->getEndtime(),
+                            'users_id'      => $user->user->tokens_users_id
+                        ]);
+                    } else {
+                        $this->errors['user'] = 'User does not exist.';
+                    }
+                }
+            } else {
+                $this->errors['POST'] = 'No POST received.';
             }
+
+            $data['success'] = !empty($this->errors) ? false : true;
+            $data['errors'] = $this->errors;
+
+            View::make('api.index', json_encode($data), false, 'application/json');
         }
 
         /**

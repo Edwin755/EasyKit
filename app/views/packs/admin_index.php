@@ -31,7 +31,7 @@
             </div>
         </div>
     </div>
-    <div class="row margtop" ng-app="Packs">
+    <div class="row margtop template" ng-app="Packs">
         <div class="col-12" ng-controller="PacksController">
             <div class="panel" ng-repeat="pack in packs">
                 <div class="user">
@@ -54,6 +54,7 @@
         $http.get('<?= HTML::link('api/packs') ?>')
             .success(function (data, status, headers, config) {
                 $('#loading').remove();
+                $('.template').removeClass('template');
                 $scope.packs = data.packs;
             })
             .error(function (data, status, headers, config) {

@@ -103,54 +103,12 @@
         }
 
         /**
-         * Set User
-         *
-         * @param $value
-         */
-        function setUser($value) {
-            $this->loadModel('Users');
-
-            $user = $this->Users->select(array(
-                'conditions'    => array(
-                    'id'            => $value,
-                ),
-            ));
-
-            if (count($user) == 1) {
-                $this->user = $value;
-            } else {
-                $this->errors['user'] = 'User doesn\'t exists';
-            }
-        }
-
-        /**
-         * Get User
-         *
-         * @return object
-         */
-        function getUser() {
-            return $this->user;
-        }
-
-        /**
          * Set Token
          *
          * @param $value
          */
         function setToken($value) {
-            $this->loadModel('Token');
-
-            $token = $this->Token->select([
-                'conditions'    => [
-                    'token'         => $value,
-                ]
-            ]);
-
-            if (count($token) == 1) {
-                $this->token = $value;
-            } else {
-                $this->errors['token'] = 'Wrong token';
-            }
+            $this->token = $value;
         }
 
         /**
@@ -202,7 +160,7 @@
                     }
                 }
             } else {
-                $nb = 20;
+                $nb = isset($_GET['limit']) && $_GET['limit'] != null ? $_GET['limit'] : 20;
                 $page = isset($_GET['page']) ? $_GET['page'] : 1;
                 $page = (($page - 1) * $nb);
 
@@ -256,12 +214,6 @@
                     $this->errors['end'] = 'Wrong end time.';
                 }
 
-                if (!empty($_POST['user'])) {
-                    $this->setUser($_POST['user']);
-                } else {
-                    $this->errors['user'] = 'Wrong user.';
-                }
-
                 if (!empty($_POST['token'])) {
                     $this->setToken($_POST['token']);
                 } else {
@@ -272,29 +224,38 @@
                     $this->setDescription($_POST['description']);
                 }
 
-                $this->loadModel('Packs');
-
                 if (empty($this->errors)) {
-                    $this->Packs->save(array(
-                        'name'          => $this->getName(),
-                        'description'   => $this->getDescription(),
-                        'endtime'       => $this->getEnd(),
-                        'users_id'      => $this->getUser(),
-                    ));
+                    $this->loadModel('Packs');
 
-                    $data['sucess'] = true;
-                } else {
-                    $data['success'] = false;
+                    $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getToken() . '/' . $_SERVER['REMOTE_ADDR']));
+
+                    if ($user->valid) {
+                        $this->Packs->save(array(
+                            'name' => $this->getName(),
+                            'description' => $this->getDescription(),
+                            'endtime' => $this->getEnd(),
+                            'users_id' => $user->user->tokens_users_id,
+                        ));
+                    } else {
+                        $this->errors['user'] = 'User does not exist.';
+                    }
                 }
             } else {
-                $data['success'] = false;
-
                 $this->errors['POST'] = 'No data received';
             }
 
+            $data['success'] = !empty($this->errors) ? false : true;
             $data['errors'] = $this->errors;
 
             View::make('api.index', json_encode($data), false, 'application/json');
+        }
+
+        /**
+         *
+         */
+        function index() {
+            View::$title = 'Create your pack';
+            View::make('packs.index', null, 'default');
         }
 
         /**

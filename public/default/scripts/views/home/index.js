@@ -10,9 +10,9 @@ app.controller("popularEvents", function($scope, $http) {
             }else{
                 return;
             }
-    }).
-        error(function(data, status, headers, config) {
+        })
+        .error(function(data, status, headers, config) {
           // log error
-    });
+        });
     
 });

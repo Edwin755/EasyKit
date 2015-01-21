@@ -210,7 +210,7 @@
 
                 $data['user']->users_media = current($this->getJSON($this->link('api/medias/get/' . $data['user']->users_medias_id)));
             } else {
-                $nb = 20;
+                $nb = isset($_GET['limit']) && $_GET['limit'] != null ? $_GET['limit'] : 20;
                 $page = isset($_GET['page']) ? $_GET['page'] : 1;
                 $page = (($page - 1) * $nb);
 
@@ -221,7 +221,6 @@
 
                 foreach ($data['users'] as $user) {
                     unset($user->users_password);
-
                     $user->users_media = current($this->getJSON($this->link('api/medias/get/' . $user->users_medias_id)));
                 }
             }
@@ -340,6 +339,8 @@
 
                 if (count($user) != 1) {
                     $this->errors['user'] = 'No user.';
+                } else {
+                    $data['user'] = current($user);
                 }
             } else {
                 $this->errors['token'] = 'No token sent.';
