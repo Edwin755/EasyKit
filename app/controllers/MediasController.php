@@ -45,7 +45,7 @@
             $this->loadModel('Medias');
 
             if ($id == null) {
-                $nb = 20;
+                $nb = isset($_GET['limit']) && $_GET['limit'] != null ? $_GET['limit'] : 20;
                 $page = isset($_GET['page']) ? $_GET['page'] : 1;
                 $page = (($page - 1) * $nb);
 
