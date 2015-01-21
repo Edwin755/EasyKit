@@ -77,7 +77,7 @@
 
     <div class="block" ng-repeat="event in data.events track by $index" id="{{index}}">
         <div class="couverture">
-            <img ng-repeat="photos in event.events_medias track by $index" id="{{photos.medias_file}}" src="<?= HTML::link('default/images/events_medias.jpg'); ?>" alt="">
+            <img ng-repeat="photos in event.events_medias track by $index" src="{{photos.medias_file}}" alt="">
 
             <div class="description">
                 The Coastal Edge East Coast Surfing Championships is a major professional and amateur event for the United States Surfing Federation.<span class="info">United States, May 13, 2015</span>
