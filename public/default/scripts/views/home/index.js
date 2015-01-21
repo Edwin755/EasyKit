@@ -1,6 +1,3 @@
-
-
-    
 var app = angular.module("myApp",[]);
 
 app.controller("popularEvents", function($scope, $http) {
@@ -19,8 +16,3 @@ app.controller("popularEvents", function($scope, $http) {
     });
     
 });
-
-    
-
-
-
