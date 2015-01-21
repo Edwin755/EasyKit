@@ -2,7 +2,7 @@
 
     /**
      * Principal Controller
-     * 
+     *
      * @author Edwin Dayot <edwin.dayot@sfr.fr>
      * @copyright 2014
      */
@@ -39,10 +39,10 @@
 
         /**
          * Construct
-         * 
+         *
          * @param string $action
          * @param array $params
-         * 
+         *
          * @return boolean
          */
         function __construct($action, $params = array(), $layout = null) {
@@ -87,7 +87,7 @@
 
         /**
          * Launch the 404 page
-         * 
+         *
          * @return boolean
          */
         static public function pageNotFound($layout = 'default') {
@@ -99,9 +99,9 @@
 
         /**
          * Launch the header status for each status code
-         * 
+         *
          * @param int $code
-         * 
+         *
          * @throws Exception when HTTP Status given isn't planned
          * @return boolean
          */
@@ -118,7 +118,7 @@
                 case 500:
                     header('HTTP/1.0 500 Internal Server Error');
                     break;
-                
+
                 default:
                     throw new Exception('Unknown HTTP Status', 1);
                     break;
@@ -179,24 +179,33 @@
          * Get the JSON
          *
          * @param $url
+         * @param $options
+         *
          * @return string
          */
-        protected function getJSON($url) {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_URL, $url);
-            $return = curl_exec($ch);
-            curl_close($ch);
+        protected function getJSON($url, $options = array()) {
+            $defaults = array(
+                CURLOPT_URL => $url,
+                CURLOPT_HEADER => 0,
+                CURLOPT_RETURNTRANSFER => TRUE,
+                CURLOPT_TIMEOUT => 4
+            );
 
-            return json_decode($return, false);
+            $ch = curl_init();
+            curl_setopt_array($ch, ($options + $defaults));
+            if(!$result = curl_exec($ch))
+            {
+                trigger_error(curl_error($ch));
+            }
+            curl_close($ch);
+            return json_decode($result, false);
         }
 
         /**
          * Load model
-         * 
+         *
          * @param $model string Name of the model and name of the file
-         * 
+         *
          * @throws Exception when Model not found
          */
         protected function loadModel($model) {

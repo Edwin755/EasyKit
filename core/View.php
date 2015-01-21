@@ -33,7 +33,7 @@
          *
          * @param $folders
          */
-        private function setFolders($folders)
+        private static function setFolders($folders)
         {
             self::$folders = $folders;
         }

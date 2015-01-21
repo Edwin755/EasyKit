@@ -221,7 +221,6 @@
 
                 foreach ($data['users'] as $user) {
                     unset($user->users_password);
-
                     $user->users_media = current($this->getJSON($this->link('api/medias/get/' . $user->users_medias_id)));
                 }
             }
