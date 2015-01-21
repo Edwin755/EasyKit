@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" ng-app="myApp">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -10,12 +10,17 @@
         <link rel="canonical" href="<?= HTML::getCurrentURL(); ?>">
     </head>
     <body>
+        
         <div class="container">
             <?= $content_for_layout; ?>
         </div>
         
+        <script>
+        	var url = "<?= HTML::link(''); ?>"
+        </script>
         <script src="<?= HTML::link('default/scripts/jquery.min.js'); ?>"></script>
         <script src="<?= HTML::link('default/scripts/angular.min.js'); ?>"></script>
         <script src="<?= HTML::link('default/scripts/function.js'); ?>"></script>
+        <script src="<?= HTML::link('default/scripts/views/' . self::getFolders() . '.js'); ?>"></script>
     </body>
 </html>
