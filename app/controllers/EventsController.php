@@ -241,19 +241,15 @@
                 if (empty($this->errors)) {
                     $this->loadModel('Events');
                     $this->loadModel('Users');
-                    $user = $this->Users->select([
-                        'conditions'    => [
-                            'id'            => $this->getUser()
-                        ]
-                    ]);
+                    $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getUser() . '/' . $_SERVER['REMOTE_ADDR']));
 
-                    if (count($user) == 1) {
+                    if ($user->valid) {
                         $this->Events->save([
                             'name'          => $this->getName(),
                             'description'   => $this->getDescription(),
                             'starttime'     => $this->getStarttime(),
                             'endtime'       => $this->getEndtime(),
-                            'users_id'      => $this->getUser()
+                            'users_id'      => $user->user->tokens_users_id
                         ]);
                     } else {
                         $this->errors['user'] = 'User does not exist.';

@@ -339,6 +339,8 @@
 
                 if (count($user) != 1) {
                     $this->errors['user'] = 'No user.';
+                } else {
+                    $data['user'] = current($user);
                 }
             } else {
                 $this->errors['token'] = 'No token sent.';
