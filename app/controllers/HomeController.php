@@ -19,20 +19,16 @@
      */
     class HomeController extends Controller
     {
-        
+
         /**
-         * Index Action
-         * 
-         * @return void
+         * Index
+         *
+         * @throws Core\Exceptions\NotFoundHTTPException
          */
         function index() {
-            $data = array('lol' => 'lol');
+            View::$title = 'Accueil';
 
-            if (!isset($_COOKIE['EasyKit_cookie_hello'])) {
-                Cookie::set('hello', rand(0, 10));
-            }
-
-            View::make('home.index', $data, 'default');
+            View::make('home.index', null, 'default');
         }
 
         /**

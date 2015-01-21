@@ -298,6 +298,14 @@
         }
 
         /**
+         *
+         */
+        function index() {
+            View::$title = 'Create your pack';
+            View::make('packs.index', null, 'default');
+        }
+
+        /**
          * Admin Index Action
          *
          * @return void

@@ -11,12 +11,16 @@ use Core\Dispatcher;
 use Core\Router;
 use Core\View;
 
-Router::get('/', function () {
-    return View::make('home.index', null, 'default');
-});
+Router::get('/', 'HomeController', [
+    'only'  => [
+        'index'
+    ]
+]);
 
 Router::get('admin1259', 'AdminController');
 
 Router::get('api', 'ApiController');
+
+Router::resource('packs', 'PacksController');
 
 Router::resource('users', 'UsersController');
