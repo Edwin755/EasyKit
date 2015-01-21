@@ -70,40 +70,14 @@
     </div>
 </div>
 
-<div id="containt">
+<div id="containt" ng-controller="popularEvents">
     <h2>Popular Events</h2>
 
     <div class="trait"></div>
 
-    <div class="block">
+    <div class="block" ng-repeat="event in data.events track by $index" id="{{index}}">
         <div class="couverture">
-            <a href="event.html"><img src="<?= HTML::link('default/images/event-1.jpg'); ?>" alt=""></a>
-
-            <div class="description">
-                TED (Technology, Entertainment, Design) is a global set of conferences owned by the private non-profit Sapling Foundation, under the slogan: "Ideas Worth Spreading".<span class="info">Vancouver, November 24, 2014</span>
-            </div>
-        </div>
-
-        <div class="block-text">
-            <p class="titre">Ted Conference</p>
-
-            <div class="trait-block-text"></div>
-
-            <ul class="icones">
-                <li><img src="<?= HTML::link('default/images/like.png'); ?>" title="Like this event" width="21" alt="like"> <span>2450</span></li>
-
-                <li><img src="<?= HTML::link('default/images/comment.png'); ?>" title="Post a comment" width="21" alt="comment"> <span>72</span></li>
-
-                <li><img src="<?= HTML::link('default/images/share.png'); ?>" title="Share this event" width="21" alt="share"></li>
-
-                <li class="favorit"><img class="coeur" src="<?= HTML::link('default/images/favorit.png'); ?>" title="Add to your favorite events" width="23" alt="favorit"><img class="coeur2" src="<?= HTML::link('default/images/favorit-vert.png'); ?>" width="23" alt="favorit2"></li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="block">
-        <div class="couverture">
-            <img src="<?= HTML::link('default/images/event-2.jpg'); ?>" alt="">
+            <img ng-repeat="photos in event.events_medias track by $index" id="{{photos.medias_file}}" src="<?= HTML::link('default/images/events_medias.jpg'); ?>" alt="">
 
             <div class="description">
                 The Coastal Edge East Coast Surfing Championships is a major professional and amateur event for the United States Surfing Federation.<span class="info">United States, May 13, 2015</span>
@@ -122,111 +96,10 @@
 
                 <li><img src="<?= HTML::link('default/images/share.png'); ?>" title="Share this event" width="21" alt="share"></li>
 
-                <li class="favorit"><img class="coeur" src="<?= HTML::link('default/images/favorit.png'); ?>" title="Add to your favorite events" width="23" alt="favorit"><img class="coeur2" src="<?= HTML::link('default/images/favorit-vert.png'); ?>" width="23" alt="favorit2"></li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="block">
-        <div class="couverture">
-            <img src="<?= HTML::link('default/images/event-3.jpg'); ?>" alt="">
-
-            <div class="description">
-                The Paris Masters is an annual tennis tournament for male professional players. It is played indoors. The event is part of the ATP World Tour Masters 1000 on the Association of Tennis Professionals Tour.<span class="info">Paris, October 25, 2015</span>
-            </div>
-        </div>
-
-        <div class="block-text">
-            <p class="titre">BNP Paribas Masters</p>
-
-            <div class="trait-block-text"></div>
-
-            <ul class="icones">
-                <li><img src="<?= HTML::link('default/images/like.png'); ?>" title="Like this event" width="21" alt="like"> <span>2341</span></li>
-
-                <li><img src="<?= HTML::link('default/images/comment.png'); ?>" title="Post a comment" width="21" alt="comment"> <span>33</span></li>
-
-                <li><img src="<?= HTML::link('default/images/share.png'); ?>" title="Share this event" width="21" alt="share"></li>
-
-                <li class="favorit"><img class="coeur" src="<?= HTML::link('default/images/favorit.png'); ?>" title="Add to your favorite events" width="23" alt="favorit"><img class="coeur2" src="<?= HTML::link('default/images/favorit-vert.png'); ?>" width="23" alt="favorit2"></li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="block">
-        <div class="couverture">
-            <img src="<?= HTML::link('default/images/event-4.jpg'); ?>" alt="">
-
-            <div class="description">
-                Paris Games Week, or simply PGW, is a trade fair for video games held annually at the Parc des expositions de la porte de Versailles in Paris. It is organised by SELL.<span class="info">Paris, from 27 to 31 October, 2015</span>
-            </div>
-        </div>
-
-        <div class="block-text">
-            <p class="titre">Paris Games Week</p>
-
-            <div class="trait-block-text"></div>
-
-            <ul class="icones">
-                <li><img src="<?= HTML::link('default/images/like.png'); ?>" title="Like this event" width="21" alt="like"> <span>135</span></li>
-
-                <li><img src="<?= HTML::link('default/images/comment.png'); ?>" title="Post a comment" width="21" alt="comment"> <span>12</span></li>
-
-                <li><img src="<?= HTML::link('default/images/share.png'); ?>" title="Share this event" width="21" alt="share"></li>
-
-                <li class="favorit"><img class="coeur" src="<?= HTML::link('default/images/favorit.png'); ?>" title="Add to your favorite events" width="23" alt="favorit"><img class="coeur2" src="<?= HTML::link('default/images/favorit-vert.png'); ?>" width="23" alt="favorit2"></li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="block">
-        <div class="couverture">
-            <img src="<?= HTML::link('default/images/event-5.jpg'); ?>" alt="">
-
-            <div class="description">
-                The European Individual Closed Championships are the event which serves as the individual European championship for squash players organised by the European Squash Federation.<span class="info">Bratislava, 2015</span>
-            </div>
-        </div>
-
-        <div class="block-text">
-            <p class="titre">European squash tournament</p>
-
-            <div class="trait-block-text"></div>
-
-            <ul class="icones">
-                <li><img src="<?= HTML::link('default/images/like.png'); ?>" title="Like this event" width="21" alt="like"> <span>8997</span></li>
-
-                <li><img src="<?= HTML::link('default/images/comment.png'); ?>" title="Post a comment" width="21" alt="comment"> <span>550</span></li>
-
-                <li><img src="<?= HTML::link('default/images/share.png'); ?>" title="Share this event" width="21" alt="share"></li>
-
-                <li class="favorit"><img class="coeur" src="<?= HTML::link('default/images/favorit.png'); ?>" title="Add to your favorite events" width="23" alt="favorit"><img class="coeur2" src="<?= HTML::link('default/images/favorit-vert.png'); ?>" width="23" alt="favorit2"></li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="block">
-        <div class="couverture">
-            <img src="<?= HTML::link('default/images/event-6.jpg'); ?>" alt="">
-
-            <div class="description">
-                The NBA All-Star Game is an exhibition game hosted annually by the NBA, matching the league's star players from the Eastern Conference against their counterparts from the Western Conference.<span class="info">New York, February 15, 2015</span>
-            </div>
-        </div>
-
-        <div class="block-text">
-            <p class="titre">NBA All Star Game</p>
-
-            <div class="trait-block-text"></div>
-
-            <ul class="icones">
-                <li><img src="<?= HTML::link('default/images/like.png'); ?>" title="Like this event" width="21" alt="like"> <span>3347</span></li>
-
-                <li><img src="<?= HTML::link('default/images/comment.png'); ?>" title="Post a comment" width="21" alt="comment"> <span>237</span></li>
-
-                <li><img src="<?= HTML::link('default/images/share.png'); ?>" title="Share this event" width="21" alt="share"></li>
-
-                <li class="favorit"><img class="coeur" src="<?= HTML::link('default/images/favorit.png'); ?>" title="Add to your favorite events" width="23" alt="favorit"><img class="coeur2" src="<?= HTML::link('default/images/favorit-vert.png'); ?>" width="23" alt="favorit2"></li>
+                <li class="favorit">
+                    <img class="coeur" src="<?= HTML::link('default/images/favorit.png'); ?>" title="Add to your favorite events" width="23" alt="favorit">
+                    <img class="coeur2" src="<?= HTML::link('default/images/favorit-vert.png'); ?>" width="23" alt="favorit2">
+                </li>
             </ul>
         </div>
     </div>
@@ -275,4 +148,6 @@
 <div id="footer">
     <p>Copyright easykit 2015 - All right reserved</p>
 </div>
+
+
 
