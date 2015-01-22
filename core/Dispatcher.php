@@ -13,6 +13,8 @@
     use Core\ErrorHandler;
     use Core\Exceptions\NotFoundHTTPException;
     use Exception;
+    use Monolog\Handler\StreamHandler;
+    use Monolog\Logger;
 
     /**
      * Dispatcher Class
@@ -67,6 +69,10 @@
                 if ($this->debug) {
                     new ErrorHandler($e);
                 }
+
+                $log = new Logger('exception');
+                $log->pushHandler(new StreamHandler(__DIR__ . '/../logs/exception.log', Logger::WARNING));
+                $log->addWarning('[l.' . $e->getLine() . '] ' . $e->getMessage());
             }
         }
 

@@ -10,6 +10,8 @@
     namespace Core;
 
     use App\Controllers;
+    use Monolog\Handler\StreamHandler;
+    use Monolog\Logger;
 
     /**
      * Class ErrorHandler
@@ -231,6 +233,10 @@
             $this->setErrLines($lines);
 
             $this->displayErrorPage();
+
+            $log = new Logger('error');
+            $log->pushHandler(new StreamHandler(__DIR__ . '/../logs/error.log', Logger::ERROR));
+            $log->addError('[l.' . $this->getErrLine() . '] ' . $this->getErrStr());
 
             die();
         }
