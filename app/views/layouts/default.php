@@ -13,7 +13,12 @@
         
         <div class="container">
             <?= $content_for_layout; ?>
+            
+            <div id="footer">
+                <p>Copyright easykit 2015 - All right reserved</p>
+            </div>
         </div>
+        
         
         <script>
         	var url = "<?= HTML::link(''); ?>"

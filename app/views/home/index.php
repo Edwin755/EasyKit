@@ -147,9 +147,6 @@
     </div>
 </div>
 
-<div id="footer">
-    <p>Copyright easykit 2015 - All right reserved</p>
-</div>
 
 
 
