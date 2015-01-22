@@ -11,6 +11,8 @@
 
     use App\Models;
     use Exception;
+    use Monolog\Handler\StreamHandler;
+    use Monolog\Logger;
     use \PDO as PDO;
     use PDOException;
 
@@ -298,8 +300,9 @@
                     $return = current($return)->Count;
                 }
 
-                $query = "FIND : \n" . $query;
-                // log_write('sql', $query);
+                $log = new Logger('select');
+                $log->pushHandler(new StreamHandler(__DIR__ . '/../logs/sql.log', Logger::INFO));
+                $log->addError($query);
 
                 return $return;
             } catch (PDOException $e) {
@@ -376,8 +379,9 @@
                 $this->lastInsertId = $this->pdo->lastInsertId();
                 $this->params = null;
 
-                $query = "SAVE : \n" . $query;
-                // log_write('sql', $query);
+                $log = new Logger('save');
+                $log->pushHandler(new StreamHandler(__DIR__ . '/../logs/sql.log', Logger::INFO));
+                $log->addError($query);
 
                 return $this->lastInsertId;
             } catch (PDOException $e) {
@@ -421,9 +425,9 @@
             $pre->execute();
             $query = str_replace(':' . $this->pk, $id, $sql);
 
-            $query = "REMOVE : \n" . $query;
-
-            //log_write('sql', $query);
+            $log = new Logger('delete');
+            $log->pushHandler(new StreamHandler(__DIR__ . '/../logs/sql.log', Logger::INFO));
+            $log->addError($query);
 
             return true;
         }
