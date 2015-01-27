@@ -82,12 +82,12 @@
             </ul>
 
             <div class="description">
-                The Coastal Edge East Coast Surfing Championships is a major professional and amateur event for the United States Surfing Federation.<span class="info">United States, May 13, 2015</span>
+                {{event.events_description}}<span class="info">United States, May 13, 2015</span>
             </div>
         </div>
 
         <div class="block-text">
-            <p class="titre">Surf Championships</p>
+            <p class="titre">{{event.events_name}}</p>
 
             <div class="trait-block-text"></div>
 
@@ -147,9 +147,6 @@
     </div>
 </div>
 
-<div id="footer">
-    <p>Copyright easykit 2015 - All right reserved</p>
-</div>
 
 
 
