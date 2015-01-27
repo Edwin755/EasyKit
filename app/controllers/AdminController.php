@@ -17,6 +17,8 @@
     use Core\Cookie;
     use Ifsnop\Mysqldump as IMysqldump;
     use \Exception;
+    use Monolog\Handler\StreamHandler;
+    use Monolog\Logger;
 
     /**
      * AdminController Class
@@ -46,10 +48,16 @@
                     if (!$this->getJSON($this->link('admin1259/is_admin/' . $admin->admin_username . '/' . $admin->admin_password))->admin) {
                         $this->redirect('admin1259/users/signin');
                     }
+
+                    $log = new Logger('admin');
+                    $log->pushHandler(new StreamHandler(__DIR__ . '/../../logs/admin.log', Logger::INFO));
+                    $log->addInfo('User "' . $admin->admin_username . '" access page : ' . $this->getCurrentURL());
                 } else if ($this->link('admin1259/users/signin') != $this->getCurrentURL()) {
                     $this->redirect('admin1259/users/signin');
                 }
             }
+
+
         }
 
         /**
