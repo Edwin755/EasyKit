@@ -24,3 +24,5 @@ Router::get('api', 'ApiController');
 Router::resource('packs', 'PacksController');
 
 Router::resource('users', 'UsersController');
+
+Router::resource('events', 'EventsController');

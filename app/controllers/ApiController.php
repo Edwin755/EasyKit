@@ -11,6 +11,7 @@
 
     use Core;
     use Core\Controller;
+    use Core\Session;
     use Core\View;
     use Core\Cookie;
 
@@ -19,6 +20,22 @@
      */
     class ApiController extends Controller
     {
+
+        /**
+         * Constructor
+         *
+         * @return void
+         */
+        function constructor() {
+            if (isset($_SESSION['admin'])) {
+                $admin = Session::get('admin');
+                if (!$this->getJSON($this->link('admin1259/is_admin/' . $admin->admin_username . '/' . $admin->admin_password))->admin) {
+                    if ($this->getPrefix() != false && $this->getPrefix() == 'admin') {
+                        $this->redirect('admin1259/users/signin');
+                    }
+                }
+            }
+        }
         
         /**
          * Index Action

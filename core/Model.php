@@ -302,7 +302,7 @@
 
                 $log = new Logger('select');
                 $log->pushHandler(new StreamHandler(__DIR__ . '/../logs/sql.log', Logger::INFO));
-                $log->addError($query);
+                $log->addInfo($query);
 
                 return $return;
             } catch (PDOException $e) {
@@ -381,7 +381,7 @@
 
                 $log = new Logger('save');
                 $log->pushHandler(new StreamHandler(__DIR__ . '/../logs/sql.log', Logger::INFO));
-                $log->addError($query);
+                $log->addInfo($query);
 
                 return $this->lastInsertId;
             } catch (PDOException $e) {
@@ -427,7 +427,7 @@
 
             $log = new Logger('delete');
             $log->pushHandler(new StreamHandler(__DIR__ . '/../logs/sql.log', Logger::INFO));
-            $log->addError($query);
+            $log->addInfo($query);
 
             return true;
         }

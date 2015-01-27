@@ -31,11 +31,47 @@
         /**
          * Variables
          *
-         * @var string $actions
+         * @var string $action
+         * @var array $actions
          * @var string $request_scheme
          * @var string $server_port
          */
-        private $actions, $request_scheme, $server_port;
+        private $action, $actions, $request_scheme, $server_port;
+
+        /**
+         * Get Prefix
+         *
+         * @return mixed
+         */
+        public function getPrefix()
+        {
+            $prefix = explode('_', $this->getAction());
+            if (count($prefix) > 1) {
+                return $prefix[0];
+            } else {
+                return false;
+            }
+        }
+
+        /**
+         * Get Action
+         *
+         * @return mixed
+         */
+        protected function getAction()
+        {
+            return $this->action;
+        }
+
+        /**
+         * Set Action
+         *
+         * @param mixed $action
+         */
+        protected function setAction($action)
+        {
+            $this->action = $action;
+        }
 
         /**
          * Construct
@@ -53,36 +89,42 @@
 
             $this->initLink();
 
-            $this->actions = get_class_methods($this);
+            if ($action != 'constructor' && $action != 'defaultAction') {
+                $this->actions = get_class_methods($this);
 
-            if ($layout == null && $this->layout == null) {
-                $layout = 'default';
-            } else if ($layout == null && $this->layout != null) {
-                $layout = $this->layout;
-            }
+                $this->setAction($action);
 
-            if (in_array($action, $this->actions)) {
-                $this->httpStatus(200);
-                foreach ($this->actions as $actions) {
-                    if ($actions == 'constructor') {
-                        call_user_func_array(array($this, $actions), $params);
-                    }
+                if ($layout == null && $this->layout == null) {
+                    $layout = 'default';
+                } else if ($layout == null && $this->layout != null) {
+                    $layout = $this->layout;
                 }
-                call_user_func_array(array($this, $action), $params);
+
+                if (in_array($action, $this->actions)) {
+                    $this->httpStatus(200);
+                    foreach ($this->actions as $actions) {
+                        if ($actions == 'constructor') {
+                            call_user_func_array(array($this, $actions), $params);
+                        }
+                    }
+                    call_user_func_array(array($this, $action), $params);
+                } else {
+                    foreach ($this->actions as $actions) {
+                        if ($actions == 'defaultAction') {
+                            call_user_func_array(array($this, $actions), $params);
+                            return true;
+                        }
+                    }
+
+                    $class = explode('\\', get_class($this));
+
+                    throw new NotFoundHTTPException('Method ' . $action . ' in ' . end($class) . ' doesn\'t exists.', 1, $layout);
+                }
+
+                return true;
             } else {
-                foreach ($this->actions as $actions) {
-                    if ($actions == 'defaultAction') {
-                        call_user_func_array(array($this, $actions), $params);
-                        return true;
-                    }
-                }
-
-                $class = explode('\\', get_class($this));
-
-                throw new NotFoundHTTPException('Method ' . $action . ' in ' . end($class) . ' doesn\'t exists.', 1, $layout);
+                throw new NotFoundHTTPException('Method ' . $action . ' not allowed.', 1, $layout);
             }
-
-            return true;
         }
 
         /**
@@ -198,6 +240,7 @@
                 trigger_error(curl_error($ch));
             }
             curl_close($ch);
+
             return json_decode($result, false);
         }
 

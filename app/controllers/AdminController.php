@@ -40,12 +40,15 @@
          * @return void
          */
         function constructor() {
-            if (isset($_SESSION['admin'])) {
-                if (!$this->isAdmin()) {
+            if (!preg_match('#^' . $this->link('admin1259/is_admin/') . '#', $this->getCurrentURL())) {
+                if (isset($_SESSION['admin'])) {
+                    $admin = Session::get('admin');
+                    if (!$this->getJSON($this->link('admin1259/is_admin/' . $admin->admin_username . '/' . $admin->admin_password))->admin) {
+                        $this->redirect('admin1259/users/signin');
+                    }
+                } else if ($this->link('admin1259/users/signin') != $this->getCurrentURL()) {
                     $this->redirect('admin1259/users/signin');
                 }
-            } else if ($this->link('admin1259/users/signin') != $this->getCurrentURL()) {
-                $this->redirect('admin1259/users/signin');
             }
         }
 
@@ -54,22 +57,23 @@
          *
          * @return boolean
          */
-        function isAdmin() {
+        function is_admin($username, $password) {
             $this->loadModel('Admin');
 
             $user = $this->Admin->select(array(
                 'conditions'    => array(
-                    'id'            => Session::get('admin')->admin_id
+                    'username'            => $username,
+                    'password'            => $password,
                 )
             ));
-            $user = current($user);
 
-            if ($user->admin_username == Session::get('admin')->admin_username && $user->admin_password == Session::get('admin')->admin_password) {
-                return true;
+            if (count($user) == 1) {
+                $data['admin'] = true;
             } else {
-                unset($_SESSION['admin']);
-                return false;
+                $data['admin'] = false;
             }
+
+            View::make('api.index', json_encode($data), false, 'application/json');
         }
 
         /**
