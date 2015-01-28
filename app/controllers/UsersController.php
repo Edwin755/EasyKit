@@ -11,6 +11,7 @@
 
     use Core;
     use Core\Controller;
+    use Core\Exceptions\NotFoundHTTPException;
     use Core\Validation;
     use Core\View;
     use Core\Session;
@@ -201,7 +202,7 @@
                 $admin = Session::get('admin');
                 if (!$this->getJSON($this->link('admin1259/is_admin/' . $admin->admin_username . '/' . $admin->admin_password))->admin) {
                     if ($this->getPrefix() != false && $this->getPrefix() == 'admin') {
-                        $this->redirect('admin1259/users/signin');
+                        throw new NotFoundHTTPException('Non authorized address.');
                     }
                 }
             }
