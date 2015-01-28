@@ -9,7 +9,8 @@
 <div class="page_content">
     <div class="row">
         <div class="col-6">
-            <form action="<?= HTML::link('admin1259/events/store') ?>" method="post">
+            <form action="<?= HTML::link('api/events/create') ?>" method="post">
+                <input name="user" type="hidden" value="1">
                 <div class="form-control inline">
                     <label for="name">Nom<span class="required">*</span></label>
                     <input class="input" id="name" name="name" type="text" placeholder="Nom" required autofocus>

@@ -35,8 +35,9 @@
          * @var string $starttime
          * @var string $endtime
          * @var int $user
+         * @var string $token
          */
-        private $name, $description, $starttime, $endtime, $user;
+        private $name, $description, $starttime, $endtime, $user, $token;
 
         /**
          * Errors
@@ -146,6 +147,26 @@
         }
 
         /**
+         * Get Token
+         *
+         * @return mixed
+         */
+        private function getToken()
+        {
+            return $this->token;
+        }
+
+        /**
+         * Set Token
+         *
+         * @param $token
+         */
+        private function setToken($token)
+        {
+            $this->token = $token;
+        }
+
+        /**
          * Constructor
          *
          * @return void
@@ -250,27 +271,36 @@
                     $this->errors['endtime'] = 'Wrong endtime.';
                 }
 
-                if (isset($_POST['user']) && $_POST['user'] != null) {
-                    $this->setUser($_POST['user']);
+                if (isset($_POST['token']) && $_POST['token'] != null) {
+                    $this->setToken($_POST['token']);
+                    $token = true;
                 } else {
-                    $this->errors['user'] = 'Wrong user.';
+                    $this->setUser(1);
+                    $token = false;
                 }
 
                 if (empty($this->errors)) {
                     $this->loadModel('Events');
                     $this->loadModel('Users');
-                    $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getUser() . '/' . $_SERVER['REMOTE_ADDR']));
+                    if ($token) {
+                        $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getToken() . '/' . $_SERVER['REMOTE_ADDR']));
+                        if ($user->valid) {
+                            $user_id = $user->user->tokens_users_id;
+                        } else {
+                            $this->errors['user'] = $user->errors;
+                        }
+                    } else {
+                        $user_id = $this->getUser();
+                    }
 
-                    if ($user->valid) {
+                    if (empty($this->errors)) {
                         $this->Events->save([
                             'name'          => $this->getName(),
                             'description'   => $this->getDescription(),
                             'starttime'     => $this->getStarttime(),
                             'endtime'       => $this->getEndtime(),
-                            'users_id'      => $user->user->tokens_users_id
+                            'users_id'      => $user_id
                         ]);
-                    } else {
-                        $this->errors['user'] = 'User does not exist.';
                     }
                 }
             } else {

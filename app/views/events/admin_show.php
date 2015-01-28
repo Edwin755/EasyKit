@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="text-right addon">
-                <?= $event->events_geox ?>, <?= $event->events_geoy ?><span class="fa fa-map-marker"></span>
+                <?= $event->events_address ?>, <?= $event->events_city ?>, <?= $event->events_country ?><span class="fa fa-map-marker"></span>
             </div>
             <div class="text-right addon">
                 Du <strong><?= date('j M Y', strtotime($event->events_starttime)) ?></strong> au <strong><?= date('j M Y', strtotime($event->events_endtime)) ?></strong><span class="fa fa-calendar"></span>
