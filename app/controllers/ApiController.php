@@ -91,6 +91,15 @@
         }
 
         /**
+         * Packs Action
+         *
+         * @return void
+         */
+        function steps() {
+            $this->useController('Steps', 'api_', func_get_args(), false, 'get');
+        }
+
+        /**
          * Medias Action
          *
          * @return void
