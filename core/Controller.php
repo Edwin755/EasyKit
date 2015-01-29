@@ -245,6 +245,47 @@
         }
 
         /**
+         * Post via CURL
+         *
+         * @param string $url
+         * @param array $fields
+         * @param array $options
+         *
+         * @return bool
+         */
+        protected function postCURL($url, $fields, $options = []) {
+            $defaults = [
+                CURLOPT_URL             => $url,
+                CURLOPT_HEADER          => 0,
+                CURLOPT_RETURNTRANSFER  => TRUE,
+                CURLOPT_TIMEOUT         => 4,
+                CURLOPT_POST            => count($fields)
+            ];
+
+            $field_string = '';
+
+            foreach ($fields as $k => $v) {
+                $fields[$k] = urlencode($v);
+                $field_string .= $k . '=' . $v . '&';
+            }
+
+            rtrim($field_string, '&');
+
+            $options[CURLOPT_POSTFIELDS] = $field_string;
+
+            $ch = curl_init();
+            curl_setopt_array($ch, ($options + $defaults));
+
+            if(!$result = curl_exec($ch))
+            {
+                trigger_error(curl_error($ch));
+            }
+            curl_close($ch);
+
+            return $result;
+        }
+
+        /**
          * Load model
          *
          * @param $model string Name of the model and name of the file

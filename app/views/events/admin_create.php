@@ -9,7 +9,7 @@
 <div class="page_content">
     <div class="row">
         <div class="col-6">
-            <form action="<?= HTML::link('api/events/create') ?>" method="post">
+            <form action="<?= HTML::link('admin1259/events/store') ?>" method="post">
                 <input name="user" type="hidden" value="1">
                 <div class="form-control inline">
                     <label for="name">Nom<span class="required">*</span></label>
@@ -21,11 +21,11 @@
                 </div>
                 <div class="form-control inline">
                     <label for="start">Date de début<span class="required">*</span></label>
-                    <input class="input" id="start" name="start" type="date" required>
+                    <input class="input" id="starttime" name="starttime" type="datetime-local" required>
                 </div>
                 <div class="form-control inline">
                     <label for="end">Date de fin<span class="required">*</span></label>
-                    <input class="input" id="end" name="end" type="date" required>
+                    <input class="input" id="endtime" name="endtime" type="datetime-local" required>
                 </div>
                 <div class="form-control">
                     <button class="btn btn-primary" id="send">Ajouter</button>
