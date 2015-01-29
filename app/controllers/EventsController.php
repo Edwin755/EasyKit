@@ -48,6 +48,13 @@
         private $errors = [];
 
         /**
+         * Fields
+         *
+         * @var array $fields
+         */
+        private $fields = [];
+
+        /**
          * Get Name
          *
          * @return mixed
@@ -65,6 +72,7 @@
         private function setName($name)
         {
             $this->name = $name;
+            $this->fields['name'] = $this->name;
         }
 
         /**
@@ -85,6 +93,7 @@
         private function setDescription($description)
         {
             $this->description = $description;
+            $this->fields['description'] = $this->description;
         }
 
         /**
@@ -106,6 +115,7 @@
         {
             if (Validation::validateDate($starttime, 'Y-m-d H:i')) {
                 $this->starttime = $starttime;
+                $this->fields['starttime'] = $this->starttime;
             } else {
                 $this->errors['starttime'] = 'Not a datetime.';
             }
@@ -130,6 +140,7 @@
         {
             if (Validation::validateDate($endtime, 'Y-m-d H:i')) {
                 $this->endtime = $endtime;
+                $this->fields['endtime'] = $this->endtime;
             } else {
                 $this->errors['endtime'] = 'Not a datetime.';
             }
@@ -321,6 +332,81 @@
                 }
             } else {
                 $this->errors['POST'] = 'No POST received.';
+            }
+
+            $data['success'] = !empty($this->errors) ? false : true;
+            $data['errors'] = $this->errors;
+
+            View::make('api.index', json_encode($data), false, 'application/json');
+        }
+
+        /**
+         * API Edit
+         *
+         * @param null $id
+         * @throws NotFoundHTTPException
+         * @throws \Exception
+         */
+        function api_edit($id = null) {
+            if ($id != null) {
+                if (!empty($_POST)) {
+                    if (isset($_POST['name']) && $_POST['name'] != null) {
+                        $this->setName($_POST['name']);
+                    }
+
+                    if (isset($_POST['description']) && $_POST['description'] != null) {
+                        $this->setDescription($_POST['description']);
+                    }
+
+                    if (isset($_POST['starttime']) && $_POST['starttime'] != null) {
+                        $this->setStarttime($_POST['starttime']);
+                    }
+
+                    if (isset($_POST['endtime']) && $_POST['endtime'] != null) {
+                        $this->setEndtime($_POST['endtime']);
+                    }
+
+                    if (isset($_POST['token']) && $_POST['token'] != null) {
+                        $this->setToken($_POST['token']);
+                    } else {
+                        $this->errors['token'] = 'No token given.';
+                    }
+
+                    if (empty($this->errors)) {
+                        $this->loadModel('Events');
+                        $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getToken() . '/' . $_SERVER['REMOTE_ADDR']));
+                        if ($user->valid) {
+                            $user_id = $user->user->tokens_users_id;
+                        } else {
+                            $this->errors['user'] = $user->errors;
+                        }
+
+                        $event = $this->Events->select([
+                            'conditions'    => [
+                                'id'            => $id
+                            ]
+                        ]);
+
+                        if (current($event)->events_users_id != 1 && current($event)->events_users_id != $user_id) {
+                            $this->errors['user'] = 'You\'re not the owner of this event.';
+                        } else {
+                            $this->fields['users_id'] = $user_id;
+                        }
+
+                        if (empty($this->errors) && count($event) == 1) {
+                            $this->fields['id'] = $id;
+                            $this->Events->save($this->fields);
+
+                            $data['event'] = $id;
+                        } else {
+                            $this->errors['event'] = 'This event doesn\'t exists.';
+                        }
+                    }
+                } else {
+                    $this->errors['POST'] = 'No POST received.';
+                }
+            } else {
+                $this->errors['id'] = 'No id given.';
             }
 
             $data['success'] = !empty($this->errors) ? false : true;
