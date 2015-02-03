@@ -8,13 +8,16 @@
 
 
 <div id="header">
-    <div id="image-header"></div>
+    <video autoplay loop poster="images/easykit.png" id="bgvid">
+
+<source src="images/easykit.mp4" type="video/mp4">
+</video>
 
     <div id="filtre"></div>
 
     <div id="bar-menu">
         <div id="logo">
-            <a href="./"><img src="<?= HTML::link('default/images/logo.png'); ?>" alt=""></a>
+            <a href="<?= HTML::link('/') ?>"><img src="<?= HTML::link('default/images/logo.png'); ?>" alt=""></a>
         </div>
 
         <ul id="buttons">
