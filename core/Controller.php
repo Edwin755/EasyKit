@@ -258,7 +258,7 @@
                 CURLOPT_URL             => $url,
                 CURLOPT_HEADER          => 0,
                 CURLOPT_RETURNTRANSFER  => TRUE,
-                CURLOPT_TIMEOUT         => 4,
+                CURLOPT_TIMEOUT         => 30,
                 CURLOPT_POST            => count($fields)
             ];
 

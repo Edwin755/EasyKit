@@ -601,6 +601,15 @@
         }
 
         /**
+         *
+         */
+        function register()
+        {
+            $data = $_POST;
+            View::make('users.register', $data, 'default');
+        }
+
+        /**
          * Admin Index Action
          *
          * @return void

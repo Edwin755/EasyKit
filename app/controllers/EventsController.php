@@ -270,6 +270,9 @@
 
         /**
          * API Create
+         *
+         * @throws NotFoundHTTPException
+         * @throws \Exception
          */
         function api_create()
         {
@@ -277,7 +280,7 @@
                 if (isset($_POST['name']) && $_POST['name'] != null) {
                     $this->setName($_POST['name']);
                 } else {
-                    $this->errors['name'] = 'Wrong name.';
+                    $this->errors['name'] = 'Empty name.';
                 }
 
                 if (isset($_POST['description']) && $_POST['description'] != null) {
@@ -287,13 +290,13 @@
                 if (isset($_POST['starttime']) && $_POST['starttime'] != null) {
                     $this->setStarttime($_POST['starttime']);
                 } else {
-                    $this->errors['starttime'] = 'Wrong start time.';
+                    $this->errors['starttime'] = 'Empty start time.';
                 }
 
                 if (isset($_POST['endtime']) && $_POST['endtime'] != null) {
                     $this->setEndtime($_POST['endtime']);
                 } else {
-                    $this->errors['endtime'] = 'Wrong endtime.';
+                    $this->errors['endtime'] = 'Empty endtime.';
                 }
 
                 if (isset($_POST['token']) && $_POST['token'] != null) {
@@ -413,6 +416,12 @@
             $data['errors'] = $this->errors;
 
             View::make('api.index', json_encode($data), false, 'application/json');
+        }
+
+        function index()
+        {
+            $data = current($this->getJSON($this->link('api/events')));
+            View::make('events.index', $data, 'default');
         }
 
         /**

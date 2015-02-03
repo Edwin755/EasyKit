@@ -88,7 +88,7 @@
          * @param string $value
          */
         function setEnd($value) {
-            if (Validation::validateDate($value)) {
+            if (Validation::validateDate($value, 'Y-m-d H:i')) {
                 $this->end = $value;
             } else {
                 $this->errors['end'] = 'Not a datetime';
@@ -225,19 +225,19 @@
                 if (!empty($_POST['name'])) {
                     $this->setName($_POST['name']);
                 } else {
-                    $this->errors['name'] = 'Wrong name.';
+                    $this->errors['name'] = 'Empty name.';
                 }
 
-                if (!empty($_POST['end'])) {
-                    $this->setEnd($_POST['end']);
+                if (!empty($_POST['endtime'])) {
+                    $this->setEnd($_POST['endtime']);
                 } else {
-                    $this->errors['end'] = 'Wrong end time.';
+                    $this->errors['endtime'] = 'Empty end time.';
                 }
 
                 if (!empty($_POST['token'])) {
                     $this->setToken($_POST['token']);
                 } else {
-                    $this->errors['token'] = 'Wrong token.';
+                    $this->errors['token'] = 'Empty token.';
                 }
 
                 if (!empty($_POST['description'])) {
@@ -271,11 +271,24 @@
         }
 
         /**
+         * Index
          *
+         * @throws NotFoundHTTPException
          */
         function index() {
             View::$title = 'Create your pack';
             View::make('packs.index', null, 'default');
+        }
+
+        /**
+         * Summary
+         *
+         * @throws NotFoundHTTPException
+         */
+        function summary()
+        {
+            $data = false;
+            View::make('packs.summary', $data, 'default');
         }
 
         /**
