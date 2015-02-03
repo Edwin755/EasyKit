@@ -29,7 +29,7 @@
 
         <div id="login-popup">
             <form class="sign-up login" style="border:solid 1px white;">
-                <a href="#" id="close"></a> <input type="email" class="sign-up-input" placeholder="What's your mail?"> <input type="password" class="sign-up-input" placeholder="Password"> <input type="submit" value="Log in!" class="sign-up-button">
+                <a href="#" id="close"></a> <input type="email" class="sign-up-input" id="emailLogin" placeholder="What's your mail?"> <input type="password" id="passwordLogin" class="sign-up-input" placeholder="Password"> <input type="submit" id="submitLogin" value="Log in!" class="sign-up-button">
 
                 <ul class="social_button">
                     <li class="button fb"><a href="construction.html">With Facebook</a></li>

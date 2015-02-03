@@ -230,6 +230,17 @@
         }
 
         /**
+         * Remember me
+         */
+        private function rememberMe($user, $token)
+        {
+            if ($this->getRemember()) {
+                Cookie::set('user_username', $user->users_email);
+                Cookie::set('user_token', $token);
+            }
+        }
+
+        /**
          * Constructor
          *
          * @return void
@@ -293,7 +304,7 @@
                 $this->loadModel('Users');
 
                 if (!isset($_POST['email']) || $_POST['email'] == null || !Validation::validateEmail($_POST['email'])) {
-                    $this->errors['email'] = 'Wrong email';
+                    $this->errors['email'] = 'Empty email.';
                 } else {
                     $user = $this->Users->select(array(
                         'conditions'    => array(
@@ -309,7 +320,7 @@
                 }
 
                 if (!isset($_POST['password']) || $_POST['password'] == null) {
-                    $this->errors['password'] = 'Wrong password';
+                    $this->errors['password'] = 'Empty password.';
                 } else {
                     $this->setPassword($_POST['password']);
                 }
@@ -494,15 +505,19 @@
                 $data = array();
 
                 if (!isset($_POST['email']) || $_POST['email'] == null || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-                    $this->errors['email'] = 'Wrong email';
+                    $this->errors['email'] = 'Empty email.';
                 } else {
                     $this->setEmail($_POST['email']);
                 }
 
                 if (!isset($_POST['password']) || $_POST['password'] == null) {
-                    $this->errors['password'] = 'Wrong password';
+                    $this->errors['password'] = 'Empty password.';
                 } else {
                     $this->setPassword($_POST['password']);
+                }
+
+                if (isset($_POST['remember']) && $_POST['remember'] != null) {
+                    $this->setRemember($_POST['remember']);
                 }
 
                 unset($_POST);
@@ -536,6 +551,7 @@
                                 $this->errors = $request->errors;
                             }
                             $data['token'] = $token;
+                            $this->rememberMe($user, $token);
                         } else if (current($user->users_tokens)->tokens_disabled == 0) {
                             $request = $this->getJSON($this->link('api/users/checkToken/' . current($user->users_tokens)->tokens_token . '/' . $_SERVER['REMOTE_ADDR']));
                             $data['authed'] = $request->valid;
@@ -543,8 +559,9 @@
                                 $this->errors = $request->errors;
                             }
                             $data['token'] = current($user->users_tokens)->tokens_token;
+                            $this->rememberMe($user, $data['token']);
                         } else {
-                            $this->errors['token'] = 'Token disabled';
+                            $this->errors['token'] = 'Token disabled.';
                         }
                     } else {
                         $this->errors['credentials'] = 'Wrong credentials.';
