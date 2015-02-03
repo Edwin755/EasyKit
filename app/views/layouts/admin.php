@@ -23,7 +23,7 @@
                         <a href="<?= HTML::link('admin1259') ?>"><span class="fa fa-home"></span>Dashboard</a>
                     </li>
                     <li class="item">
-                        <a href="#" data-subitem><span class="fa fa-heart"></span>Evénements<span class="label label-info">2</span></a>
+                        <a href="#" data-subitem><span class="fa fa-heart"></span>Evénements</a>
                         <ul class="subitem">
                             <li class="item"><a href="<?= HTML::link('admin1259/events') ?>"><span class="fa fa-list"></span>Liste des événements</a></li>
                             <li class="item"><a href="<?= HTML::link('admin1259/events/create') ?>"><span class="fa fa-plus"></span>Ajouter un événement</a></li>
@@ -33,9 +33,9 @@
                         <a href="<?= HTML::link('admin1259/packs') ?>"><span class="fa fa-cube"></span>Packs</a>
                     </li>
                     <li class="item">
-                        <a href="#" data-subitem><span class="fa fa-user"></span>Utilisateurs<span class="label label-danger">3</span></a>
+                        <a href="#" data-subitem><span class="fa fa-user"></span>Utilisateurs</a>
                         <ul class="subitem">
-                            <li class="item"><a href="<?= HTML::link('admin1259/users') ?>"><span class="fa fa-list"></span>Liste des utilisateurs<span class="label label-danger">3</span></a></li>
+                            <li class="item"><a href="<?= HTML::link('admin1259/users') ?>"><span class="fa fa-list"></span>Liste des utilisateurs</a></li>
                             <li class="item"><a href="<?= HTML::link('admin1259/users/create') ?>"><span class="fa fa-plus"></span>Ajouter un utilisateur</a></li>
                         </ul>
                     </li>

@@ -27,7 +27,7 @@
 
             <li id="item3" class="item3"><a href="#">Log in</a></li>
 
-            <li id="item4"><a href="register.html">Register</a></li>
+            <li id="item4"><a href="<?= HTML::link('users/register'); ?>">Register</a></li>
         </ul>
 
         <div id="login-popup">
@@ -56,7 +56,7 @@
 
                 <li class="menu_deroulant"><a href="#" class="item3">Login</a></li>
 
-                <li class="menu_deroulant"><a href="register.html">Register</a></li>
+                <li class="menu_deroulant"><a href="<?= HTML::link('users/register'); ?>">Register</a></li>
             </ul>
         </div>
     </div>
@@ -64,7 +64,7 @@
     <div id="search-area">
         <h1>Less planning, more sharing</h1>
 
-        <h3>Create the perfect pack in three easy steps</h3><a id="cta" href="create_your_pack.html" onclick="ga('send','event', 'Lien', 'Clic', 'Button Create Pack');">Create your pack</a> <!--<div id="bar-search">
+        <h3>Create the perfect pack in three easy steps</h3><a id="cta" href="<?= HTML::link('packs') ?>" onclick="ga('send','event', 'Lien', 'Clic', 'Button Create Pack');">Create your pack</a> <!--<div id="bar-search">
         <form id="formu" method="post" action="traitement.php">
         <input type="search" id="search" placeholder="Search an event to start your pack...">
         </form>
@@ -110,7 +110,7 @@
     </div>
 
     <div id="all-events">
-        <a href="#">See all events</a>
+        <a href="<?= HTML::link('events') ?>">See all events</a>
     </div>
 </div>
 

@@ -24,6 +24,7 @@
          * @return bool
          */
         static public function validateDate($date, $format = 'Y-m-d H:i:s') {
+            $date = str_replace('T', ' ', $date);
             $d = DateTime::createFromFormat($format, $date);
             return $d && $d->format($format) == $date;
         }
