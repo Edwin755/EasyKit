@@ -36,12 +36,6 @@
 
                 <ul class="social_button">
                     <li class="button fb"><a href="construction.html">With Facebook</a></li>
-
-                    <li class="button tw"><a href="construction.html">With Twitter</a></li>
-
-                    <li class="button in"><a href="construction.html">With Linkedin</a></li>
-
-                    <li class="button g"><a href="construction.html">With Google +</a></li>
                 </ul>
             </form>
         </div>
@@ -77,6 +71,7 @@
     <h2>Popular Events</h2>
 
     <div class="trait"></div>
+    <span us-spinner="{radius:30, width:8, length: 16}"></span>
 
     <div class="block" ng-repeat="event in data.events track by $index" id="{{index}}">
         <div class="couverture">
