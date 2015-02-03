@@ -30,7 +30,7 @@
         function index() {
             View::$title = 'Accueil';
 
-            View::make('home.index', null, 'default');
+            View::make('home.index', null, 'home');
         }
 
         /**

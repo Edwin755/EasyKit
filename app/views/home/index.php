@@ -14,7 +14,7 @@
 
     <div id="bar-menu">
         <div id="logo">
-            <a href="./"><img src="<?= HTML::link('default/images/logo.png'); ?>" alt=""></a>
+            <a href="<?= HTML::link('/') ?>"><img src="<?= HTML::link('default/images/logo.png'); ?>" alt=""></a>
         </div>
 
         <ul id="buttons">
