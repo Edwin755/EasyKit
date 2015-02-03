@@ -33,7 +33,7 @@
                         <ul class="menu">
                             <li class="item"><a href="<?= HTML::link('admin1259/events/show/' . $event->events_id) ?>">Voir</a></li>
                             <li class="item"><a href="<?= HTML::link('admin1259/events/edit/' . $event->events_id) ?>">Modifier</a></li>
-                            <li class="item"><a href="<?= HTML::link('admin1259/events/delete/' . $event->events_id) ?>">Supprimer</a></li>
+                            <li class="item"><a href="<?= HTML::link('admin1259/events/delete/' . $event->events_id) ?>" class="remove">Supprimer</a></li>
                         </ul>
                     </div>
                 </div>
@@ -42,3 +42,43 @@
     </div>
 </div>
 <script src="<?= HTML::link('admin/scripts/slides.js') ?>"></script>
+<script>
+    (function ($) {
+        $('.remove').on('click', function (e) {
+            e.preventDefault();
+
+            var me = $(this),
+                url = me.attr('href'),
+                container = me.parent().parent().parent().parent().parent();
+
+            $.ajax({
+                'url': url,
+                'dataType': 'json',
+                beforeSend: function () {
+                    container.addClass('loading');
+                },
+                success: function (json) {
+                    var status;
+                    var msg;
+                    if (json.success == false) {
+                        status = 'danger';
+                        msg = 'Une erreur est survenue:<ul>';
+                        for (var i in json.errors) {
+                            msg += '<li>' + json.errors[i] + '</li>';
+                        }
+                        msg += '</ul>';
+                    } else {
+                        status = 'success';
+                        msg = 'L\'événement a bien été supprimé.';
+                    }
+
+                    $('.alert').remove();
+
+                    container.remove();
+
+                    $('.page_content').prepend('<div class="alert alert-' + status + '">' + msg + '</div>');
+                }
+            });
+        });
+    })(jQuery);
+</script>

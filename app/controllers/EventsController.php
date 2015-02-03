@@ -25,7 +25,8 @@
      * @property mixed Events
      * @property mixed Users
      */
-    class EventsController extends Controller {
+    class EventsController extends Controller
+    {
 
         /**
          * Datas for model
@@ -47,11 +48,19 @@
         private $errors = [];
 
         /**
+         * Fields
+         *
+         * @var array $fields
+         */
+        private $fields = [];
+
+        /**
          * Get Name
          *
          * @return mixed
          */
-        private function getName() {
+        private function getName()
+        {
             return $this->name;
         }
 
@@ -60,8 +69,10 @@
          *
          * @param mixed $name
          */
-        private function setName($name) {
+        private function setName($name)
+        {
             $this->name = $name;
+            $this->fields['name'] = $this->name;
         }
 
         /**
@@ -69,7 +80,8 @@
          *
          * @return mixed
          */
-        private function getDescription() {
+        private function getDescription()
+        {
             return $this->description;
         }
 
@@ -78,8 +90,10 @@
          *
          * @param mixed $description
          */
-        private function setDescription($description) {
+        private function setDescription($description)
+        {
             $this->description = $description;
+            $this->fields['description'] = $this->description;
         }
 
         /**
@@ -87,7 +101,8 @@
          *
          * @return mixed
          */
-        private function getStarttime() {
+        private function getStarttime()
+        {
             return $this->starttime;
         }
 
@@ -96,9 +111,11 @@
          *
          * @param mixed $starttime
          */
-        private function setStarttime($starttime) {
-            if (Validation::validateDate($starttime)) {
+        private function setStarttime($starttime)
+        {
+            if (Validation::validateDate($starttime, 'Y-m-d H:i')) {
                 $this->starttime = $starttime;
+                $this->fields['starttime'] = $this->starttime;
             } else {
                 $this->errors['starttime'] = 'Not a datetime.';
             }
@@ -109,7 +126,8 @@
          *
          * @return mixed
          */
-        private function getEndtime() {
+        private function getEndtime()
+        {
             return $this->endtime;
         }
 
@@ -118,9 +136,11 @@
          *
          * @param mixed $endtime
          */
-        private function setEndtime($endtime) {
-            if (Validation::validateDate($endtime)) {
+        private function setEndtime($endtime)
+        {
+            if (Validation::validateDate($endtime, 'Y-m-d H:i')) {
                 $this->endtime = $endtime;
+                $this->fields['endtime'] = $this->endtime;
             } else {
                 $this->errors['endtime'] = 'Not a datetime.';
             }
@@ -171,7 +191,8 @@
          *
          * @return void
          */
-        function constructor() {
+        function constructor()
+        {
             if (isset($_SESSION['admin'])) {
                 $admin = Session::get('admin');
                 if (!$this->getJSON($this->link('admin1259/is_admin/' . $admin->admin_username . '/' . $admin->admin_password))->admin) {
@@ -189,7 +210,8 @@
          *
          * @return void
          */
-        function api_get($id = null) {
+        function api_get($id = null)
+        {
             $this->loadModel('Events');
 
             if ($id != null) {
@@ -249,7 +271,8 @@
         /**
          * API Create
          */
-        function api_create() {
+        function api_create()
+        {
             if (!empty($_POST)) {
                 if (isset($_POST['name']) && $_POST['name'] != null) {
                     $this->setName($_POST['name']);
@@ -303,6 +326,8 @@
                             'endtime'       => $this->getEndtime(),
                             'users_id'      => $user_id
                         ]);
+
+                        $data['event'] = $this->Events->lastInsertId;
                     }
                 }
             } else {
@@ -316,11 +341,87 @@
         }
 
         /**
+         * API Edit
+         *
+         * @param null $id
+         * @throws NotFoundHTTPException
+         * @throws \Exception
+         */
+        function api_edit($id = null) {
+            if ($id != null) {
+                if (!empty($_POST)) {
+                    if (isset($_POST['name']) && $_POST['name'] != null) {
+                        $this->setName($_POST['name']);
+                    }
+
+                    if (isset($_POST['description']) && $_POST['description'] != null) {
+                        $this->setDescription($_POST['description']);
+                    }
+
+                    if (isset($_POST['starttime']) && $_POST['starttime'] != null) {
+                        $this->setStarttime($_POST['starttime']);
+                    }
+
+                    if (isset($_POST['endtime']) && $_POST['endtime'] != null) {
+                        $this->setEndtime($_POST['endtime']);
+                    }
+
+                    if (isset($_POST['token']) && $_POST['token'] != null) {
+                        $this->setToken($_POST['token']);
+                    } else {
+                        $this->errors['token'] = 'No token given.';
+                    }
+
+                    if (empty($this->errors)) {
+                        $this->loadModel('Events');
+                        $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getToken() . '/' . $_SERVER['REMOTE_ADDR']));
+                        if ($user->valid) {
+                            $user_id = $user->user->tokens_users_id;
+                        } else {
+                            $this->errors['user'] = $user->errors;
+                        }
+
+                        $event = $this->Events->select([
+                            'conditions'    => [
+                                'id'            => $id
+                            ]
+                        ]);
+
+                        if (current($event)->events_users_id != 1 && current($event)->events_users_id != $user_id) {
+                            $this->errors['user'] = 'You\'re not the owner of this event.';
+                        } else {
+                            $this->fields['users_id'] = $user_id;
+                        }
+
+                        if (empty($this->errors) && count($event) == 1) {
+                            $this->fields['id'] = $id;
+                            $this->Events->save($this->fields);
+
+                            $data['event'] = $id;
+                        } else {
+                            $this->errors['event'] = 'This event doesn\'t exists.';
+                        }
+                    }
+                } else {
+                    $this->errors['POST'] = 'No POST received.';
+                }
+            } else {
+                $this->errors['id'] = 'No id given.';
+            }
+
+            $data['success'] = !empty($this->errors) ? false : true;
+            $data['errors'] = $this->errors;
+
+            View::make('api.index', json_encode($data), false, 'application/json');
+        }
+
+        /**
          * Admin Index Action
          *
          * @return void
          */
-        function admin_index() {
+        function admin_index()
+        {
             View::$title = 'Événements';
 
             $this->loadModel('Events');
@@ -337,7 +438,8 @@
          *
          * @throws NotFoundHTTPException
          */
-        function admin_show($id = null) {
+        function admin_show($id = null)
+        {
             $this->loadModel('Events');
 
             if ($id != null) {
@@ -358,17 +460,24 @@
          *
          * @throws NotFoundHTTPException
          */
-        function admin_create() {
+        function admin_create()
+        {
             View::$title = 'Création d\'un événement';
             View::make('events.admin_create', null, 'admin');
         }
 
         /**
-         * Admin Store
+         * Admin store
          */
         function admin_store() {
             if (!empty($_POST)) {
-
+                $return = json_decode($this->postCURL($this->link('api/events/create'), $_POST), false);
+                if (empty($return->errors)) {
+                    $this->redirect('admin1259/events/edit/' . $return->event);
+                } else {
+                    Session::setFlash('danger', 'L\'événement n\'a pas pu être créé.');
+                    $this->redirect('admin1259/events/create');
+                }
             }
         }
 
@@ -377,10 +486,33 @@
          *
          * @return void
          */
-        function admin_count() {
+        function admin_count()
+        {
             $this->loadModel('Events');
 
             $data['count'] = $this->Events->select(array('count' => true));
+
+            View::make('api.index', json_encode($data), false, 'application/json');
+        }
+
+        /**
+         * Delete an event
+         *
+         * @param int $id
+         * @throws NotFoundHTTPException
+         * @throws \Exception
+         */
+        function admin_delete($id = null)
+        {
+            if ($id != null) {
+                $this->loadModel('Events');
+                $this->Events->delete($id);
+            } else {
+                $this->errors['id'] = 'No id given.';
+            }
+
+            $data['success'] = empty($this->errors) ? true : false;
+            $data['errors'] = $this->errors;
 
             View::make('api.index', json_encode($data), false, 'application/json');
         }

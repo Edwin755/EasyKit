@@ -33,7 +33,14 @@
          *
          * @var array $errors
          */
-        private $errors = array();
+        private $errors = [];
+
+        /**
+         * Fields
+         *
+         * @var array $fields
+         */
+        private $fields = [];
 
         /**
          * Datas for model
@@ -45,8 +52,9 @@
          * @var string $firstname
          * @var string $lastname
          * @var string $birth
+         * @var string $token
          */
-        private $email, $username, $password, $remember, $firstname, $lastname, $birth;
+        private $email, $username, $password, $remember, $firstname, $lastname, $birth, $token;
 
         /**
          * Get the Email
@@ -55,15 +63,6 @@
          */
         function getEmail() {
             return $this->email;
-        }
-
-        /**
-         * Get the Username
-         *
-         * @return string
-         */
-        function getUsername() {
-            return $this->username;
         }
 
         /**
@@ -112,6 +111,16 @@
         }
 
         /**
+         * Get the username
+         *
+         * @return string
+         */
+        function getUsername()
+        {
+            return $this->username;
+        }
+
+        /**
          * Set the Email
          *
          * @param string $value
@@ -120,17 +129,7 @@
          */
         function setEmail($value) {
             $this->email = $value;
-        }
-
-        /**
-         * Set the Username
-         *
-         * @param string $value
-         *
-         * @return string
-         */
-        function setUsername($value) {
-            $this->username = $value;
+            $this->fields['email'] = $value;
         }
 
         /**
@@ -141,7 +140,12 @@
          * @return string
          */
         function setPassword($value) {
-            $this->password = $value;
+            if (strlen($value) > 6) {
+                $this->password = md5(sha1($value));
+                $this->fields['password'] = $this->password;
+            } else {
+                $this->errors['password'] = 'Password too short.';
+            }
         }
 
         /**
@@ -164,6 +168,7 @@
          */
         function setFirstname($value) {
             $this->firstname = $value;
+            $this->fields['firstname'] = $value;
         }
 
         /**
@@ -175,6 +180,7 @@
          */
         function setLastname($value) {
             $this->lastname = $value;
+            $this->fields['lastname'] = $value;
         }
 
         /**
@@ -187,9 +193,40 @@
         function setBirth($value) {
             if (Validation::validateDate($value, 'Y-m-d')) {
                 $this->birth = $value;
+                $this->fields['birth'] = $value;
             } else {
                 $this->errors['date'] = 'Wrong date.';
             }
+        }
+
+        /**
+         * Set the username
+         *
+         * @param $username string
+         */
+        public function setUsername($username)
+        {
+            $this->username = $username;
+        }
+
+        /**
+         * Get Token
+         *
+         * @return mixed
+         */
+        public function getToken()
+        {
+            return $this->token;
+        }
+
+        /**
+         * Set Token
+         *
+         * @param mixed $token
+         */
+        public function setToken($token)
+        {
+            $this->token = $token;
         }
 
         /**
@@ -261,8 +298,8 @@
                     $user = $this->Users->select(array(
                         'conditions'    => array(
                             'email'         => $_POST['email']
-                            )
-                        ));
+                        )
+                    ));
 
                     if (count($user) < 1) {
                         $this->setEmail($_POST['email']);
@@ -271,7 +308,7 @@
                     }
                 }
 
-                if (!isset($_POST['password']) || $_POST['password'] == null || strlen($_POST['password']) < 6) {
+                if (!isset($_POST['password']) || $_POST['password'] == null) {
                     $this->errors['password'] = 'Wrong password';
                 } else {
                     $this->setPassword($_POST['password']);
@@ -291,12 +328,12 @@
 
                 if (empty($this->errors)) {
                     $this->Users->save(array(
-                        'password'  => md5(sha1($this->getPassword())),
+                        'password'  => $this->getPassword(),
                         'email'     => $this->getEmail(),
                         'firstname' => $this->getFirstname(),
                         'lastname'  => $this->getLastname(),
                         'birth'     => $this->getBirth(),
-                        ));
+                    ));
 
                     $data['success'] = true;
                 } else {
@@ -308,6 +345,81 @@
                 $this->errors['POST'] = 'No POST received.';
             }
 
+            $data['errors'] = $this->errors;
+
+            View::make('api.index', json_encode($data), false, 'application/json');
+        }
+
+        /**
+         * Register Action
+         *
+         * @return void
+         */
+        function api_edit($id = null) {
+            if ($id != null) {
+                if (!empty($_POST)) {
+                    $data = array();
+
+                    if (isset($_POST['password']) && $_POST['password'] != null) {
+                        $this->setPassword($_POST['password']);
+                    }
+
+                    if (isset($_POST['firstname']) && $_POST['firstname'] != null) {
+                        $this->setFirstname($_POST['firstname']);
+                    }
+
+                    if (isset($_POST['lastname']) && $_POST['lastname'] != null) {
+                        $this->setLastname($_POST['lastname']);
+                    }
+
+                    if (isset($_POST['birth']) && $_POST['birth'] != null) {
+                        $this->setBirth($_POST['birth']);
+                    }
+
+                    if (isset($_POST['token']) && $_POST['token'] != null) {
+                        $this->setToken($_POST['token']);
+                    } else {
+                        $this->errors['token'] = 'No token given.';
+                    }
+
+                    if (empty($this->errors)) {
+                        $this->loadModel('Users');
+                        $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getToken() . '/' . $_SERVER['REMOTE_ADDR']));
+                        if ($user->valid) {
+                            $user_id = $user->user->tokens_users_id;
+                        } else {
+                            $this->errors['token'] = $user->errors;
+                        }
+
+                        $user_model = $this->Users->select([
+                            'conditions'    => [
+                                'id'            => $id
+                            ]
+                        ]);
+
+                        if (count($user_model) != 1) {
+                            $this->errors['user'] = 'This user doesn\'t exists.';
+                        } else if (empty($this->errors)) {
+                            if (current($user_model)->users_id != $user_id) {
+                                $this->errors['user'] = 'You\'re not allowed to edit this user.';
+                            }
+                        }
+
+                        if (empty($this->errors)) {
+                            $this->fields['id'] = $id;
+                            $this->Users->save($this->fields);
+
+                            $data['user'] = $id;
+                        }
+                    }
+                } else {
+                    $this->errors['POST'] = 'No POST received.';
+                }
+            } else {
+                $this->errors['id'] = 'No id given.';
+            }
+
+            $data['success'] = !empty($this->errors) ? false : true;
             $data['errors'] = $this->errors;
 
             View::make('api.index', json_encode($data), false, 'application/json');
@@ -387,7 +499,7 @@
                     $this->setEmail($_POST['email']);
                 }
 
-                if (!isset($_POST['password']) || $_POST['password'] == null || strlen($_POST['password']) < 6) {
+                if (!isset($_POST['password']) || $_POST['password'] == null) {
                     $this->errors['password'] = 'Wrong password';
                 } else {
                     $this->setPassword($_POST['password']);
@@ -401,11 +513,11 @@
                     $user = $this->Users->select(array(
                         'conditions'    => array(
                             'email'         => $this->getEmail(),
-                            'password'      => md5(sha1($this->getPassword())),
+                            'password'      => $this->getPassword(),
                             ),
                         ));
 
-                    if (count($user) > 0) {
+                    if (count($user) == 1) {
                         $user = current($user);
 
                         $this->loadModel('Tokens');
@@ -434,8 +546,6 @@
                         } else {
                             $this->errors['token'] = 'Token disabled';
                         }
-
-
                     } else {
                         $this->errors['credentials'] = 'Wrong credentials.';
                     }
@@ -565,7 +675,7 @@
                     $admin = $this->Admin->select(array(
                         'conditions'    => array(
                             'username'      => $this->getUsername(),
-                            'password'      => md5(sha1($this->getPassword())),
+                            'password'      => $this->getPassword(),
                         ),
                     ));
 
