@@ -18,9 +18,9 @@
 
     <ul id="buttons">
         <!--<li id="item1"><a href="#">Create your pack</a></li>-->
-        <li id="item2"><a href="./#infographie">How it works</a></li>
+        <li id="item2"><a href="<?= HTML::link('/') ?>#infographie">How it works</a></li>
         <li id="item3" class="item3"><a href="#">Log in</a></li>
-        <li id="item4"><a href="register.html">Register</a></li>
+        <li id="item4"><a href="<?= HTML::link('users/register') ?>">Register</a></li>
     </ul>
 
     <div id="login-popup">

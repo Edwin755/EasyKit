@@ -224,12 +224,23 @@
             } else if (isset($req['like'])) {
                 $sql .= ' WHERE ';
                 foreach ($req['like'] as $k => $v) {
+                    $k = strtolower($this->table) . '_' . $k;
                     $conditions[$k] = '`' . $k . '` LIKE :' . $k;
                     
                     $this->params[':' . $k] = '%' . $v . '%';
                 }
 
                 $sql .= implode(' AND ', $conditions);
+            } else if (isset($req['likeor'])) {
+                $sql .= ' WHERE ';
+                foreach ($req['likeor'] as $k => $v) {
+                    $k = strtolower($this->table) . '_' . $k;
+                    $conditions[$k] = '`' . $k . '` LIKE :' . $k;
+
+                    $this->params[':' . $k] = '%' . $v . '%';
+                }
+
+                $sql .= implode(' OR ', $conditions);
             }
 
             /**
@@ -270,19 +281,20 @@
              */
             $pre = $this->pdo->prepare($sql);
             $query = $sql;
+
             foreach ($this->params as $param => $value) {
                 if (is_string($value)) {
                     $pre->bindValue($param, $value, PDO::PARAM_STR);
-                    $query = str_replace(':' . $param, '"' . $value . '"', $sql);
+                    $query = str_replace($param, '"' . $value . '"', $query);
                 } elseif (is_int($value)) {
                     $pre->bindValue($param, $value, PDO::PARAM_INT);
-                    $query = str_replace(':' . $param, $value, $sql);
+                    $query = str_replace($param, $value, $query);
                 } elseif (is_null($value)) {
                     $pre->bindValue($param, $value, PDO::PARAM_NULL);
-                    $query = str_replace(':' . $param, $value, $sql);
+                    $query = str_replace($param, $value, $query);
                 } elseif (is_bool($value)) {
                     $pre->bindValue($param, $value, PDO::PARAM_BOOL);
-                    $query = str_replace(':' . $param, $value, $sql);
+                    $query = str_replace($param, $value, $query);
                 } else {
                     throw new Exception('Error Processing Request. binValue error : ' . $param . ' => ' . $value, 1);
                 }
@@ -359,16 +371,16 @@
             foreach ($this->params as $param => $value) {
                 if (is_string($value)) {
                     $pre->bindValue($param, $value, PDO::PARAM_STR);
-                    $query = str_replace(':' . $param, '"' . $value . '"', $sql);
+                    $query = str_replace($param, '"' . $value . '"', $sql);
                 } elseif (is_int($value)) {
                     $pre->bindValue($param, $value, PDO::PARAM_INT);
-                    $query = str_replace(':' . $param, $value, $sql);
+                    $query = str_replace($param, $value, $sql);
                 } elseif (is_null($value)) {
                     $pre->bindValue($param, $value, PDO::PARAM_NULL);
-                    $query = str_replace(':' . $param, $value, $sql);
+                    $query = str_replace($param, $value, $sql);
                 } elseif (is_bool($value)) {
                     $pre->bindValue($param, $value, PDO::PARAM_BOOL);
-                    $query = str_replace(':' . $param, $value, $sql);
+                    $query = str_replace($param, $value, $sql);
                 } else {
                     throw new Exception('Error Processing Request. binValue error : ' . $param . ' => ' . $value, 1);
                 }
@@ -423,7 +435,7 @@
             $pre = $this->pdo->prepare($sql);
             $pre->bindValue($this->pk, $id, PDO::PARAM_INT);
             $pre->execute();
-            $query = str_replace(':' . $this->pk, $id, $sql);
+            $query = str_replace($this->pk, $id, $sql);
 
             $log = new Logger('delete');
             $log->pushHandler(new StreamHandler(__DIR__ . '/../logs/sql.log', Logger::INFO));
