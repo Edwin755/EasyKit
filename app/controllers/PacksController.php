@@ -271,13 +271,13 @@
         }
 
         /**
-         * Index
+         * Create
          *
          * @throws NotFoundHTTPException
          */
-        function index() {
+        function create() {
             View::$title = 'Create your pack';
-            View::make('packs.index', null, 'default');
+            View::make('packs.create', null, 'default');
         }
 
         /**

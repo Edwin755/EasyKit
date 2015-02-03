@@ -90,8 +90,7 @@ function checkClass(){
 	}
 }
 
-$("#block_menu ul li").on('click',function(){	
-	$(":last-child").unbind('click');
+$("#block_menu ul li:not(:last-child)").on('click',function(){
 	if($(this).hasClass('activeAfter')){
 		$("#bar-menu-1").css({"border-top-right-radius":"5px"});
 		checkClass();
@@ -103,5 +102,287 @@ $("#block_menu ul li").on('click',function(){
 			"transition":"0s"
 		});
 		checkClass();
+	}
+});
+
+$("#bar-menu-1").on('click',function(){
+
+		$("#formulaire")
+		.css({"display" : "block",})
+		$("#formulaire-host")
+		.css({"display" : "none",})
+		$("#formulaire-transport")
+		.css({"display" : "none",})
+		$("#formulaire-contributors")
+		.css({"display" : "none",})
+		$("#formulaire-options")
+		.css({"display" : "none",})
+		
+		$("#bouton-next-1")
+		.css({"display" : "block",})
+		$("#bouton-next-2")
+		.css({"display" : "none",})
+		$("#bouton-next-3")
+		.css({"display" : "none",})
+		$("#bouton-next-4")
+		.css({"display" : "none",})
+		$("#bouton-next-5")
+		.css({"display" : "none",})
+
+});
+
+$("#bar-menu-2").on('click',function(){
+
+		$("#formulaire")
+		.css({"display" : "none",})
+		$("#formulaire-host")
+		.css({"display" : "block",})
+		$("#formulaire-transport")
+		.css({"display" : "none",})
+		$("#formulaire-contributors")
+		.css({"display" : "none",})
+		$("#formulaire-options")
+		.css({"display" : "none",})
+		
+		$("#bouton-next-1")
+		.css({"display" : "none",})
+		$("#bouton-next-2")
+		.css({"display" : "block",})
+		$("#bouton-next-3")
+		.css({"display" : "none",})
+		$("#bouton-next-4")
+		.css({"display" : "none",})
+		$("#bouton-next-5")
+		.css({"display" : "none",})
+
+});
+
+$("#bar-menu-3").on('click',function(){
+
+		$("#formulaire")
+		.css({"display" : "none",})
+		$("#formulaire-host")
+		.css({"display" : "none",})
+		$("#formulaire-transport")
+		.css({"display" : "block",})
+		$("#formulaire-contributors")
+		.css({"display" : "none",})
+		$("#formulaire-options")
+		.css({"display" : "none",})
+		
+		$("#bouton-next-1")
+		.css({"display" : "none",})
+		$("#bouton-next-2")
+		.css({"display" : "none",})
+		$("#bouton-next-3")
+		.css({"display" : "block",})
+		$("#bouton-next-4")
+		.css({"display" : "none",})
+		$("#bouton-next-5")
+		.css({"display" : "none",})
+
+});
+
+$("#bar-menu-4").on('click',function(){
+
+		$("#formulaire")
+		.css({"display" : "none",})
+		$("#formulaire-host")
+		.css({"display" : "none",})
+		$("#formulaire-transport")
+		.css({"display" : "none",})
+		$("#formulaire-contributors")
+		.css({"display" : "block",})
+		$("#formulaire-options")
+		.css({"display" : "none",})
+		
+		$("#bouton-next-1")
+		.css({"display" : "none",})
+		$("#bouton-next-2")
+		.css({"display" : "none",})
+		$("#bouton-next-3")
+		.css({"display" : "none",})
+		$("#bouton-next-4")
+		.css({"display" : "block",})
+		$("#bouton-next-5")
+		.css({"display" : "none",})
+
+});
+
+$("#bar-menu-5").on('click',function(){
+
+		$("#formulaire")
+		.css({"display" : "none",})
+		$("#formulaire-host")
+		.css({"display" : "none",})
+		$("#formulaire-transport")
+		.css({"display" : "none",})
+		$("#formulaire-contributors")
+		.css({"display" : "none",})
+		$("#formulaire-options")
+		.css({"display" : "block",})
+		
+		$("#bouton-next-1")
+		.css({"display" : "none",})
+		$("#bouton-next-2")
+		.css({"display" : "none",})
+		$("#bouton-next-3")
+		.css({"display" : "none",})
+		$("#bouton-next-4")
+		.css({"display" : "none",})
+		$("#bouton-next-5")
+		.css({"display" : "block",})
+
+});
+
+$("#bouton-next-1").on('click',function(){
+		
+		$("#bar-menu-1").removeClass('activeAfter');
+		$("#bar-menu-1").css({
+			"border-top-right-radius":"5px",
+			"transition":"0s"
+		});
+		$("#bar-menu-2").addClass('activeAfter');
+		$("#bar-menu-2").css({
+			"transition":"0s"
+		});
+
+		$("#formulaire")
+		.css({"display" : "none",})
+		$("#formulaire-host")
+		.css({"display" : "block",})
+		$("#formulaire-transport")
+		.css({"display" : "none",})
+		$("#formulaire-contributors")
+		.css({"display" : "none",})
+		$("#formulaire-options")
+		.css({"display" : "none",})
+		
+		$("#bouton-next-1")
+		.css({"display" : "none",})
+		$("#bouton-next-2")
+		.css({"display" : "block",})
+		$("#bouton-next-3")
+		.css({"display" : "none",})
+		$("#bouton-next-4")
+		.css({"display" : "none",})
+		$("#bouton-next-5")
+		.css({"display" : "none",})
+
+});
+
+$("#bouton-next-2").on('click',function(){
+	
+		$("#bar-menu-2").removeClass('activeAfter');
+		
+		$("#bar-menu-3").addClass('activeAfter');
+		$("#bar-menu-3").css({
+			"transition":"0s"
+		});
+
+		$("#formulaire")
+		.css({"display" : "none",})
+		$("#formulaire-host")
+		.css({"display" : "none",})
+		$("#formulaire-transport")
+		.css({"display" : "block",})
+		$("#formulaire-contributors")
+		.css({"display" : "none",})
+		$("#formulaire-options")
+		.css({"display" : "none",})
+		
+		$("#bouton-next-1")
+		.css({"display" : "none",})
+		$("#bouton-next-2")
+		.css({"display" : "none",})
+		$("#bouton-next-3")
+		.css({"display" : "block",})
+		$("#bouton-next-4")
+		.css({"display" : "none",})
+		$("#bouton-next-5")
+		.css({"display" : "none",})
+
+});
+
+$("#bouton-next-3").on('click',function(){
+	
+		$("#bar-menu-3").removeClass('activeAfter');
+		
+		$("#bar-menu-4").addClass('activeAfter');
+		$("#bar-menu-4").css({
+			"transition":"0s"
+		});
+
+		$("#formulaire")
+		.css({"display" : "none",})
+		$("#formulaire-host")
+		.css({"display" : "none",})
+		$("#formulaire-transport")
+		.css({"display" : "none",})
+		$("#formulaire-contributors")
+		.css({"display" : "block",})
+		$("#formulaire-options")
+		.css({"display" : "none",})
+		
+		$("#bouton-next-1")
+		.css({"display" : "none",})
+		$("#bouton-next-2")
+		.css({"display" : "none",})
+		$("#bouton-next-3")
+		.css({"display" : "none",})
+		$("#bouton-next-4")
+		.css({"display" : "block",})
+		$("#bouton-next-5")
+		.css({"display" : "none",})
+
+});
+
+$("#bouton-next-4").on("click",function(){
+	
+		$("#bar-menu-4").removeClass('activeAfter');
+		
+		$("#bar-menu-5").addClass('activeAfter');
+		$("#bar-menu-5").css({
+			"transition":"0s"
+		});
+
+		$("#formulaire").css({"display" : "none"});
+		$("#formulaire-host").css({"display" : "none"});
+		$("#formulaire-transport").css({"display" : "none"});
+		$("#formulaire-contributors").css({"display" : "none"});
+		$("#formulaire-options").css({"display" : "block"});
+		
+		$("#bouton-next-1").css({"display" : "none"});
+		$("#bouton-next-2").css({"display" : "none"});
+		$("#bouton-next-3").css({"display" : "none"});
+		$("#bouton-next-4").css({"display" : "none"});
+		$("#bouton-next-5").css({"display" : "block",})
+
+});
+
+$("#formulaire-host .icones-formu").on('click',function(){
+	if($(this).hasClass('icones-bordures')){
+		$(this).removeClass('icones-bordures');
+	}else{
+		$('#formulaire-host .icones-formu').removeClass('icones-bordures');
+		$(this).addClass('icones-bordures');
+	}
+});
+
+$("#formulaire-transport .icones-formu").on('click',function(){
+	if($(this).hasClass('icones-bordures')){
+		$(this).removeClass('icones-bordures');
+	}else{
+		$('#formulaire-transport .icones-formu').removeClass('icones-bordures');
+		$(this).addClass('icones-bordures');
+	}
+});
+
+$("#formulaire-contributors .icones-formu").on('click',function(){
+	if($(this).hasClass('icones-bordures')){
+		$(this).removeClass('icones-bordures');
+	}else{
+		$('#formulaire-contributors .icones-formu').removeClass('icones-bordures');
+		$(this).addClass('icones-bordures');
 	}
 });

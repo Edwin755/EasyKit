@@ -64,7 +64,7 @@
     <div id="search-area">
         <h1>Less planning, more sharing</h1>
 
-        <h3>Create the perfect pack in three easy steps</h3><a id="cta" href="<?= HTML::link('packs') ?>" onclick="ga('send','event', 'Lien', 'Clic', 'Button Create Pack');">Create your pack</a> <!--<div id="bar-search">
+        <h3>Create the perfect pack in three easy steps</h3><a id="cta" href="<?= HTML::link('packs/create') ?>" onclick="ga('send','event', 'Lien', 'Clic', 'Button Create Pack');">Create your pack</a> <!--<div id="bar-search">
         <form id="formu" method="post" action="traitement.php">
         <input type="search" id="search" placeholder="Search an event to start your pack...">
         </form>

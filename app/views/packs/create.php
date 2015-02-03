@@ -63,25 +63,25 @@
                 <h2>Choose your hosting</h2>
 
                 <div class="icones-formu">
-                    <img src="images/maison.png" alt="">
+                    <img src="<?= HTML::link('default/images/maison.png') ?>" alt="">
 
                     <p>Guesthouse</p>
                 </div>
 
                 <div class="icones-formu seconde-icone">
-                    <img src="images/lit2.png" alt="">
+                    <img src="<?= HTML::link('default/images/lit2.png') ?>" alt="">
 
                     <p>Simple</p>
                 </div>
 
                 <div class="icones-formu">
-                    <img src="images/lit3.png" alt="">
+                    <img src="<?= HTML::link('default/images/lit3.png') ?>" alt="">
 
                     <p>Confortable</p>
                 </div>
 
                 <div class="icones-formu last-icone">
-                    <img src="images/lit4.png" alt="">
+                    <img src="<?= HTML::link('default/images/lit4.png') ?>" alt="">
 
                     <p>Luxury</p>
                 </div>
@@ -100,25 +100,25 @@
                 <h2>Choose your transport</h2>
 
                 <div class="icones-formu">
-                    <img src="images/voiture.png" alt="">
+                    <img src="<?= HTML::link('default/images/voiture.png') ?>" alt="">
 
                     <p>Car</p>
                 </div>
 
                 <div class="icones-formu seconde-icone">
-                    <img src="images/bus2.png" alt="">
+                    <img src="<?= HTML::link('default/images/bus2.png') ?>" alt="">
 
                     <p>Bus</p>
                 </div>
 
                 <div class="icones-formu">
-                    <img src="images/train2.png" alt="">
+                    <img src="<?= HTML::link('default/images/train2.png') ?>" alt="">
 
                     <p>Train</p>
                 </div>
 
                 <div class="icones-formu last-icone">
-                    <img src="images/avion.png" alt="">
+                    <img src="<?= HTML::link('default/images/avion.png') ?>" alt="">
 
                     <p>Plane</p>
                 </div>
@@ -137,25 +137,25 @@
                 <h2>You travel...</h2>
 
                 <div class="icones-formu">
-                    <img src="images/homme.png" alt="">
+                    <img src="<?= HTML::link('default/images/homme.png') ?>" alt="">
 
                     <p>Alone</p>
                 </div>
 
                 <div class="icones-formu seconde-icone">
-                    <img src="images/couple2.png" alt="">
+                    <img src="<?= HTML::link('default/images/couple2.png') ?>" alt="">
 
                     <p>As a couple</p>
                 </div>
 
                 <div class="icones-formu">
-                    <img src="images/famille.png" alt="">
+                    <img src="<?= HTML::link('default/images/famille.png') ?>" alt="">
 
                     <p>In family</p>
                 </div>
 
                 <div class="icones-formu last-icone">
-                    <img src="images/groupe2.png" alt="">
+                    <img src="<?= HTML::link('default/images/groupe2.png') ?>" alt="">
 
                     <p>In group</p>
                 </div>
