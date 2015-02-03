@@ -8,7 +8,10 @@
 
 
 <div id="header">
-    <div id="image-header"></div>
+    <video autoplay loop poster="images/easykit.png" id="bgvid">
+
+<source src="images/easykit.mp4" type="video/mp4">
+</video>
 
     <div id="filtre"></div>
 
