@@ -114,25 +114,25 @@
                 if (isset($_POST['name']) && $_POST['name'] != null) {
                     $this->setName($_POST['name']);
                 } else {
-                    $this->errors['name'] = 'No name given.';
+                    $this->errors['name'] = 'Empty name.';
                 }
 
                 if (isset($_POST['goal']) && $_POST['goal'] != null) {
                     $this->setGoal($_POST['goal']);
                 } else {
-                    $this->errors['goal'] = 'No goal given.';
+                    $this->errors['goal'] = 'Empty goal.';
                 }
 
                 if (isset($_POST['pack']) && $_POST['pack'] != null) {
                     $this->setPack($_POST['pack']);
                 } else {
-                    $this->errors['pack'] = 'No pack id given.';
+                    $this->errors['pack'] = 'Empty pack id.';
                 }
 
                 if (isset($_POST['token']) && $_POST['token'] != null) {
                     $this->setToken($_POST['token']);
                 } else {
-                    $this->errors['token'] = 'No token given.';
+                    $this->errors['token'] = 'Empty token.';
                 }
 
                 if (empty($this->errors)) {
