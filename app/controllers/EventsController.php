@@ -193,7 +193,7 @@
          */
         function constructor()
         {
-            if (isset($_SESSION['admin'])) {
+            if (isset($_SESSION['admin']) && $this->getPrefix() == 'admin') {
                 $admin = Session::get('admin');
                 if (!$this->getJSON($this->link('admin1259/is_admin/' . $admin->admin_username . '/' . $admin->admin_password))->admin) {
                     if ($this->getPrefix() != false && $this->getPrefix() == 'admin') {
@@ -242,25 +242,38 @@
                 $page = isset($_GET['page']) ? $_GET['page'] : 1;
                 $page = (($page - 1) * $nb);
 
-                $data['events'] = $this->Events->select(array(
+                $req = [
                     'order' => 'desc',
                     'limit' => array($page, $page + $nb),
-                ));
+                ];
 
-                foreach ($data['events'] as $event) {
-                    $event->user = current($this->getJSON($this->link('api/users/get/' . $event->events_users_id)));
+                if (isset($_GET['search'])) {
+                    $req['likeor'] = [
+                        'name'          => $_GET['search'],
+                        'city'          => $_GET['search'],
+                        'country'       => $_GET['search'],
+                        'address'       => $_GET['search']
+                    ];
+                }
 
-                    $event->events_medias = $this->Events->medias(array(
-                        'conditions'     => array(
-                            'id'            => $event->events_id,
-                        ),
-                    ));
+                $data['events'] = $this->Events->select($req);
 
-                    foreach ($event->events_medias as $media) {
-                        $mediafile = current($this->getJSON($this->link('api/medias/get/' . $media->medias_id)));
-                        $media->medias_file = $mediafile->medias_file;
-                        $media->medias_thumb50 = $mediafile->medias_thumb50;
-                        $media->medias_thumb160 = $mediafile->medias_thumb160;
+                if (!empty($data['events'])) {
+                    foreach ($data['events'] as $event) {
+                        $event->user = current($this->getJSON($this->link('api/users/get/' . $event->events_users_id)));
+
+                        $event->events_medias = $this->Events->medias(array(
+                            'conditions'     => array(
+                                'id'            => $event->events_id,
+                            ),
+                        ));
+
+                        foreach ($event->events_medias as $media) {
+                            $mediafile = current($this->getJSON($this->link('api/medias/get/' . $media->medias_id)));
+                            $media->medias_file = $mediafile->medias_file;
+                            $media->medias_thumb50 = $mediafile->medias_thumb50;
+                            $media->medias_thumb160 = $mediafile->medias_thumb160;
+                        }
                     }
                 }
             }
@@ -420,6 +433,7 @@
 
         function index()
         {
+            View::$title = 'All events';
             $data = current($this->getJSON($this->link('api/events')));
             View::make('events.index', $data, 'default');
         }

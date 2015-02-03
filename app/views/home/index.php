@@ -9,9 +9,8 @@
 
 <div id="header">
     <video autoplay loop poster="images/easykit.png" id="bgvid">
-
-<source src="<?= HTML::link('default/videos/easykit.mp4') ?>" type="video/mp4">
-</video>
+        <source src="<?= HTML::link('default/videos/easykit.mp4') ?>" type="video/mp4">
+    </video>
 
     <div id="filtre"></div>
 
