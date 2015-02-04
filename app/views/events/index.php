@@ -7,9 +7,8 @@
         <div class="block" ng-repeat="event in data.events track by $index" id="{{index}}">
             <div class="couverture">
                 <ul>
-                    <li ng-repeat="photos in event.events_medias track by $index|limitTo:1" style="background: url({{photos.medias_file}})"></li>
+                    <li ng-repeat="photos in event.events_medias|limitTo:1" style="background: url({{photos.medias_file}})"></li>
                 </ul>
-
                 <div class="description">
                     {{event.events_summary}}<span class="info">Vancouver, November 24, 2014</span>
                 </div>
