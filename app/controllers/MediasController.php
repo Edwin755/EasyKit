@@ -69,8 +69,9 @@
                 $page = (($page - 1) * $nb);
 
                 $data['medias'] = $this->Medias->select([
-                    'order'         => 'desc',
-                    'limit'         => array($page, $page + $nb)
+                    'order'     => 'desc',
+                    'orderby'   => 'id',
+                    'limit'     => array($page, $page + $nb)
                 ]);
             } else {
                 $data['media'] = current($this->Medias->select([

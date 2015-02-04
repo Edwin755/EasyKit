@@ -250,9 +250,9 @@
                 if (isset($req['orderby'])) {
                     $sql .= ' ORDER BY ';
                     if (is_array($req['orderby'])) {
-                        $sql .= implode(', ', $req['orderby']);
+                        $sql .= $this->table . '_' . implode(', ' . $this->table . '_', $req['orderby']);
                     } else {
-                        $sql .= '`' . $req['orderby'] . '`';
+                        $sql .= '`' . $this->table . '_' . $req['orderby'] . '`';
                     }
                 }
             }
@@ -316,7 +316,7 @@
 
                 return $return;
             } catch (PDOException $e) {
-                return false;
+                return $e->getMessage();
             }
         }
 

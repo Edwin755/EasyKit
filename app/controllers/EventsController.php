@@ -247,8 +247,9 @@
                 $page = (($page - 1) * $nb);
 
                 $req = [
-                    'order' => 'desc',
-                    'limit' => array($page, $page + $nb),
+                    'order'     => 'desc',
+                    'orderby'   => 'id',
+                    'limit'     => array($page, $page + $nb),
                 ];
 
                 if (isset($_GET['search'])) {

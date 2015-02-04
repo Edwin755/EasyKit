@@ -94,9 +94,7 @@
             <div class="trait-block-text"></div>
 
             <ul class="icones">
-                <li><img src="<?= HTML::link('default/images/like.png'); ?>" title="Like this event" width="21" alt="like"> <span>3430</span></li>
-
-                <li><img src="<?= HTML::link('default/images/comment.png'); ?>" title="Post a comment" width="21" alt="comment"> <span>132</span></li>
+                <li><img src="<?= HTML::link('default/images/like.png'); ?>" data-id="{{event.events_id}}" class="like" title="Like this event" width="21" alt="like"> <span>{{event.events_like}}</span></li>
 
                 <li><img src="<?= HTML::link('default/images/share.png'); ?>" title="Share this event" width="21" alt="share"></li>
 

@@ -281,6 +281,7 @@
 
                 $data['users'] = $this->Users->select(array(
                     'order' => 'desc',
+                    'orderby'   => 'id',
                     'limit' => array($page, $page + $nb),
                 ));
 
