@@ -19,22 +19,28 @@
     <ul id="buttons">
         <!--<li id="item1"><a href="#">Create your pack</a></li>-->
         <li id="item2"><a href="<?= HTML::link('/') ?>#infographie">How it works</a></li>
-        <li id="item3" class="item3"><a href="#">Log in</a></li>
-        <li id="item4"><a href="<?= HTML::link('users/register') ?>">Register</a></li>
+        <?php if (isset($_SESSION['user'])) : ?>
+            <li id="item3" class="item3"><a href="#">My Account</a></li>
+        <?php else : ?>
+            <li id="item3" class="item3"><a href="#">Log in</a></li>
+            <li id="item4"><a href="<?= HTML::link('users/register') ?>">Register</a></li>
+        <?php endif; ?>
     </ul>
 
-    <div id="login-popup">
-        <form class="sign-up login" style="border:solid 1px white;">
-            <a href="#" id="close"><i class="fa fa-times"></i></a>
-            <input type="email" id="emailLogin" class="sign-up-input" placeholder="What's your mail?" >
-            <input type="password" id="passwordLogin" class="sign-up-input" placeholder="Password">
-            <input type="checkbox"> Remember me <br/> <a href="#" class="forgot_pass">Forgot password?</a> <br/>
-            <input type="submit" id="submitLogin" value="Log in!" class="sign-up-button">
-            <ul class="social_button">
-                <li class="button fb"><a href="construction.html">With Facebook</a></li>
-            </ul>
-        </form>
-    </div>
+    <?php if (!isset($_SESSION['user'])) : ?>
+        <div id="login-popup">
+            <form class="sign-up login" style="border:solid 1px white;">
+                <a href="#" id="close"><i class="fa fa-times"></i></a>
+                <input type="email" id="emailLogin" class="sign-up-input" placeholder="What's your mail?" >
+                <input type="password" id="passwordLogin" class="sign-up-input" placeholder="Password">
+                <input type="checkbox"> Remember me <br/> <a href="#" class="forgot_pass">Forgot password?</a> <br/>
+                <input type="submit" id="submitLogin" value="Log in!" class="sign-up-button">
+                <ul class="social_button">
+                    <li class="button fb"><a href="construction.html">With Facebook</a></li>
+                </ul>
+            </form>
+        </div>
+    <?php endif; ?>
 
     <div id="menu-mobile">
         <a href="#" id="open_menu_mobile"><img src="images/menu.png" alt="" /></a>

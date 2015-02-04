@@ -623,7 +623,9 @@
         }
 
         /**
+         * Sign in
          *
+         * @throws NotFoundHTTPException
          */
         function signin()
         {
