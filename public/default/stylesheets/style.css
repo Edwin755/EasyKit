@@ -253,6 +253,7 @@ box-shadow: none;
   cursor: pointer;
   border-radius: 2px;
   -webkit-appearance:none;
+  top: 20px;
 }
 .sign-up-button:active, .sign-up-button:hover {
   outline: none;
@@ -312,6 +313,12 @@ box-shadow: none;
 right: 0;
 top: 90px;
 
+}
+
+a.forgot_pass
+{
+
+font-family: 'source_sans_prolight';
 }
 
 #joinus
@@ -764,13 +771,20 @@ width: 23px;
   position:relative;
 }
 
+.couverture ul li
+{
+	background-size: 100% 100% !important;
+height: 199px;
+list-style-type: none;
+}
+
 .description{
 	color:white;
     background:rgba(26, 188, 156,0.9);
     position:absolute;
     top:0;
     left:0;
-	bottom:4px;
+	bottom:0;
 	right:0;
 	opacity:0;
     cursor:pointer;

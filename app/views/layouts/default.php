@@ -28,12 +28,10 @@
             <a href="#" id="close"><i class="fa fa-times"></i></a>
             <input type="email" id="emailLogin" class="sign-up-input" placeholder="What's your mail?" >
             <input type="password" id="passwordLogin" class="sign-up-input" placeholder="Password">
+            <input type="checkbox"> Remember me <br/> <a href="#" class="forgot_pass">Forgot password?</a> <br/>
             <input type="submit" id="submitLogin" value="Log in!" class="sign-up-button">
             <ul class="social_button">
                 <li class="button fb"><a href="construction.html">With Facebook</a></li>
-                <li class="button tw"><a href="construction.html">With Twitter</a></li>
-                <li class="button in"><a href="construction.html">With Linkedin</a></li>
-                <li class="button g"><a href="construction.html">With Google +</a></li>
             </ul>
         </form>
     </div>
