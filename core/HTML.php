@@ -117,7 +117,7 @@
          *
          * @return mixed|string
          */
-        static function summary($str, $n = 500, $end_char = '&#8230;')
+        static function summary($str, $n = 500, $end_char = ' ...')
         {
             if (strlen($str) < $n)
             {
