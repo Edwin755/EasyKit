@@ -11,7 +11,7 @@
                 </ul>
 
                 <div class="description">
-                    {{event.events_description}}<span class="info">Vancouver, November 24, 2014</span>
+                    {{event.events_summary}}<span class="info">Vancouver, November 24, 2014</span>
                 </div>
             </div>
 
