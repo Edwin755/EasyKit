@@ -11,7 +11,6 @@
                 'password': $('#passwordLogin').val()
             },
             success: function (data) {
-                console.log(data);
                 if (data.authed) {
                     $('#item3').remove();
                     $('#item4').remove();
