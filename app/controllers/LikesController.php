@@ -38,6 +38,8 @@
         private $token;
 
         /**
+         * Get Token
+         *
          * @return string
          */
         public function getToken()
@@ -46,6 +48,8 @@
         }
 
         /**
+         * Set Token
+         *
          * @param string $token
          */
         public function setToken($token)
@@ -109,6 +113,13 @@
             View::make('api.index', json_encode($data), false, 'application/json');
         }
 
+        /**
+         * Destroy
+         *
+         * @param null $id
+         * @throws Core\Exceptions\NotFoundHTTPException
+         * @throws \Exception
+         */
         function api_destroy($id = null)
         {
             if (!is_null($id)) {
@@ -144,6 +155,23 @@
 
             $data['success'] = !empty($this->errors) ? false : true;
             $data['errors'] = $this->errors;
+
+            View::make('api.index', json_encode($data), false, 'application/json');
+        }
+
+        function api_get($id = null)
+        {
+            $data = [];
+
+            if (!is_null($id)) {
+                $this->loadModel('Likes');
+                $data['count'] = $this->Likes->select([
+                    'count'         => true,
+                    'conditions'    => [
+                        'events_id'     => $id
+                    ]
+                ]);
+            }
 
             View::make('api.index', json_encode($data), false, 'application/json');
         }
