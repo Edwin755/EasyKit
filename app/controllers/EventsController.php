@@ -268,7 +268,7 @@
                             ),
                         ));
 
-                        $event->events_summary = HTML::summary($event->events_description, 100);
+                        $event->events_summary = HTML::summary($event->events_description, 150);
 
                         foreach ($event->events_medias as $media) {
                             $mediafile = current($this->getJSON($this->link('api/medias/get/' . $media->medias_id)));

@@ -550,6 +550,7 @@
                             if (!empty($request->errors)) {
                                 $this->errors = $request->errors;
                             }
+                            $data['user'] = $user;
                             $data['token'] = $token;
                             $this->rememberMe($user, $token);
                         } else if (current($user->users_tokens)->tokens_disabled == 0) {
@@ -558,6 +559,7 @@
                             if (!empty($request->errors)) {
                                 $this->errors = $request->errors;
                             }
+                            $data['user'] = $user;
                             $data['token'] = current($user->users_tokens)->tokens_token;
                             $this->rememberMe($user, $data['token']);
                         } else {
@@ -576,6 +578,9 @@
             } else {
                 $data = 'Nothing was sent';
             }
+
+            $data['success'] = !empty($this->errors) ? false : true;
+            $data['errors'] = $this->errors;
 
             View::make('api.index', json_encode($data), false, 'application/json');
         }
@@ -619,6 +624,29 @@
 
         /**
          *
+         */
+        function signin()
+        {
+            $data = [];
+
+            if (!empty($_POST) && !isset($_SESSION['user'])) {
+                $return = json_decode($this->postCURL($this->link('api/users/auth'), $_POST), false);
+
+                $data = $return;
+
+                if ($return->success == true) {
+                    $data->user->users_media = current($this->getJSON($this->link('api/medias/get') . '/' . $return->user->users_medias_id));
+                    Session::set('user', $data);
+                }
+            }
+
+            View::make('api.index', json_encode($data), false, 'application/json');
+        }
+
+        /**
+         * Register
+         *
+         * @throws NotFoundHTTPException
          */
         function register()
         {
