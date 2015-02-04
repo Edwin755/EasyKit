@@ -46,7 +46,9 @@
                     <h3>Favorite Events</h3>
 
                     <div class="vignettes" ng-repeat="event in data.events track by $index">
-                        <img src="images/event-1-vignette.jpg" alt="">
+                    <ul>
+                        <li ng-repeat="photos in event.events_medias track by $index|limitTo:1" style="background: url({{photos.medias_file}})"></li>
+                    </ul>
 
                         <div class="cercle"><img class="check" width="16" src="images/check.png" alt=""></div>
 
