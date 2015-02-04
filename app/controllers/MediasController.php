@@ -79,6 +79,8 @@
                     ]
                 ]));
 
+                $path = __DIR__ . '/../../public/uploads/' . $data['media']->medias_type . '/' . $data['media']->medias_file;
+
                 $file = pathinfo(realpath(__DIR__ . '/../../public/uploads/' . $data['media']->medias_type . '/' . $data['media']->medias_file));
                 $filename = $file['filename'];
                 $extension = $file['extension'];

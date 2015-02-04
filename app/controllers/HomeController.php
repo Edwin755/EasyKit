@@ -39,7 +39,7 @@
          * @return void
          */
         function constructor() {
-            if (isset($_SESSION['admin'])) {
+            if (isset($_SESSION['admin']) && $this->getPrefix() == 'admin') {
                 $admin = Session::get('admin');
                 if (!$this->getJSON($this->link('admin1259/is_admin/' . $admin->admin_username . '/' . $admin->admin_password))->admin) {
                     if ($this->getPrefix() != false && $this->getPrefix() == 'admin') {
