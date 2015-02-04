@@ -31,7 +31,7 @@
 
         <div id="login-popup">
             <form class="sign-up login" style="border:solid 1px white;">
-                <a href="#" id="close"></a> <input type="email" class="sign-up-input" id="emailLogin" placeholder="What's your mail?"> <input type="password" id="passwordLogin" class="sign-up-input" placeholder="Password"> <input type="submit" id="submitLogin" value="Log in!" class="sign-up-button">
+                <a href="#" id="close"><i class="fa fa-times"></i></a> <input type="email" class="sign-up-input" id="emailLogin" placeholder="What's your mail?"> <input type="password" id="passwordLogin" class="sign-up-input" placeholder="Password"> <input type="checkbox"> Remember me <br/> <a href="#" class="forgot_pass">Forgot password?</a> <br/><input type="submit" id="submitLogin" value="Log in!" class="sign-up-button">
 
                 <ul class="social_button">
                     <li class="button fb"><a href="construction.html">With Facebook</a></li>
@@ -57,7 +57,7 @@
     <div id="search-area">
         <h1>Less planning, more sharing</h1>
 
-        <h3>Create the perfect pack in three easy steps</h3><a id="cta" href="<?= HTML::link('packs/create') ?>" onclick="ga('send','event', 'Lien', 'Clic', 'Button Create Pack');">Create your pack</a> <!--<div id="bar-search">
+        <h3>Create the perfect event in three easy steps</h3><a id="cta" href="<?= HTML::link('packs/create') ?>" onclick="ga('send','event', 'Lien', 'Clic', 'Button Create Pack');">Create your pack</a> <!--<div id="bar-search">
         <form id="formu" method="post" action="traitement.php">
         <input type="search" id="search" placeholder="Search an event to start your pack...">
         </form>
