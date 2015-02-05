@@ -247,15 +247,13 @@
              * ORDER
              */
             if (empty($this->tables)) {
-                $sql .= ' ORDER BY ';
                 if (isset($req['orderby'])) {
+                    $sql .= ' ORDER BY ';
                     if (is_array($req['orderby'])) {
-                        $sql .= implode(', ', $req['orderby']);
+                        $sql .= $this->table . '_' . implode(', ' . $this->table . '_', $req['orderby']);
                     } else {
-                        $sql .= '`' . $req['orderby'] . '`';
+                        $sql .= '`' . $this->table . '_' . $req['orderby'] . '`';
                     }
-                } else {
-                    $sql .= '`' . $this->pk . '`';
                 }
             }
 
@@ -318,7 +316,7 @@
 
                 return $return;
             } catch (PDOException $e) {
-                return false;
+                return $e->getMessage();
             }
         }
 
@@ -397,7 +395,7 @@
 
                 return $this->lastInsertId;
             } catch (PDOException $e) {
-                return false;
+                throw new Exception($e->getMessage());
             }
         }
 
@@ -417,31 +415,66 @@
         /**
          * Delete a value in the selected table
          *
-         * @param integer $id The id of entity that have to be deleted
+         * @param integer|array $req The id or conditions of entity that have to be deleted
          * 
          * @return boolean
          */
-        public function delete($id)
+        public function delete($req)
         {
+            if (is_array($req)) {
+                foreach ($req as $k => $v) {
+                    $k = strtolower($this->table) . '_' . $k;
+
+                    $fields[$k] = '`' . $k . '` = :' . $k;
+
+                    $this->params[':' . $k] = stripslashes(htmlentities($v));
+                }
+            } else {
+                $fields[$this->pk] = '`' . $this->pk . '` = :' . $req;
+                $this->params[':' . $this->pk] = $req;
+            }
+
             /**
              * DELETE
              */
-            $sql = 'DELETE FROM `' . $this->prefix . $this->table . '` WHERE `' . $this->pk . '` = :' . $this->pk . ';';
+            $sql = 'DELETE FROM `' . $this->prefix . $this->table . '` WHERE ' . implode(' AND ', $fields) . ';';
 
             /**
              * PREPARE BINDVALUE EXECUTE
              */
             $query = $sql;
             $pre = $this->pdo->prepare($sql);
-            $pre->bindValue($this->pk, $id, PDO::PARAM_INT);
-            $pre->execute();
-            $query = str_replace($this->pk, $id, $sql);
+            foreach ($this->params as $param => $value) {
+                if (is_string($value)) {
+                    $pre->bindValue($param, $value, PDO::PARAM_STR);
+                    $query = str_replace($param, '"' . $value . '"', $sql);
+                } elseif (is_int($value)) {
+                    $pre->bindValue($param, $value, PDO::PARAM_INT);
+                    $query = str_replace($param, $value, $sql);
+                } elseif (is_null($value)) {
+                    $pre->bindValue($param, $value, PDO::PARAM_NULL);
+                    $query = str_replace($param, $value, $sql);
+                } elseif (is_bool($value)) {
+                    $pre->bindValue($param, $value, PDO::PARAM_BOOL);
+                    $query = str_replace($param, $value, $sql);
+                } else {
+                    throw new Exception('Error Processing Request. binValue error : ' . $param . ' => ' . $value, 1);
+                }
+            }
 
-            $log = new Logger('delete');
-            $log->pushHandler(new StreamHandler(__DIR__ . '/../logs/sql.log', Logger::INFO));
-            $log->addInfo($query);
+            try {
+                $pre->execute();
+                $this->lastInsertId = $this->pdo->lastInsertId();
+                $this->params = null;
 
-            return true;
+                $log = new Logger('delete');
+                $log->pushHandler(new StreamHandler(__DIR__ . '/../logs/sql.log', Logger::INFO));
+                $log->addInfo($query);
+
+                return true;
+            } catch (PDOException $e) {
+                throw new Exception($e->getMessage());
+            }
         }
 
         /**

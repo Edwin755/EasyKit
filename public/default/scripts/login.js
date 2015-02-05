@@ -3,7 +3,7 @@
         e.preventDefault();
 
         $.ajax({
-            url: url + '/api/users/auth',
+            url: url + '/users/signin',
             method: 'post',
             dataType: 'json',
             data: {
@@ -17,13 +17,17 @@
                     $('#login-popup').hide();
                     $('#buttons').append('<li id="item3"><a href="#">My account</a></li>');
                 } else {
-                    var ul = 'An error occured:<ul>';
+                    var ul = '<div class="alert alert-danger">An error occured:<ul>';
                     for (error in data.errors) {
                         ul += '<li>' + data.errors[error] + '</li>';
                     }
-                    ul += '</ul>';
+                    ul += '</ul></div>';
+                    $('.alert.alert-danger').remove();
                     $('#login-popup .login').prepend(ul);
                 }
+            },
+            error: function (data) {
+                console.log(data);
             }
         });
     });

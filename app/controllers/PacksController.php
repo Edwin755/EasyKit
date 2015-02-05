@@ -186,6 +186,7 @@
 
                 $data['packs'] = $this->Packs->select(array(
                     'order' => 'desc',
+                    'orderby'   => 'id',
                     'limit' => array($page, $page + $nb),
                 ));
 

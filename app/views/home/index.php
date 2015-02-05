@@ -5,8 +5,6 @@
  */
 
 ?>
-
-
 <div id="header">
     <video autoplay loop poster="images/easykit.png" id="bgvid">
         <source src="<?= HTML::link('default/videos/easykit.mp4') ?>" type="video/mp4">
@@ -23,21 +21,28 @@
             <!--<li id="item1"><a href="#">Create your pack</a></li>-->
 
             <li id="item2"><a href="#infographie" data-slide="">How it works</a></li>
-
-            <li id="item3" class="item3"><a href="#">Log in</a></li>
-
-            <li id="item4"><a href="<?= HTML::link('users/register'); ?>">Register</a></li>
+            <?php if (isset($_SESSION['user'])) : ?>
+                <li id="item3" class="item3"><a href="#">My Account</a></li>
+            <?php else : ?>
+                <li id="item3" class="item3"><a href="#">Log in</a></li>
+                <li id="item4"><a href="<?= HTML::link('users/register') ?>">Register</a></li>
+            <?php endif; ?>
         </ul>
 
-        <div id="login-popup">
-            <form class="sign-up login" style="border:solid 1px white;">
-                <a href="#" id="close"><i class="fa fa-times"></i></a> <input type="email" class="sign-up-input" id="emailLogin" placeholder="What's your mail?"> <input type="password" id="passwordLogin" class="sign-up-input" placeholder="Password"> <input type="checkbox"> Remember me <br/> <a href="#" class="forgot_pass">Forgot password?</a> <br/><input type="submit" id="submitLogin" value="Log in!" class="sign-up-button">
-
-                <ul class="social_button">
-                    <li class="button fb"><a href="construction.html">With Facebook</a></li>
-                </ul>
-            </form>
-        </div>
+        <?php if (!isset($_SESSION['user'])) : ?>
+            <div id="login-popup">
+                <form class="sign-up login" style="border:solid 1px white;">
+                    <a href="#" id="close"><i class="fa fa-times"></i></a>
+                    <input type="email" id="emailLogin" class="sign-up-input" placeholder="What's your mail?" >
+                    <input type="password" id="passwordLogin" class="sign-up-input" placeholder="Password">
+                    <input type="checkbox"> Remember me <br/> <a href="#" class="forgot_pass">Forgot password?</a> <br/>
+                    <input type="submit" id="submitLogin" value="Log in!" class="sign-up-button">
+                    <ul class="social_button">
+                        <li class="button fb"><a href="construction.html">With Facebook</a></li>
+                    </ul>
+                </form>
+            </div>
+        <?php endif; ?>
 
         <div id="menu-mobile">
             <a href="#" id="open_menu_mobile"><img src="<?= HTML::link('default/images/menu.png'); ?>" alt=""></a>
@@ -89,9 +94,7 @@
             <div class="trait-block-text"></div>
 
             <ul class="icones">
-                <li><img src="<?= HTML::link('default/images/like.png'); ?>" title="Like this event" width="21" alt="like"> <span>3430</span></li>
-
-                <li><img src="<?= HTML::link('default/images/comment.png'); ?>" title="Post a comment" width="21" alt="comment"> <span>132</span></li>
+                <li><img src="<?= HTML::link('default/images/like.png'); ?>" data-id="{{event.events_id}}" class="like" title="Like this event" width="21" alt="like"> <span>{{event.events_like}}</span></li>
 
                 <li><img src="<?= HTML::link('default/images/share.png'); ?>" title="Share this event" width="21" alt="share"></li>
 

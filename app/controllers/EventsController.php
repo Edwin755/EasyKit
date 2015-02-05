@@ -230,6 +230,10 @@
                         ),
                     ));
 
+                    $data['event']->events_like = current($this->getJSON($this->link('api/likes/get/' . $data['event']->events_id)));
+
+                    $data['event']->events_summary = HTML::summary($data['event']->events_description, 150);
+
                     foreach ($data['event']->events_medias as $media) {
                         $mediafile = current($this->getJSON($this->link('api/medias/get/' . $media->medias_id)));
                         $media->medias_file = $mediafile->medias_file;
@@ -243,8 +247,9 @@
                 $page = (($page - 1) * $nb);
 
                 $req = [
-                    'order' => 'desc',
-                    'limit' => array($page, $page + $nb),
+                    'order'     => 'desc',
+                    'orderby'   => 'id',
+                    'limit'     => array($page, $page + $nb),
                 ];
 
                 if (isset($_GET['search'])) {
@@ -268,7 +273,9 @@
                             ),
                         ));
 
-                        $event->events_summary = HTML::summary($event->events_description, 100);
+                        $event->events_like = current($this->getJSON($this->link('api/likes/get/' . $event->events_id)));
+
+                        $event->events_summary = HTML::summary($event->events_description, 150);
 
                         foreach ($event->events_medias as $media) {
                             $mediafile = current($this->getJSON($this->link('api/medias/get/' . $media->medias_id)));

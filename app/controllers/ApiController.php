@@ -109,6 +109,15 @@
         }
 
         /**
+         * Likes Action
+         *
+         * @return void
+         */
+        function likes() {
+            $this->useController('Likes', 'api_', func_get_args(), false, 'get');
+        }
+
+        /**
          * Admin index Action
          *
          * @return void
