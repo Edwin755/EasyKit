@@ -1281,6 +1281,11 @@ box-sizing: border-box;
 	margin-left: 4%;
 }
 
+.vignettes ul li
+{
+	height: 100px;
+}
+
 #block_menu ul li span {
 color: white;
 font-family: 'source_sans_prolight';
