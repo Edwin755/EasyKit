@@ -386,3 +386,21 @@ $("#formulaire-contributors .icones-formu").on('click',function(){
 		$(this).addClass('icones-bordures');
 	}
 });
+
+
+// Like function
+
+function like(id){
+    $http.get(url + '/api/like/'+id).
+        success(function(data, status, headers, config) {
+            if(typeof data === 'object'){
+                $scope.data = data;  
+                return;
+            }else{
+                return;
+            }
+        })
+        .error(function(data, status, headers, config) {
+          // log error
+    });
+}

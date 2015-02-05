@@ -96,8 +96,8 @@
                 <li><img src="<?= HTML::link('default/images/share.png'); ?>" title="Share this event" width="21" alt="share"></li>
 
                 <li class="favorit">
-                    <img class="coeur" src="<?= HTML::link('default/images/favorit.png'); ?>" title="Add to your favorite events" width="23" alt="favorit">
-                    <img class="coeur2" src="<?= HTML::link('default/images/favorit-vert.png'); ?>" width="23" alt="favorit2">
+                    <img class="coeur" data-id="{{event.events_id}}" src="<?= HTML::link('default/images/favorit.png'); ?>" title="Add to your favorite events" width="23" alt="favorit">
+                    <img class="coeur2" data-id="{{event.events_id}}" src="<?= HTML::link('default/images/favorit-vert.png'); ?>" width="23" alt="favorit2">
                 </li>
             </ul>
         </div>
