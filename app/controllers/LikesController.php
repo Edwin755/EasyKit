@@ -251,16 +251,38 @@
         {
             if (!is_null($id)) {
                 if (isset($_SESSION['user'])) {
+                    var_dump('if');
                     $return = json_decode($this->postCURL($this->link('api/likes/destroy/' . $id), ['token' => Session::get('user')->token]));
                     if (!empty($return->errors)) {
                         $this->errors = $return->errors;
                     }
                 } else {
-                    $this->errors['token'] = 'You\'re not logged in.';
+                    $init = false;
+                    if (Cookie::get('l') == false) {
+                        $init = true;
+                        Cookie::set('l', json_encode([$id]));
+                    }
+
+                    if (!$init) {
+                        $cookie = json_decode(Cookie::get('l'), false);
+                        if (!empty($cookie)) {
+                            if (in_array($id, $cookie)) {
+                                unset($cookie[$id]);
+                            } else {
+                                $this->errors['id'] = 'You didn\'t liked this event.';
+                            }
+                        } else {
+                            $this->errors['cookie'] = 'The cookie is empty.';
+                        }
+                        Cookie::set('l', json_encode($cookie));
+                    } else {
+                        $this->errors['cookie'] = 'The cookie isn\'t set.';
+                    }
                 }
             } else {
                 $this->errors['id'] = 'Empty id.';
             }
+
 
             $data['success'] = !empty($this->errors) ? false : true;
             $data['errors'] = $this->errors;
