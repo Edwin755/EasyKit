@@ -58,7 +58,7 @@
         }
 
         /**
-         * Create
+         * API Create
          *
          * @param null $id
          *
@@ -105,6 +105,8 @@
                 } else {
                     $this->errors['post'] = 'No POST received.';
                 }
+            } else {
+                $this->errors['id'] = 'Empty id.';
             }
 
             $data['success'] = !empty($this->errors) ? false : true;
@@ -114,7 +116,7 @@
         }
 
         /**
-         * Destroy
+         * API Destroy
          *
          * @param null $id
          * @throws Core\Exceptions\NotFoundHTTPException
@@ -151,6 +153,8 @@
                 } else {
                     $this->errors['post'] = 'No POST received.';
                 }
+            } else {
+                $this->errors['id'] = 'Empty id.';
             }
 
             $data['success'] = !empty($this->errors) ? false : true;
@@ -159,6 +163,14 @@
             View::make('api.index', json_encode($data), false, 'application/json');
         }
 
+        /**
+         * API Get
+         *
+         * @param null $id
+         *
+         * @throws Core\Exceptions\NotFoundHTTPException
+         * @throws \Exception
+         */
         function api_get($id = null)
         {
             $data = [];
@@ -172,6 +184,62 @@
                     ]
                 ]);
             }
+
+            View::make('api.index', json_encode($data), false, 'application/json');
+        }
+
+        /**
+         * Create
+         *
+         * @param null $id
+         *
+         * @throws Core\Exceptions\NotFoundHTTPException
+         */
+        function create($id = null)
+        {
+            if (!is_null($id)) {
+                if (isset($_SESSION['user'])) {
+                    $return = json_decode($this->postCURL($this->link('api/likes/create/' . $id), ['token' => Session::get('user')->token]));
+                    if (!empty($return->errors)) {
+                        $this->errors = $return->errors;
+                    }
+                } else {
+                    $this->errors['token'] = 'You\'re not logged in.';
+                }
+            } else {
+                $this->errors['id'] = 'Empty id.';
+            }
+
+            $data['success'] = !empty($this->errors) ? false : true;
+            $data['errors'] = $this->errors;
+
+            View::make('api.index', json_encode($data), false, 'application/json');
+        }
+
+        /**
+         * Destroy
+         *
+         * @param null $id
+         *
+         * @throws Core\Exceptions\NotFoundHTTPException
+         */
+        function destroy($id = null)
+        {
+            if (!is_null($id)) {
+                if (isset($_SESSION['user'])) {
+                    $return = json_decode($this->postCURL($this->link('api/likes/destroy/' . $id), ['token' => Session::get('user')->token]));
+                    if (!empty($return->errors)) {
+                        $this->errors = $return->errors;
+                    }
+                } else {
+                    $this->errors['token'] = 'You\'re not logged in.';
+                }
+            } else {
+                $this->errors['id'] = 'Empty id.';
+            }
+
+            $data['success'] = !empty($this->errors) ? false : true;
+            $data['errors'] = $this->errors;
 
             View::make('api.index', json_encode($data), false, 'application/json');
         }
