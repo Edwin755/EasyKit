@@ -638,6 +638,7 @@
                 $data = $return;
 
                 if ($return->success == true) {
+                    $data->user->token = $return->token;
                     $data->user->users_media = current($this->getJSON($this->link('api/medias/get') . '/' . $return->user->users_medias_id));
                     Session::set('user', $data->user);
                 }

@@ -21,6 +21,8 @@ Router::get('admin1259', 'AdminController');
 
 Router::get('api', 'ApiController');
 
+Router::get('likes', 'LikesController');
+
 Router::resource('packs', 'PacksController');
 
 Router::resource('users', 'UsersController');
