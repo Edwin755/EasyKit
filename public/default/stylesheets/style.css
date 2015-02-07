@@ -772,10 +772,15 @@ width: 23px;
   position:relative;
 }
 
+.vignettes ul li {
+height: 100px;
+background-size: cover !important;
+}
+
 .couverture ul li
 {
-	background-size: 100% 100% !important;
-height: 199px;
+background-size: cover !important;
+height: 200px;
 list-style-type: none;
 }
 

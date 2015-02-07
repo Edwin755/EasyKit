@@ -44,7 +44,7 @@
     <?php endif; ?>
 
     <div id="menu-mobile">
-        <a href="#" id="open_menu_mobile"><img src="images/menu.png" alt="" /></a>
+        <a href="#" id="open_menu_mobile"><img src="http://localhost:8888/EasyKit/default/images/menu.png" alt="" /></a>
     </div>
 
     <div id="menu_open">
