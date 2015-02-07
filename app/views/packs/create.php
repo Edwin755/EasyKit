@@ -2,21 +2,13 @@
     <div id="create_event">
         <div id="block_menu">
             <ul>
-                <li id="bar-menu-1" class="activeAfter"><span>Event</span></li>
-
-                <li id="bar-menu-2"><span>Hosting</span></li>
-
-                <li id="bar-menu-3"><span>Transport</span></li>
-
-                <li id="bar-menu-4"><span>Contributors</span></li>
-
-                <li id="bar-menu-5"><span><span id="options">More</span> Options</span></li>
-
-                <li id="bar-menu-6">
-                    <div id="bouton-create">
-                        <a id="final-step" href="recap_pack.html">Create my pack</a>
-                    </div>
-                </li>
+                
+                <li id="bar-menu-1" class="activeAfter"><i class="fa fa-calendar-o"></i><span>Event</span></li>
+                <li id="bar-menu-2"><i class="fa fa-home"></i><span>Hosting</span></li>
+                <li id="bar-menu-3"><i class="fa fa-car"></i><span>Transport</span></li>
+                <li id="bar-menu-4"><i class="fa fa-users"></i><span>Contributors</span></li>
+                <li id="bar-menu-5"><i class="fa fa-cog"></i><span><span id="options">More</span> Options</span></li>
+                <li id="bar-menu-6"><div id="bouton-create"><a id="final-step" href="recap_pack.html">Create my pack</a></div></li>
             </ul>
         </div>
 
