@@ -1,4 +1,4 @@
-<div id="container_create">
+<div id="container_create" ng-controller="packCreate">
     <div id="create_event">
         <div id="block_menu">
             <ul>
@@ -19,14 +19,16 @@
 
                     <div id="formu_event">
                         <form id="formu1" method="post" action="traitement.php">
-                            <input type="text" class="champs" placeholder="Name..."> <input type="text" class="champs" placeholder="Location..."> <input type="number" class="champs" placeholder="Price per person..."> <input type="date" class="champs" placeholder="Date..."> 
-                            <textarea name="description" class="champs" placeholder="Description...">
-</textarea>
+                            <input type="text" class="champs" placeholder="Name..." ng-model="eventName"> 
+                            <input type="text" class="champs" placeholder="Location..." ng-model="eventLocation"> 
+                            <input type="number" class="champs" placeholder="Price per person..." ng-model="eventPrice"> 
+                            <input type="date" class="champs" placeholder="Date..." ng-model="eventDate"> 
+                            <textarea name="description" class="champs" placeholder="Description..." ng-model="eventDesc"></textarea>
                         </form>
                     </div>
                 </div>
 
-                <div class="block_formu_parti" id="block_formu_parti_2" ng-controller="favoriteEvents">
+                <div class="block_formu_parti" id="block_formu_parti_2">
                     <h2>Or choose an Event</h2>
 
                     <div id="bar-search">
@@ -37,12 +39,12 @@
 
                     <h3>Favorite Events</h3>
 
-                    <div class="vignettes" ng-repeat="event in data.events track by $index">
+                    <div class="vignettes" ng-repeat="event in data.events track by $index" >
                     <ul>
                         <li ng-repeat="photos in event.events_medias track by $index|limitTo:1" style="background: url({{photos.medias_file}})"></li>
                     </ul>
 
-                        <div class="cercle"><img class="check" width="16" src="images/check.png" alt=""></div>
+                        <div class="cercle" ng-click="fillform($event)" data-id="{{event.events_id}}"><img class="check" width="16" src="images/check.png" alt=""></div>
 
                         <div class="titre_vignettes">
                             {{event.events_name}}
