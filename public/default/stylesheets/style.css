@@ -76,6 +76,13 @@
 	clear:both;
 }
 
+.spinner{
+    display: none;
+    background: url(../images/likes-spinner.gif);
+    height: 15px;
+    width: 18px;
+}
+
 /*** 	PAGE SIGN UP 	***/
 
 .fa-times:
