@@ -1,4 +1,5 @@
-$(".vignettes").on('click',function(){	
+$(document).on('click',".vignettes",function(){	
+    console.log(2);
 	if($('.check',this).hasClass('active')){
 		$('.check').removeClass('active');
 	}else{
