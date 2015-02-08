@@ -472,10 +472,11 @@ body{
 	position: absolute; 
 	right: 0; 
 	bottom: 0;
- z-index: -100;
-background-position: center;
-background: url(../images/easykit.png) no-repeat;
-width: 100%;
+	z-index: -100;
+	background-position: center;
+	background: url(../images/easykit.png) no-repeat;
+	min-width: 100%;
+	min-height: 100%;
 
 }
 
@@ -778,10 +779,15 @@ width: 23px;
   position:relative;
 }
 
+.vignettes ul li {
+height: 100px;
+background-size: cover !important;
+}
+
 .couverture ul li
 {
-	background-size: 100% 100% !important;
-height: 199px;
+background-size: cover !important;
+height: 200px;
 list-style-type: none;
 }
 
