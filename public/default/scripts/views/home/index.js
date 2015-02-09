@@ -5,7 +5,8 @@ app.controller("popularEvents", function($scope, $http) {
     $http.get(url + '/api/events?limit=6').
         success(function(data, status, headers, config) {
             if(typeof data === 'object'){
-                $scope.data = data;  
+                $scope.data = data;
+                $('.spinner').hide();  
                 return;
             }else{
                 return;
@@ -17,7 +18,7 @@ app.controller("popularEvents", function($scope, $http) {
         
     $scope.like = function(e) {
         var id = $(e.target).data('id');
-        $('ul[data-id="'+id+'"] .spinner').css('display','inline-block');
+        $('ul[data-id="'+id+'"] .spinner-like').css('display','inline-block');
         $('ul[data-id="'+id+'"] .like_number').hide();
         
         $http.get(url+'/likes/create/'+id).
@@ -28,7 +29,7 @@ app.controller("popularEvents", function($scope, $http) {
                 }; 
                 
                 $('ul[data-id="'+id+'"] .like_number').show()
-                $('ul[data-id="'+id+'"] .spinner').hide();
+                $('ul[data-id="'+id+'"] .spinner-like').hide();
 
                 return;
             })

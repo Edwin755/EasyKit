@@ -37,4 +37,27 @@ app.controller("packCreate", function($scope, $http) {
                 console.log(data);
             });
     } 
+    
+    $scope.update = function () {
+        ln = ($scope.search).length;
+        
+        if(ln > 2){
+            $('.title_favorite_event').html("");
+            $http.get(url + '/api/events/?search=' + $scope.search).
+                success(function(data, status, headers, config) {
+                    if (typeof data === 'object') {
+                        $scope.data = data;
+                        console.log(data);
+                        return;
+                    } else {
+                        return;
+                    }
+                })
+                .error(function(data, status, headers, config) {
+                    console.log(data);
+                });
+        }else{
+            $('.title_favorite_event').html("Your favorite Events");
+        }
+    }
 });

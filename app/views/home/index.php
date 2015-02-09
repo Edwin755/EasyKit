@@ -76,6 +76,14 @@
 
     <div class="trait"></div>
     <span us-spinner="{radius:30, width:8, length: 16}"></span>
+    
+    <div class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+    </div>
 
     <div class="block" ng-repeat="event in data.events track by $index" id="{{index}}">
         <div class="couverture">
@@ -95,7 +103,7 @@
 
             <ul class="icones" data-id="{{event.events_id}}">
                 <li><img src="<?= HTML::link('default/images/like.png'); ?>" data-id="{{event.events_id}}" ng-click="like($event)" class="like" title="Like this event" width="21" alt="like"> 
-                <div class="spinner"></div>
+                <div class="spinner-like"></div>
                 <span class="like_number">{{event.events_like}}</span>
                 </li>
 

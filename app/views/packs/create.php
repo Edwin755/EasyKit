@@ -32,17 +32,17 @@
                     <h2>Or choose an Event</h2>
 
                     <div id="bar-search">
-                        <form id="formu" method="post" action="traitement.php">
-                            <input type="search" class="champs" placeholder="Search an event...">
+                        <form id="formu" method="post" action="">
+                            <input type="search" class="champs" placeholder="Search an event..." ng-model="search" ng-change="update()">
                         </form>
                     </div>
 
-                    <h3>Favorite Events</h3>
+                    <h3 class="title_favorite_event">Your favorite Events</h3>
 
                     <div class="vignettes" ng-repeat="event in data.events track by $index" >
-                    <ul>
-                        <li ng-repeat="photos in event.events_medias track by $index|limitTo:1" style="background: url({{photos.medias_file}})"></li>
-                    </ul>
+                        <ul>
+                            <li ng-repeat="photos in event.events_medias track by $index|limitTo:1" style="background: url({{photos.medias_file}})"></li>
+                        </ul>
 
                         <div class="cercle" ng-click="fillform($event)" data-id="{{event.events_id}}"><img class="check" width="16" src="<?= HTML::link('default/images/check.png') ?>" alt=""></div>
 
