@@ -1283,7 +1283,7 @@ box-sizing: border-box;
 	margin-top:4%;
 }
 
-.vignettes:nth-child(odd) {
+.vignettes:nth-child(even) {
 	margin-left: 4%;
 }
 
@@ -1375,7 +1375,7 @@ width: 48%;
 border-radius: 5px;
 height: 67px;
 position: relative;
-float: left;
+display: inline-block;
 overflow: hidden;
 cursor:pointer;
 }
@@ -2164,6 +2164,10 @@ a.close
   height: 30px;
   text-align: center;
   font-size: 10px;
+}
+
+.spinner.white > div{
+    background-color: #fff;
 }
 
 .spinner > div {

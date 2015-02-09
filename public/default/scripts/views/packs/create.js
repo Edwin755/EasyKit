@@ -6,6 +6,7 @@ app.controller("packCreate", function($scope, $http) {
         success(function(data, status, headers, config) {
             if(typeof data === 'object'){
                 $scope.data = data;  
+                $('.spinner').hide();  
                 return;
             }else{
                 return;
@@ -42,12 +43,15 @@ app.controller("packCreate", function($scope, $http) {
         ln = ($scope.search).length;
         
         if(ln > 2){
+            $('.spinner').show();
+            $('.vignettes').hide();
             $('.title_favorite_event').html("");
             $http.get(url + '/api/events/?search=' + $scope.search).
                 success(function(data, status, headers, config) {
                     if (typeof data === 'object') {
                         $scope.data = data;
-                        console.log(data);
+                        $('.spinner').hide();
+                        $('.vignettes').show();
                         return;
                     } else {
                         return;

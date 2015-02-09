@@ -38,6 +38,14 @@
                     </div>
 
                     <h3 class="title_favorite_event">Your favorite Events</h3>
+                    
+                    <div class="spinner white">
+                        <div class="rect1"></div>
+                        <div class="rect2"></div>
+                        <div class="rect3"></div>
+                        <div class="rect4"></div>
+                        <div class="rect5"></div>
+                    </div>
 
                     <div class="vignettes" ng-repeat="event in data.events track by $index" >
                         <ul>
