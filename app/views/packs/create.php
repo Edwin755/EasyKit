@@ -2,7 +2,7 @@
     <div id="create_event">
         <div id="block_menu">
             <ul>
-                
+
                 <li id="bar-menu-1" class="activeAfter"><i class="fa fa-calendar-o"></i><span>Event</span></li>
                 <li id="bar-menu-2"><i class="fa fa-home"></i><span>Hosting</span></li>
                 <li id="bar-menu-3"><i class="fa fa-car"></i><span>Transport</span></li>
@@ -19,10 +19,10 @@
 
                     <div id="formu_event">
                         <form id="formu1" method="post" action="traitement.php">
-                            <input type="text" class="champs" placeholder="Name..." ng-model="eventName"> 
-                            <input type="text" class="champs" placeholder="Location..." ng-model="eventLocation"> 
-                            <input type="number" class="champs" placeholder="Price per person..." ng-model="eventPrice"> 
-                            <input type="date" class="champs" placeholder="Date..." ng-model="eventDate"> 
+                            <input type="text" class="champs" placeholder="Name..." ng-model="eventName">
+                            <input type="text" class="champs" placeholder="Location..." ng-model="eventLocation">
+                            <input type="number" class="champs" placeholder="Price per person..." ng-model="eventPrice">
+                            <input type="date" class="champs" placeholder="Date..." ng-model="eventDate">
                             <textarea name="description" class="champs" placeholder="Description..." ng-model="eventDesc"></textarea>
                         </form>
                     </div>
@@ -38,7 +38,7 @@
                     </div>
 
                     <h3 class="title_favorite_event">Your favorite Events</h3>
-                    
+
                     <div class="spinner white">
                         <div class="rect1"></div>
                         <div class="rect2"></div>

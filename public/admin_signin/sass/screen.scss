@@ -95,7 +95,7 @@ h1 {
 
 .form-control {
   position: relative;
-  
+
   & + .form-control {
     margin-top: 20px;
   }
@@ -159,7 +159,7 @@ h1 {
       background: #fff;
     }
   }
-  
+
   .checkbox:checked + label {
     &:after {
       background: #13A0FF;

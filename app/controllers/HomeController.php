@@ -1,8 +1,8 @@
 <?php
-    
+
     /**
      * HomeController
-     * 
+     *
      * @author Edwin Dayot <edwin.dayot@sfr.fr>
      * @copyright 2014
      */
@@ -27,7 +27,8 @@
          *
          * @throws Core\Exceptions\NotFoundHTTPException
          */
-        function index() {
+        function index()
+        {
             View::$title = 'Accueil';
 
             View::make('home.index', null, 'home');
@@ -38,7 +39,8 @@
          *
          * @return void
          */
-        function constructor() {
+        function constructor()
+        {
             if (isset($_SESSION['admin']) && $this->getPrefix() == 'admin') {
                 $admin = Session::get('admin');
                 if (!$this->getJSON($this->link('admin1259/is_admin/' . $admin->admin_username . '/' . $admin->admin_password))->admin) {
@@ -56,7 +58,8 @@
          *
          * @throws Core\Exceptions\NotFoundHTTPException
          */
-        function admin_index() {
+        function admin_index()
+        {
             View::$current = 'dash';
             View::$title = 'Dashboard';
 

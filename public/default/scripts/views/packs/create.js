@@ -1,12 +1,12 @@
 var app = angular.module("myApp",[]);
 
 app.controller("packCreate", function($scope, $http) {
-        
+
     $http.get(url + '/api/events?limit=6').
         success(function(data, status, headers, config) {
             if(typeof data === 'object'){
-                $scope.data = data;  
-                $('.spinner').hide();  
+                $scope.data = data;
+                $('.spinner').hide();
                 return;
             }else{
                 return;
@@ -15,8 +15,8 @@ app.controller("packCreate", function($scope, $http) {
         .error(function(data, status, headers, config) {
           // log error
         });
-   
-   
+
+
     $scope.fillform = function (e) {
         var id = $(e.target).data('id');
         $http.get(url + '/api/events/get/' + id).
@@ -26,8 +26,8 @@ app.controller("packCreate", function($scope, $http) {
                     $scope.eventDesc = data.event.events_description;
                     $scope.eventDate = (data.event.events_starttime).substring(0,10);
                     $scope.eventName = data.event.events_name;
-                    
-                    
+
+
                     console.log(data.event.events_name);
                     return;
                 } else {
@@ -37,11 +37,11 @@ app.controller("packCreate", function($scope, $http) {
             .error(function(data, status, headers, config) {
                 console.log(data);
             });
-    } 
-    
+    }
+
     $scope.update = function () {
         ln = ($scope.search).length;
-        
+
         if(ln > 2){
             $('.spinner').show();
             $('.vignettes').hide();

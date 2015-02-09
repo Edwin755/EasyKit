@@ -1,4 +1,4 @@
-$(document).on('click',".vignettes",function(){	
+$(document).on('click',".vignettes",function(){
     console.log(2);
 	if($('.check',this).hasClass('active')){
 		$('.check').removeClass('active');
@@ -14,17 +14,17 @@ $('a[data-slide]').on('click', function(e){
         console.log(link);
         $('body').animate({ scrollTop: $(link).offset().top }, 800);
     });
-	
+
 $(".item3").on('click',function(){
 		$("#login-popup").animate(500);
 
 		$("#login-popup")
 		.css({
 		"display" : "block",
-		
+
 		})
 
-		
+
 
 });
 
@@ -38,7 +38,7 @@ $("#close").on('click',function(){
 		$("#login-popup")
 		.css({
 		"display" : "none",
-		
+
 		})
 
 });
@@ -55,7 +55,7 @@ $("#open_menu_mobile").on('click',function(){
 });
 
 $(".menu_deroulant").on('click',function(){
-	
+
 	$('#menu_open').removeClass('active')
 
 
@@ -67,7 +67,7 @@ $(".favorit").on('click',function(){
 		$('.coeur',this).removeClass('remove');
 	}else{
 		$('.coeur2',this).addClass('active');
-		$('.coeur',this).addClass('remove'); 
+		$('.coeur',this).addClass('remove');
 	}
 });
 
@@ -77,7 +77,7 @@ $(".fav_event").on('click',function(){
 		$('.coeur',this).removeClass('remove');
 	}else{
 		$('.coeur2',this).addClass('active2');
-		$('.coeur',this).addClass('remove'); 
+		$('.coeur',this).addClass('remove');
 	}
 });
 
@@ -118,7 +118,7 @@ $("#bar-menu-1").on('click',function(){
 		.css({"display" : "none",})
 		$("#formulaire-options")
 		.css({"display" : "none",})
-		
+
 		$("#bouton-next-1")
 		.css({"display" : "block",})
 		$("#bouton-next-2")
@@ -144,7 +144,7 @@ $("#bar-menu-2").on('click',function(){
 		.css({"display" : "none",})
 		$("#formulaire-options")
 		.css({"display" : "none",})
-		
+
 		$("#bouton-next-1")
 		.css({"display" : "none",})
 		$("#bouton-next-2")
@@ -170,7 +170,7 @@ $("#bar-menu-3").on('click',function(){
 		.css({"display" : "none",})
 		$("#formulaire-options")
 		.css({"display" : "none",})
-		
+
 		$("#bouton-next-1")
 		.css({"display" : "none",})
 		$("#bouton-next-2")
@@ -196,7 +196,7 @@ $("#bar-menu-4").on('click',function(){
 		.css({"display" : "block",})
 		$("#formulaire-options")
 		.css({"display" : "none",})
-		
+
 		$("#bouton-next-1")
 		.css({"display" : "none",})
 		$("#bouton-next-2")
@@ -222,7 +222,7 @@ $("#bar-menu-5").on('click',function(){
 		.css({"display" : "none",})
 		$("#formulaire-options")
 		.css({"display" : "block",})
-		
+
 		$("#bouton-next-1")
 		.css({"display" : "none",})
 		$("#bouton-next-2")
@@ -237,7 +237,7 @@ $("#bar-menu-5").on('click',function(){
 });
 
 $("#bouton-next-1").on('click',function(){
-		
+
 		$("#bar-menu-1").removeClass('activeAfter');
 		$("#bar-menu-1").css({
 			"border-top-right-radius":"5px",
@@ -258,7 +258,7 @@ $("#bouton-next-1").on('click',function(){
 		.css({"display" : "none",})
 		$("#formulaire-options")
 		.css({"display" : "none",})
-		
+
 		$("#bouton-next-1")
 		.css({"display" : "none",})
 		$("#bouton-next-2")
@@ -273,9 +273,9 @@ $("#bouton-next-1").on('click',function(){
 });
 
 $("#bouton-next-2").on('click',function(){
-	
+
 		$("#bar-menu-2").removeClass('activeAfter');
-		
+
 		$("#bar-menu-3").addClass('activeAfter');
 		$("#bar-menu-3").css({
 			"transition":"0s"
@@ -291,7 +291,7 @@ $("#bouton-next-2").on('click',function(){
 		.css({"display" : "none",})
 		$("#formulaire-options")
 		.css({"display" : "none",})
-		
+
 		$("#bouton-next-1")
 		.css({"display" : "none",})
 		$("#bouton-next-2")
@@ -306,9 +306,9 @@ $("#bouton-next-2").on('click',function(){
 });
 
 $("#bouton-next-3").on('click',function(){
-	
+
 		$("#bar-menu-3").removeClass('activeAfter');
-		
+
 		$("#bar-menu-4").addClass('activeAfter');
 		$("#bar-menu-4").css({
 			"transition":"0s"
@@ -324,7 +324,7 @@ $("#bouton-next-3").on('click',function(){
 		.css({"display" : "block",})
 		$("#formulaire-options")
 		.css({"display" : "none",})
-		
+
 		$("#bouton-next-1")
 		.css({"display" : "none",})
 		$("#bouton-next-2")
@@ -339,9 +339,9 @@ $("#bouton-next-3").on('click',function(){
 });
 
 $("#bouton-next-4").on("click",function(){
-	
+
 		$("#bar-menu-4").removeClass('activeAfter');
-		
+
 		$("#bar-menu-5").addClass('activeAfter');
 		$("#bar-menu-5").css({
 			"transition":"0s"
@@ -352,7 +352,7 @@ $("#bouton-next-4").on("click",function(){
 		$("#formulaire-transport").css({"display" : "none"});
 		$("#formulaire-contributors").css({"display" : "none"});
 		$("#formulaire-options").css({"display" : "block"});
-		
+
 		$("#bouton-next-1").css({"display" : "none"});
 		$("#bouton-next-2").css({"display" : "none"});
 		$("#bouton-next-3").css({"display" : "none"});
