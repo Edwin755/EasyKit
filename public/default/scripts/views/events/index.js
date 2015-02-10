@@ -1,12 +1,12 @@
 var app = angular.module("myApp",[]);
 
 app.controller("allEvents", function($scope, $http) {
-        
+
     $http.get(url + '/api/events').
         success(function(data, status, headers, config) {
             if (typeof data === 'object') {
                 $scope.data = data;
-                $('.spinner').hide();  
+                $('.spinner').hide();
                 return;
             } else {
                 return;
@@ -17,7 +17,7 @@ app.controller("allEvents", function($scope, $http) {
         });
 
     $scope.update = function () {
-        
+
         $('.spinner').show();
         $('.block').hide();
 
@@ -37,5 +37,5 @@ app.controller("allEvents", function($scope, $http) {
                 console.log(data);
             });
     }
-    
+
 });

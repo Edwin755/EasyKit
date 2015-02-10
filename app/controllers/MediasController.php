@@ -23,7 +23,7 @@
     /**
      * Class MediasController
      *
-     * @property Medias
+     * @property object Medias
      */
     class MediasController extends Controller
     {
@@ -40,7 +40,8 @@
          *
          * @return void
          */
-        function constructor() {
+        function constructor()
+        {
             if (isset($_SESSION['admin'])) {
                 $admin = Session::get('admin');
                 if (!$this->getJSON($this->link('admin1259/is_admin/' . $admin->admin_username . '/' . $admin->admin_password))->admin) {
@@ -60,7 +61,8 @@
          * @throws Core\Exceptions\NotFoundHTTPException
          * @throws \Exception
          */
-        function api_get($id = null) {
+        function api_get($id = null)
+        {
             $this->loadModel('Medias');
 
             if ($id == null) {
@@ -102,7 +104,8 @@
          * @throws Core\Exceptions\NotFoundHTTPException
          * @throws \Exception
          */
-        function api_send($mode = null) {
+        function api_send($mode = null)
+        {
             if (!empty($_FILES)) {
                 $files = ['image/jpeg', 'image/gif', 'image/png', 'video/mpeg', 'video/mp4', 'video/webm'];
                 $images = ['image/jpeg', 'image/gif', 'image/png'];
@@ -168,7 +171,8 @@
          * @throws Core\Exceptions\NotFoundHTTPException
          * @throws \Exception
          */
-        function api_destroy($id = null) {
+        function api_destroy($id = null)
+        {
             $this->loadModel('Medias');
 
             if ($id != null) {

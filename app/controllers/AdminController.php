@@ -1,8 +1,8 @@
 <?php
-    
+
     /**
      * AdminController
-     * 
+     *
      * @author Edwin Dayot <edwin.dayot@sfr.fr>
      * @copyright 2014
      */
@@ -41,7 +41,8 @@
          *
          * @return void
          */
-        function constructor() {
+        function constructor()
+        {
             if (!preg_match('#^' . $this->link('admin1259/is_admin/') . '#', $this->getCurrentURL())) {
                 if (isset($_SESSION['admin'])) {
                     $admin = Session::get('admin');
@@ -65,7 +66,8 @@
          *
          * @return boolean
          */
-        function is_admin($username, $password) {
+        function is_admin($username, $password)
+        {
             $this->loadModel('Admin');
 
             $user = $this->Admin->select(array(
@@ -87,35 +89,40 @@
         /**
          * Index Action
          */
-        function index() {
+        function index()
+        {
             $this->useController('Home', 'admin_', func_get_args(), $this->layout);
         }
 
         /**
          * Events Action
          */
-        function events() {
+        function events()
+        {
             $this->useController('Events', 'admin_', func_get_args(), $this->layout);
         }
 
         /**
          * Events Action
          */
-        function packs() {
+        function packs()
+        {
             $this->useController('Packs', 'admin_', func_get_args(), $this->layout);
         }
 
         /**
          * Users Action
          */
-        function users() {
+        function users()
+        {
             $this->useController('Users', 'admin_', func_get_args(), $this->layout);
         }
 
         /**
          * Apis Action
          */
-        function api() {
+        function api()
+        {
             $this->useController('Api', 'admin_', func_get_args(), $this->layout);
         }
 
@@ -124,7 +131,8 @@
          *
          * @throws NotFoundHTTPException
          */
-        function dump() {
+        function dump()
+        {
             $database = require __DIR__ . '/../config/database.php';
             $database = $database['connections'][$database['default']];
 

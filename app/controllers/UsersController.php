@@ -1,8 +1,8 @@
 <?php
-    
+
     /**
      * UsersController
-     * 
+     *
      * @author Edwin Dayot <edwin.dayot@sfr.fr>
      * @copyright 2014
      */
@@ -61,7 +61,8 @@
          *
          * @return string
          */
-        function getEmail() {
+        function getEmail()
+        {
             return $this->email;
         }
 
@@ -70,7 +71,8 @@
          *
          * @return string
          */
-        function getPassword() {
+        function getPassword()
+        {
             return $this->password;
         }
 
@@ -79,7 +81,8 @@
          *
          * @return string
          */
-        function getRemember() {
+        function getRemember()
+        {
             return $this->remember;
         }
 
@@ -88,7 +91,8 @@
          *
          * @return string
          */
-        function getFirstname() {
+        function getFirstname()
+        {
             return $this->firstname;
         }
 
@@ -97,7 +101,8 @@
          *
          * @return string
          */
-        function getLastname() {
+        function getLastname()
+        {
             return $this->lastname;
         }
 
@@ -106,7 +111,8 @@
          *
          * @return string
          */
-        function getBirth() {
+        function getBirth()
+        {
             return $this->birth;
         }
 
@@ -123,25 +129,21 @@
         /**
          * Set the Email
          *
-         * @param string $value
-         *
-         * @return string
+         * @param string $email
          */
-        function setEmail($value) {
-            $this->email = $value;
-            $this->fields['email'] = $value;
+        function setEmail($email) {
+            $this->email = $email;
+            $this->fields['email'] = $email;
         }
 
         /**
          * Set the Password
          *
-         * @param string $value
-         *
-         * @return string
+         * @param string $password
          */
-        function setPassword($value) {
-            if (strlen($value) > 6) {
-                $this->password = md5(sha1($value));
+        function setPassword($password) {
+            if (strlen($password) > 6) {
+                $this->password = md5(sha1($password));
                 $this->fields['password'] = $this->password;
             } else {
                 $this->errors['password'] = 'Password too short.';
@@ -151,49 +153,41 @@
         /**
          * Set the Remember value
          *
-         * @param string $value
-         *
-         * @return string
+         * @param string $remember
          */
-        function setRemember($value) {
-            $this->remember = $value;
+        function setRemember($remember) {
+            $this->remember = $remember;
         }
 
         /**
          * Set the Firstname
          *
-         * @param string $value
-         *
-         * @return string
+         * @param string $firstname
          */
-        function setFirstname($value) {
-            $this->firstname = $value;
-            $this->fields['firstname'] = $value;
+        function setFirstname($firstname) {
+            $this->firstname = $firstname;
+            $this->fields['firstname'] = $firstname;
         }
 
         /**
-         * Set the Firstname
+         * Set the Lastname
          *
-         * @param string $value
-         *
-         * @return string
+         * @param string $lastname
          */
-        function setLastname($value) {
-            $this->lastname = $value;
-            $this->fields['lastname'] = $value;
+        function setLastname($lastname) {
+            $this->lastname = $lastname;
+            $this->fields['lastname'] = $lastname;
         }
 
         /**
          * Set the Birth
          *
-         * @param string $value
-         *
-         * @return string
+         * @param string $birth
          */
-        function setBirth($value) {
-            if (Validation::validateDate($value, 'Y-m-d')) {
-                $this->birth = $value;
-                $this->fields['birth'] = $value;
+        function setBirth($birth) {
+            if (Validation::validateDate($birth, 'Y-m-d')) {
+                $this->birth = $birth;
+                $this->fields['birth'] = $birth;
             } else {
                 $this->errors['date'] = 'Wrong date.';
             }
@@ -202,7 +196,7 @@
         /**
          * Set the username
          *
-         * @param $username string
+         * @param string $username
          */
         public function setUsername($username)
         {
@@ -231,6 +225,9 @@
 
         /**
          * Remember me
+         *
+         * @param object $user
+         * @param string $token
          */
         private function rememberMe($user, $token)
         {
@@ -245,7 +242,8 @@
          *
          * @return void
          */
-        function constructor() {
+        function constructor()
+        {
             if (isset($_SESSION['admin'])) {
                 $admin = Session::get('admin');
                 if (!$this->getJSON($this->link('admin1259/is_admin/' . $admin->admin_username . '/' . $admin->admin_password))->admin) {
@@ -261,7 +259,8 @@
          *
          * @return void
          */
-        function api_get($id = null) {
+        function api_get($id = null)
+        {
             $this->loadModel('Users');
 
             if ($id != null) {
@@ -299,7 +298,8 @@
          *
          * @return void
          */
-        function api_create() {
+        function api_create()
+        {
             if (!empty($_POST)) {
                 $data = array();
                 $this->loadModel('Users');
@@ -367,7 +367,8 @@
          *
          * @return void
          */
-        function api_edit($id = null) {
+        function api_edit($id = null)
+        {
             if ($id != null) {
                 if (!empty($_POST)) {
                     $data = array();
@@ -446,7 +447,8 @@
          *
          * @throws \Exception
          */
-        function api_generateToken($id) {
+        function api_generateToken($id)
+        {
             $this->loadModel('Tokens');
 
             $token = md5(uniqid(mt_rand(), true));
@@ -465,9 +467,10 @@
          *
          * @param string $token
          *
-         * @return array / boolean
+         * @return array|boolean
          */
-        function api_checkToken($token = null, $address = null) {
+        function api_checkToken($token = null, $address = null)
+        {
             $this->loadModel('Tokens');
 
             if ($token != null && $address != null) {
@@ -501,7 +504,8 @@
          *
          * @return void
          */
-        function api_auth($token = null) {
+        function api_auth($token = null)
+        {
             if (!empty($_POST)) {
                 $data = array();
 
@@ -594,7 +598,8 @@
          * @throws Core\Exceptions\NotFoundHTTPException
          * @throws \Exception
          */
-        function api_tokens($id = null) {
+        function api_tokens($id = null)
+        {
             if ($id != null) {
                 $this->loadModel('Users');
                 $this->loadModel('Tokens');
@@ -617,6 +622,9 @@
             } else {
                 $this->errors['id'] = 'No id sent';
             }
+
+            $data['success'] = !empty($this->errors) ? false : true;
+            $data['errors'] = $this->errors;
 
             $data['errors'] = $this->errors;
 
@@ -655,6 +663,19 @@
         function register()
         {
             $data = $_POST;
+            if (isset($_POST['tc']) && $_POST['tc']) {
+                $return = json_decode($this->postCURL($this->link('api/users/create'), $_POST), false);
+
+                if (!$return->success) {
+                    $this->errors = $return->errors;
+                }
+            } else {
+                $this->errors['tc'] = 'Please accept the Terms & Conditions.';
+            }
+
+            $data['success'] = !empty($this->errors) ? false : true;
+            $data['errors'] = $this->errors;
+
             View::make('users.register', $data, 'default');
         }
 
@@ -663,7 +684,8 @@
          *
          * @return void
          */
-        function admin_index() {
+        function admin_index()
+        {
             View::$title = 'Liste des utilisateurs';
             $this->loadModel('Users');
 
@@ -679,7 +701,8 @@
          *
          * @return void
          */
-        function admin_create($id = null) {
+        function admin_create($id = null)
+        {
             View::$title = 'Ajout d\'un utilisateur';
 
             View::make('users.admin_create', null, 'admin');
@@ -690,7 +713,8 @@
          *
          * @return void
          */
-        function admin_count() {
+        function admin_count()
+        {
             $this->loadModel('Users');
 
             $data['count'] = $this->Users->select(array('count' => true));
@@ -703,7 +727,8 @@
          *
          * @return void
          */
-        function admin_signin() {
+        function admin_signin()
+        {
             View::$title = 'Dashboard';
 
             if (!empty($_POST)) {
@@ -788,7 +813,8 @@
          *
          * @return void
          */
-        function admin_logout() {
+        function admin_logout()
+        {
             Session::destroy('admin');
             Cookie::destroy('admin_username');
             Cookie::destroy('admin_security');

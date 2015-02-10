@@ -1,108 +1,109 @@
 <?php
 
+/**
+ * View
+ *
+ * @author Edwin Dayot <edwin.dayot@sfr.fr>
+ * @copyright 2014
+ */
+
+namespace Core;
+
+use Core\Exceptions\NotFoundHTTPException;
+
+/**
+ * Class View
+ *
+ * @package Core
+ */
+class View
+{
+
     /**
-     * View
-     * 
-     * @author Edwin Dayot <edwin.dayot@sfr.fr>
-     * @copyright 2014
-     */
-
-    namespace Core;
-
-    use Core\Exceptions\NotFoundHTTPException;
-
-    /**
-     * Class View
+     * Current Page
      *
-     * @package Core
+     * @var string $current
+     * @var string $title
+     * @var string $folders
      */
-    class View
+    static public $current, $title, $folders;
+
+    /**
+     * Set the folders
+     *
+     * @param $folders
+     */
+    private static function setFolders($folders)
     {
+        self::$folders = $folders;
+    }
 
-        /**
-         * Current Page
-         *
-         * @var string $current
-         * @var string $title
-         * @var string $folders
-         */
-        static public $current, $title, $folders;
+    /**
+     * Get the folders
+     *
+     * @return string
+     */
+    private static function getFolders()
+    {
+        return self::$folders;
+    }
 
-        /**
-         * Set the folders
-         *
-         * @param $folders
-         */
-        private static function setFolders($folders)
-        {
-            self::$folders = $folders;
+    /**
+     * Make the view including datas
+     *
+     * @param string $view
+     * @param array $data
+     * @param string|boolean $layout But boolean by default
+     * @param string $content_type
+     *
+     * @return bool
+     *
+     * @throws NotFoundHTTPException
+     */
+    static function make($view, $data = array(), $layout = false, $content_type = 'text/html')
+    {
+        header('Content-type: ' . $content_type);
+        $viewname = $view;
+        $view = explode('.', $view);
+
+        self::setFolders(str_replace('.', '/', $viewname));
+
+        if (is_array($data)) {
+            extract($data);
         }
 
-        /**
-         * Get the folders
-         *
-         * @return string
-         */
-        private static function getFolders()
-        {
-            return self::$folders;
+        $filename = __DIR__ . '/../app/views/' . $view[0];
+
+        $view = array_slice($view, 1);
+
+        foreach ($view as $v) {
+            $filename .= '/' . $v;
         }
 
-        /**
-         * Make the view including datas
-         *
-         * @param string $view
-         * @param array $data
-         * @param string|boolean $layout But boolean by default
-         * @param string $content_type
-         *
-         * @return bool
-         *
-         * @throws NotFoundHTTPException
-         */
-        static function make($view, $data = array(), $layout = false, $content_type = 'text/html') {
-            header('Content-type: ' . $content_type);
-            $viewname = $view;
-            $view = explode('.', $view);
+        $filename .= '.php';
 
-            self::setFolders(str_replace('.', '/', $viewname));
+        if (file_exists($filename)) {
+            if ($layout !== false) {
+                require_once 'HTML.php';
 
-            if (is_array($data)) {
-                extract($data);
-            }
+                ob_start();
+                require $filename;
+                $content_for_layout = ob_get_clean();
 
-            $filename = __DIR__ . '/../app/views/' . $view[0];
+                $layout_file = __DIR__ . '/../app/views/layouts/' . $layout . '.php';
 
-            $view = array_slice($view, 1);
-
-            foreach ($view as $v) {
-                $filename .= '/' . $v;
-            }
-
-            $filename .= '.php';
-
-            if (file_exists($filename)) {
-                if ($layout !== false) {
-                    require_once 'HTML.php';
-
-                    ob_start();
-                    require $filename;
-                    $content_for_layout = ob_get_clean();
-
-                    $layout_file = __DIR__ . '/../app/views/layouts/' . $layout . '.php';
-
-                    if (file_exists($layout_file)) {
-                        require $layout_file;
-                    } else {
-                        throw new NotFoundHTTPException('Layout ' . $layout . ' not found.');
-                    }
+                if (file_exists($layout_file)) {
+                    require $layout_file;
                 } else {
-                    require $filename;
+                    throw new NotFoundHTTPException('Layout ' . $layout . ' not found.');
                 }
-
-                return true;
             } else {
-                throw new NotFoundHTTPException('View ' . $viewname . ' not found.');
+                require $filename;
             }
+
+            return true;
+        } else {
+            throw new NotFoundHTTPException('View ' . $viewname . ' not found.');
         }
     }
+}

@@ -1,8 +1,8 @@
 <?php
-    
+
     /**
      * PacksController
-     * 
+     *
      * @author Edwin Dayot <edwin.dayot@sfr.fr>
      * @copyright 2014
      */
@@ -49,10 +49,11 @@
         /**
          * Set Name
          *
-         * @param $value
+         * @param $name
          */
-        function setName($value) {
-            $this->name = $value;
+        function setName($name)
+        {
+            $this->name = $name;
         }
 
         /**
@@ -60,17 +61,19 @@
          *
          * @return string
          */
-        function getName() {
+        function getName()
+        {
             return $this->name;
         }
 
         /**
          * Set Description
          *
-         * @param string $value
+         * @param string $description
          */
-        function setDescription($value) {
-            $this->description = $value;
+        function setDescription($description)
+        {
+            $this->description = $description;
         }
 
         /**
@@ -85,11 +88,11 @@
         /**
          * Set End
          *
-         * @param string $value
+         * @param string $end
          */
-        function setEnd($value) {
-            if (Validation::validateDate($value, 'Y-m-d H:i')) {
-                $this->end = $value;
+        function setEnd($end) {
+            if (Validation::validateDate($end, 'Y-m-d H:i')) {
+                $this->end = $end;
             } else {
                 $this->errors['end'] = 'Not a datetime';
             }
@@ -107,10 +110,10 @@
         /**
          * Set Token
          *
-         * @param $value
+         * @param $token
          */
-        function setToken($value) {
-            $this->token = $value;
+        function setToken($token) {
+            $this->token = $token;
         }
 
         /**
@@ -127,7 +130,8 @@
          *
          * @return void
          */
-        function constructor() {
+        function constructor()
+        {
             if (isset($_SESSION['admin']) && $this->getPrefix() == 'admin') {
                 $admin = Session::get('admin');
                 if (!$this->getJSON($this->link('admin1259/is_admin/' . $admin->admin_username . '/' . $admin->admin_password))->admin) {
@@ -139,15 +143,16 @@
                 throw new NotFoundHTTPException('Non authorized address.');
             }
         }
-        
+
         /**
          * Index API Action
          *
          * @param mixed $id
-         * 
+         *
          * @return void
          */
-        function api_get($id = null) {
+        function api_get($id = null)
+        {
             $this->loadModel('Packs');
             $this->loadModel('Steps');
 
@@ -221,7 +226,8 @@
          *
          * @throws Core\Exceptions\NotFoundHTTPException
          */
-        function api_create() {
+        function api_create()
+        {
             if (!empty($_POST)) {
                 if (!empty($_POST['name'])) {
                     $this->setName($_POST['name']);
@@ -276,7 +282,8 @@
          *
          * @throws NotFoundHTTPException
          */
-        function create() {
+        function create()
+        {
             View::$title = 'Create your pack';
             View::make('packs.create', null, 'default');
         }
@@ -297,7 +304,8 @@
          *
          * @return void
          */
-        function admin_index() {
+        function admin_index()
+        {
             View::$title = 'Packs';
 
             $this->loadModel('Packs');
@@ -312,7 +320,8 @@
          *
          * @return void
          */
-        function admin_count() {
+        function admin_count()
+        {
             $this->loadModel('Packs');
 
             $data['count'] = $this->Packs->select(array('count' => true));

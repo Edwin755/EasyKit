@@ -7,7 +7,7 @@
      */
 
     namespace App\Controllers;
-    
+
     use Core;
     use Core\Controller;
     use Core\Validation;
@@ -189,6 +189,44 @@
         }
 
         /**
+         * API User
+         *
+         * @throws Core\Exceptions\NotFoundHTTPException
+         */
+        function api_user()
+        {
+            if (!empty($_POST)) {
+                if (isset($_POST['token']) && $_POST['token'] != null) {
+                    $this->setToken($_POST['token']);
+                    $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getToken() . '/' . $_SERVER['REMOTE_ADDR']));
+                    if ($user->valid) {
+                        $user_id = $user->user->tokens_users_id;
+                    } else {
+                        $this->errors = $user->errors;
+                    }
+                } else {
+                    $this->errors['token'] = 'Empty token.';
+                }
+
+                if (empty($this->errors)) {
+                    $this->loadModel('Likes');
+                    $data['likes'] = $this->Likes->select([
+                        'conditions'    => [
+                            'users_id'     => $user_id
+                        ]
+                    ]);
+                }
+            } else {
+                $this->errors['post'] = 'No POST received.';
+            }
+
+            $data['success'] = !empty($this->errors) ? false : true;
+            $data['errors'] = $this->errors;
+
+            View::make('api.index', json_encode($data), false, 'application/json');
+        }
+
+        /**
          * Create
          *
          * @param null $id
@@ -232,6 +270,30 @@
                 }
             } else {
                 $this->errors['id'] = 'Empty id.';
+            }
+
+            $data['success'] = !empty($this->errors) ? false : true;
+            $data['errors'] = $this->errors;
+
+            View::make('api.index', json_encode($data), false, 'application/json');
+        }
+
+        /**
+         * User likes
+         *
+         * @throws Core\Exceptions\NotFoundHTTPException
+         */
+        function user()
+        {
+            if (isset($_SESSION['user'])) {
+                $return = json_decode($this->postCURL($this->link('api/likes/user/'), ['token' => Session::get('user')->token]));
+                if (empty($return->errors)) {
+                    $data['likes'] = current($return);
+                } else {
+                    $this->errors = $return->errors;
+                }
+            } else {
+                $data['likes'] = json_decode(Cookie::get('l'), true);
             }
 
             $data['success'] = !empty($this->errors) ? false : true;

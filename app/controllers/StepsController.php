@@ -7,7 +7,7 @@
      */
 
     namespace App\Controllers;
-    
+
     use Core;
     use Core\Controller;
     use Core\Validation;

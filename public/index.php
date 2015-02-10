@@ -1,11 +1,11 @@
 <?php
 
-    /**
-     * First file called, launch App.
-     *
-     * Enjoy !
-     */
+/**
+ * First file called, launch App.
+ *
+ * Enjoy !
+ */
 
-    require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
-    new Core\Dispatcher;
+new Core\Dispatcher;

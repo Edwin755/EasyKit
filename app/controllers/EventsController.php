@@ -372,7 +372,8 @@
          * @throws NotFoundHTTPException
          * @throws \Exception
          */
-        function api_edit($id = null) {
+        function api_edit($id = null)
+        {
             if ($id != null) {
                 if (!empty($_POST)) {
                     if (isset($_POST['name']) && $_POST['name'] != null) {
