@@ -6,7 +6,7 @@ app.controller("register", function($scope, $http) {
     
     var sec = 0;
 
-    setInterval(function(){ sec++; console.log(sec); return sec;}, 1000);
+    setInterval(function(){ sec++; return sec;}, 1000);
 
 
     $scope.create = function () {
@@ -20,14 +20,22 @@ app.controller("register", function($scope, $http) {
         }
             
         if(sec > 5){
-            $http.post(url + '/users/register', userInfos, {
+            $http.post(url + '/api/users/create', userInfos, {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                 transformRequest: transform
             }).success(function(responseData) {
-                console.log(responseData);
+
                 if(responseData.errors != ""){
-                    $('.notif').html(responseData.errors).addClass('red');
+                    $('.notif').html();
+                    for(var error in responseData.errors){
+                        $('.notif').append(responseData.errors[error]+'<br/>').addClass('red');
+                    }
                 }
+                    
+                if(responseData.success == true){
+                    document.location.href = responseData.redirect ;
+                }
+
             });
         }else{
             $('.notif').html('Wait for minimum 5 secondes before sending de form').addClass('red');

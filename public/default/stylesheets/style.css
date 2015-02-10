@@ -6,13 +6,13 @@
 }
 
 @font-face {
-    font-family: 'american_purposeregular';
+    font-family: 'source_sans_pro_semibold';
     src: url('../fonts/american-purpose-webfont.eot');
     src: url('../fonts/american-purpose-webfont.eot?#iefix') format('embedded-opentype'),
          url('../fonts/american-purpose-webfont.woff2') format('woff2'),
          url('../fonts/american-purpose-webfont.woff') format('woff'),
          url('../fonts/american-purpose-webfont.ttf') format('truetype'),
-         url('../fonts/american-purpose-webfont.svg#american_purposeregular') format('svg');
+         url('../fonts/american-purpose-webfont.svg#source_sans_pro_semibold') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -40,7 +40,13 @@
          url('../fonts/sourcesanspro-regular-webfont.svg#source_sans_proregular') format('svg');
     font-weight: normal;
     font-style: normal;
+}
 
+@font-face {
+    font-family: 'source_sans_pro_semibold';
+    src: url('../fonts/SourceSansPro-Semibold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
@@ -332,7 +338,7 @@ font-family: 'source_sans_prolight';
 
 #joinus h2
 {
-	font-family: 'american_purposeregular';
+	font-family: 'source_sans_pro_semibold';
 font-size: 2.2em;
 text-align: center;
 color: black;
@@ -608,7 +614,7 @@ a , a:visited ,li , li:visited {
 }
 
 #search-area h1{
-	font-family: 'american_purposeregular';
+	font-family: 'source_sans_pro_semibold';
 	font-size:4em;
 }
 
@@ -626,7 +632,7 @@ a , a:visited ,li , li:visited {
 #bar-search #add{
 	margin-top:10px;
 	float:right;
-	font-family: 'american_purposeregular';
+	font-family: 'source_sans_pro_semibold';
 	font-size:1.6em;
 	color:white;
 	text-decoration:none;
@@ -667,7 +673,7 @@ text-decoration: none;
 }
 
 #containt h2{
-	font-family: 'american_purposeregular';
+	font-family: 'source_sans_pro_semibold';
 	font-size:2.2em;
 	text-align:center;
 	color:black;
@@ -722,7 +728,7 @@ text-align: right;
 }
 
 #block-text-1 p{
-	font-family: 'american_purposeregular';
+	font-family: 'source_sans_pro_semibold';
 	font-size:1.2em;
 }
 
@@ -841,7 +847,7 @@ list-style-type: none;
 }
 
 #infographie h2{
-	font-family: 'american_purposeregular';
+	font-family: 'source_sans_pro_semibold';
 	font-size:2.2em;
 	text-align:center;
 	color:black;
@@ -1470,7 +1476,7 @@ padding-bottom: 70px;
 
 #present_event h2
 {
-	font-family: 'american_purposeregular';
+	font-family: 'source_sans_pro_semibold';
 	font-size:2.2em;
 	text-align:center;
 	color:black;
@@ -1708,14 +1714,14 @@ padding: 8px;
 
 #recap h1
 {
-	font-family: 'american_purposeregular';
+	font-family: 'source_sans_pro_semibold';
 	color: white;
 font-size: 30px;
 }
 
 #recap h2
 {
-	font-family: 'american_purposeregular';
+	font-family: 'source_sans_pro_semibold';
 	color: white;
 	padding-bottom: 40px;
 padding-top: 20px;
@@ -1725,7 +1731,7 @@ padding-top: 20px;
 
 .title_price
 {
-	font-family: 'american_purposeregular';
+	font-family: 'source_sans_pro_semibold';
 	color: #1abc9c;
 }
 
@@ -1775,7 +1781,7 @@ padding-right: 50px;
 
 li.title_recap
 {
-	font-family: 'american_purposeregular';
+	font-family: 'source_sans_pro_semibold';
 	padding-bottom: 20px;
 	padding-top: 20px;
 }

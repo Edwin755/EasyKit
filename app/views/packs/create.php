@@ -19,17 +19,10 @@
 
                     <div id="formu_event">
                         <form id="formu1" method="post" action="traitement.php">
-<<<<<<< HEAD
                             <input type="text" class="champs" placeholder="Name..." ng-model="eventName"> 
                             <input type="text" class="champs" placeholder="Location..." ng-model="eventLocation"> 
                             <input type="number" class="champs" placeholder="Price per person..." ng-model="eventPrice"> 
                             <input type="datetime" class="champs" placeholder="Date..." ng-model="eventDate"> 
-=======
-                            <input type="text" class="champs" placeholder="Name..." ng-model="eventName">
-                            <input type="text" class="champs" placeholder="Location..." ng-model="eventLocation">
-                            <input type="number" class="champs" placeholder="Price per person..." ng-model="eventPrice">
-                            <input type="date" class="champs" placeholder="Date..." ng-model="eventDate">
->>>>>>> 272b52683c59cdf42974b13b15b00b92af5e5d06
                             <textarea name="description" class="champs" placeholder="Description..." ng-model="eventDesc"></textarea>
                         </form>
                     </div>
