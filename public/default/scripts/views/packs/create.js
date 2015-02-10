@@ -27,7 +27,10 @@ app.controller("packCreate", function($scope, $http) {
                     console.log(id);
                     $scope.eventName = data.event.events_name;
                     $scope.eventDesc = data.event.events_description;
-                    $scope.eventDate = data.event.events_starttime;
+                    var datestart = (data.event.events_starttime).substring(0,16);
+                    $scope.eventStartDate = datestart.replace(" ", "T");
+                    var dateend = (data.event.events_endtime).substring(0,16);
+                    $scope.eventEndDate = dateend.replace(" ", "T");          
                     $scope.eventName = data.event.events_name;
 
 

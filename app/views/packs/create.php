@@ -21,7 +21,8 @@
                             <input type="text" class="champs" placeholder="Name..." ng-model="eventName"> 
                             <input type="text" class="champs" placeholder="Location..." ng-model="eventLocation"> 
                             <input type="number" class="champs" placeholder="Price per person..." ng-model="eventPrice"> 
-                            <input type="datetime" class="champs" placeholder="Date..." ng-model="eventDate"> 
+                            <input type="datetime-local" class="champs datestart" ng-model="eventStartDate"> 
+                            <input type="datetime-local" class="champs datesend" ng-model="eventEndDate"> 
                             <textarea name="description" class="champs" placeholder="Description..." ng-model="eventDesc"></textarea>
                         </form>
                     </div>
