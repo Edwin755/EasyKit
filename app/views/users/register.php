@@ -6,9 +6,9 @@
 
     <div class="divider"></div>
 
-    <input type="email" class="sign-up-input" name="email" ng-model="formData.email" placeholder="Email" ng-change="chrono()" autofocus>
+    <input type="email" class="sign-up-input" name="email" ng-model="formData.email" placeholder="Email" ng-change="chrono()" autofocus required="">
     
-    <input type="password" class="sign-up-input" name="password" ng-model="formData.password" placeholder="Password">
+    <input type="password" class="sign-up-input" name="password" ng-model="formData.password" placeholder="Password" required>
     
     <input type="checkbox"  name="tc" ng-model="formData.tc" required>
     

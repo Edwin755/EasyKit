@@ -26,7 +26,7 @@ app.controller("register", function($scope, $http) {
             }).success(function(responseData) {
 
                 if(responseData.errors != ""){
-                    $('.notif').html();
+                    $('.notif').html("");
                     for(var error in responseData.errors){
                         $('.notif').append(responseData.errors[error]+'<br/>').addClass('red');
                     }
