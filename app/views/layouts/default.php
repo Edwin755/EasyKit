@@ -44,7 +44,7 @@
     <?php endif; ?>
 
     <div id="menu-mobile">
-        <a href="#" id="open_menu_mobile"><img src="images/menu.png" alt="" /></a>
+        <a href="#" id="open_menu_mobile"><img src="http://localhost:8888/EasyKit/default/images/menu.png" alt="" /></a>
     </div>
 
     <div id="menu_open">
@@ -66,8 +66,9 @@
 </script>
 <script src="<?= HTML::link('default/scripts/jquery.min.js'); ?>"></script>
 <script src="<?= HTML::link('default/scripts/angular.min.js'); ?>"></script>
-<script src="<?= HTML::link('default/scripts/function.js'); ?>"></script>
 <script src="<?= HTML::link('default/scripts/login.js'); ?>"></script>
 <script src="<?= HTML::link('default/scripts/views/' . self::getFolders() . '.js'); ?>"></script>
+<script src="<?= HTML::link('default/scripts/function.js'); ?>"></script>
+
 </body>
 </html>

@@ -16,6 +16,7 @@ use Core\Model;
  *
  * @package App\Models
  */
-class Admin extends Model {
+class Admin extends Model
+{
 
 }

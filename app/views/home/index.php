@@ -40,6 +40,7 @@
                     <ul class="social_button">
                         <li class="button fb"><a href="construction.html">With Facebook</a></li>
                     </ul>
+                    <a href="">Forget password?</a>
                 </form>
             </div>
         <?php endif; ?>
@@ -77,7 +78,15 @@
     <div class="trait"></div>
     <span us-spinner="{radius:30, width:8, length: 16}"></span>
 
-    <div class="block" ng-repeat="event in data.events track by $index" id="{{index}}">
+    <div class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+    </div>
+
+    <a class="block" ng-repeat="event in data.events track by $index" id="{{index}}" href="<?= HTML::link('/events/show/{{event.events_id}}')?>">
         <div class="couverture">
             <ul>
                 <li ng-repeat="photos in event.events_medias|limitTo:1" style="background: url({{photos.medias_file}})"></li>
@@ -93,18 +102,22 @@
 
             <div class="trait-block-text"></div>
 
-            <ul class="icones">
-                <li><img src="<?= HTML::link('default/images/like.png'); ?>" data-id="{{event.events_id}}" class="like" title="Like this event" width="21" alt="like"> <span>{{event.events_like}}</span></li>
+            <ul class="icones" data-id="{{event.events_id}}">
+                <li>
+                    <img src="<?= HTML::link('default/images/like.png'); ?>" data-id="{{event.events_id}}" ng-click="like($event)" class="like" title="Like this event" width="21" alt="like">
+                    <div class="spinner-like"></div>
+                    <span class="like_number">{{event.events_like}}</span>
+                </li>
 
                 <li><img src="<?= HTML::link('default/images/share.png'); ?>" title="Share this event" width="21" alt="share"></li>
 
                 <li class="favorit">
-                    <img class="coeur" src="<?= HTML::link('default/images/favorit.png'); ?>" title="Add to your favorite events" width="23" alt="favorit">
-                    <img class="coeur2" src="<?= HTML::link('default/images/favorit-vert.png'); ?>" width="23" alt="favorit2">
+                    <img class="coeur" data-id="{{event.events_id}}" src="<?= HTML::link('default/images/favorit.png'); ?>" title="Add to your favorite events" width="23" alt="favorit">
+                    <img class="coeur2" data-id="{{event.events_id}}" src="<?= HTML::link('default/images/favorit-vert.png'); ?>" width="23" alt="favorit2">
                 </li>
             </ul>
         </div>
-    </div>
+    </a>
 
     <div id="all-events">
         <a href="<?= HTML::link('events') ?>">See all events</a>

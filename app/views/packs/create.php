@@ -1,22 +1,14 @@
-<div id="container_create">
+<div id="container_create" ng-controller="packCreate">
     <div id="create_event">
         <div id="block_menu">
             <ul>
-                <li id="bar-menu-1" class="activeAfter"><span>Event</span></li>
 
-                <li id="bar-menu-2"><span>Hosting</span></li>
-
-                <li id="bar-menu-3"><span>Transport</span></li>
-
-                <li id="bar-menu-4"><span>Contributors</span></li>
-
-                <li id="bar-menu-5"><span><span id="options">More</span> Options</span></li>
-
-                <li id="bar-menu-6">
-                    <div id="bouton-create">
-                        <a id="final-step" href="recap_pack.html">Create my pack</a>
-                    </div>
-                </li>
+                <li id="bar-menu-1" class="activeAfter"><i class="fa fa-calendar-o"></i><span>Event</span></li>
+                <li id="bar-menu-2"><i class="fa fa-home"></i><span>Hosting</span></li>
+                <li id="bar-menu-3"><i class="fa fa-car"></i><span>Transport</span></li>
+                <li id="bar-menu-4"><i class="fa fa-users"></i><span>Contributors</span></li>
+                <li id="bar-menu-5"><i class="fa fa-cog"></i><span><span id="options">More</span> Options</span></li>
+                <li id="bar-menu-6"><div id="bouton-create"><a id="final-step" href="recap_pack.html">Create my pack</a></div></li>
             </ul>
         </div>
 
@@ -27,30 +19,40 @@
 
                     <div id="formu_event">
                         <form id="formu1" method="post" action="traitement.php">
-                            <input type="text" class="champs" placeholder="Name..."> <input type="text" class="champs" placeholder="Location..."> <input type="number" class="champs" placeholder="Price per person..."> <input type="date" class="champs" placeholder="Date..."> 
-                            <textarea name="description" class="champs" placeholder="Description...">
-</textarea>
+                            <input type="text" class="champs" placeholder="Name..." ng-model="eventName"> 
+                            <input type="text" class="champs" placeholder="Location..." ng-model="eventLocation"> 
+                            <input type="number" class="champs" placeholder="Price per person..." ng-model="eventPrice"> 
+                            <input type="datetime" class="champs" placeholder="Date..." ng-model="eventDate"> 
+                            <textarea name="description" class="champs" placeholder="Description..." ng-model="eventDesc"></textarea>
                         </form>
                     </div>
                 </div>
 
-                <div class="block_formu_parti" id="block_formu_parti_2" ng-controller="favoriteEvents">
+                <div class="block_formu_parti" id="block_formu_parti_2">
                     <h2>Or choose an Event</h2>
 
                     <div id="bar-search">
-                        <form id="formu" method="post" action="traitement.php">
-                            <input type="search" class="champs" placeholder="Search an event...">
+                        <form id="formu" method="post" action="">
+                            <input type="search" class="champs" placeholder="Search an event..." ng-model="search" ng-change="update()">
                         </form>
                     </div>
 
-                    <h3>Favorite Events</h3>
+                    <h3 class="title_favorite_event">Your favorite Events</h3>
 
-                    <div class="vignettes" ng-repeat="event in data.events track by $index">
-                    <ul>
-                        <li ng-repeat="photos in event.events_medias track by $index|limitTo:1" style="background: url({{photos.medias_file}})"></li>
-                    </ul>
+                    <div class="spinner white">
+                        <div class="rect1"></div>
+                        <div class="rect2"></div>
+                        <div class="rect3"></div>
+                        <div class="rect4"></div>
+                        <div class="rect5"></div>
+                    </div>
 
-                        <div class="cercle"><img class="check" width="16" src="images/check.png" alt=""></div>
+                    <div class="vignettes" ng-repeat="event in data.events track by $index" >
+                        <ul>
+                            <li ng-repeat="photos in event.events_medias track by $index|limitTo:1" style="background: url({{photos.medias_file}})" ng-click="fillform($event)" data-id="{{event.events_id}}"></li>
+                        </ul>
+
+                        <div class="cercle" ><img class="check" width="16" src="<?= HTML::link('default/images/check.png') ?>" alt="" ></div>
 
                         <div class="titre_vignettes">
                             {{event.events_name}}

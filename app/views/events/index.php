@@ -4,7 +4,16 @@
     </div>
 
     <div id="container_all_events">
-        <div class="block" ng-repeat="event in data.events track by $index" id="{{index}}">
+
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
+
+        <a class="block" ng-repeat="event in data.events track by $index" id="{{index}}" href="<?= HTML::link('/events/show/{{event.events_id}}')?>">
             <div class="couverture">
                 <ul>
                     <li ng-repeat="photos in event.events_medias|limitTo:1" style="background: url({{photos.medias_file}})"></li>
@@ -30,6 +39,6 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </a>
     </div>
 </div>
