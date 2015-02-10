@@ -351,7 +351,11 @@
                         'birth'     => $this->getBirth(),
                     ));
 
-                    $data['success'] = true;
+                    $data['success'] = true; 
+                    $data['redirect'] = $this->link('');
+                                       
+//                     Session::setFlash('success', $message);
+                    
                 } else {
                     $data['success'] = false;
                 }
