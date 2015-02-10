@@ -694,6 +694,10 @@ text-align: right;
 	text-decoration: underline;
 }
 
+a.block{
+    text-decoration: none;
+}
+
 .block{
 	float:left;
 	width:360px;

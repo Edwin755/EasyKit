@@ -13,7 +13,7 @@
             <div class="rect5"></div>
         </div>
 
-        <div class="block" ng-repeat="event in data.events track by $index" id="{{index}}">
+        <a class="block" ng-repeat="event in data.events track by $index" id="{{index}}" href="<?= HTML::link('/events/get/{{event.events_id}}')?>">
             <div class="couverture">
                 <ul>
                     <li ng-repeat="photos in event.events_medias|limitTo:1" style="background: url({{photos.medias_file}})"></li>
@@ -39,6 +39,6 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </a>
     </div>
 </div>

@@ -40,6 +40,7 @@
                     <ul class="social_button">
                         <li class="button fb"><a href="construction.html">With Facebook</a></li>
                     </ul>
+                    <a href="">Forget password?</a>
                 </form>
             </div>
         <?php endif; ?>
@@ -85,7 +86,7 @@
         <div class="rect5"></div>
     </div>
 
-    <div class="block" ng-repeat="event in data.events track by $index" id="{{index}}">
+    <a class="block" ng-repeat="event in data.events track by $index" id="{{index}}" href="<?= HTML::link('/events/get/{{event.events_id}}')?>">
         <div class="couverture">
             <ul>
                 <li ng-repeat="photos in event.events_medias|limitTo:1" style="background: url({{photos.medias_file}})"></li>
@@ -102,9 +103,10 @@
             <div class="trait-block-text"></div>
 
             <ul class="icones" data-id="{{event.events_id}}">
-                <li><img src="<?= HTML::link('default/images/like.png'); ?>" data-id="{{event.events_id}}" ng-click="like($event)" class="like" title="Like this event" width="21" alt="like">
-                <div class="spinner-like"></div>
-                <span class="like_number">{{event.events_like}}</span>
+                <li>
+                    <img src="<?= HTML::link('default/images/like.png'); ?>" data-id="{{event.events_id}}" ng-click="like($event)" class="like" title="Like this event" width="21" alt="like">
+                    <div class="spinner-like"></div>
+                    <span class="like_number">{{event.events_like}}</span>
                 </li>
 
                 <li><img src="<?= HTML::link('default/images/share.png'); ?>" title="Share this event" width="21" alt="share"></li>
@@ -115,7 +117,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </a>
 
     <div id="all-events">
         <a href="<?= HTML::link('events') ?>">See all events</a>
