@@ -623,6 +623,9 @@
                 $this->errors['id'] = 'No id sent';
             }
 
+            $data['success'] = !empty($this->errors) ? false : true;
+            $data['errors'] = $this->errors;
+
             $data['errors'] = $this->errors;
 
             View::make('api.index', json_encode($data), false, 'application/json');
@@ -660,6 +663,19 @@
         function register()
         {
             $data = $_POST;
+            if (isset($_POST['tc']) && $_POST['tc']) {
+                $return = json_decode($this->postCURL($this->link('api/users/create'), $_POST), false);
+
+                if (!$return->success) {
+                    $this->errors = $return->errors;
+                }
+            } else {
+                $this->errors['tc'] = 'Please accept the Terms & Conditions.';
+            }
+
+            $data['success'] = !empty($this->errors) ? false : true;
+            $data['errors'] = $this->errors;
+
             View::make('users.register', $data, 'default');
         }
 
