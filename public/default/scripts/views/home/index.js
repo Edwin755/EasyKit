@@ -6,6 +6,7 @@ app.controller("popularEvents", function($scope, $http) {
         success(function(data, status, headers, config) {
             if(typeof data === 'object'){
                 $scope.data = data;  
+                $('.spinner').hide();
                 return;
             }else{
                 return;
