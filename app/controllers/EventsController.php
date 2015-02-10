@@ -441,11 +441,29 @@
             View::make('api.index', json_encode($data), false, 'application/json');
         }
 
+        /**
+         * Index
+         *
+         * @throws NotFoundHTTPException
+         */
         function index()
         {
             View::$title = 'All events';
             $data = current($this->getJSON($this->link('api/events')));
             View::make('events.index', $data, 'default');
+        }
+
+
+        function show($id = null)
+        {
+            $return = current($this->getJSON($this->link('api/events/get/' . $id)));
+            if ($return != false) {
+                $data = $return;
+            } else {
+                throw new NotFoundHTTPException('This event doesn\'t exists.');
+            }
+
+            View::make('events.show', $data, 'default');
         }
 
         /**
