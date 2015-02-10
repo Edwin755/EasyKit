@@ -2,7 +2,6 @@
     <div id="create_event">
         <div id="block_menu">
             <ul>
-
                 <li id="bar-menu-1" class="activeAfter"><i class="fa fa-calendar-o"></i><span>Event</span></li>
                 <li id="bar-menu-2"><i class="fa fa-home"></i><span>Hosting</span></li>
                 <li id="bar-menu-3"><i class="fa fa-car"></i><span>Transport</span></li>
@@ -18,7 +17,7 @@
                     <h2>Create an Event</h2>
 
                     <div id="formu_event">
-                        <form id="formu1" method="post" action="traitement.php">
+                        <form id="formu1" method="post" action="<?= HTML::link('events/create') ?>">
                             <input type="text" class="champs" placeholder="Name..." ng-model="eventName"> 
                             <input type="text" class="champs" placeholder="Location..." ng-model="eventLocation"> 
                             <input type="number" class="champs" placeholder="Price per person..." ng-model="eventPrice"> 
