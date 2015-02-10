@@ -18,13 +18,16 @@ app.controller("packCreate", function($scope, $http) {
    
    
     $scope.fillform = function (e) {
+        
         var id = $(e.target).data('id');
+        
         $http.get(url + '/api/events/get/' + id).
             success(function(data, status, headers, config) {
                 if (typeof data === 'object') {
+                    console.log(id);
                     $scope.eventName = data.event.events_name;
                     $scope.eventDesc = data.event.events_description;
-                    $scope.eventDate = (data.event.events_starttime).substring(0,10);
+                    $scope.eventDate = data.event.events_starttime;
                     $scope.eventName = data.event.events_name;
                     
                     

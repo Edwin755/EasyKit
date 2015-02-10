@@ -22,7 +22,7 @@
                             <input type="text" class="champs" placeholder="Name..." ng-model="eventName"> 
                             <input type="text" class="champs" placeholder="Location..." ng-model="eventLocation"> 
                             <input type="number" class="champs" placeholder="Price per person..." ng-model="eventPrice"> 
-                            <input type="date" class="champs" placeholder="Date..." ng-model="eventDate"> 
+                            <input type="datetime" class="champs" placeholder="Date..." ng-model="eventDate"> 
                             <textarea name="description" class="champs" placeholder="Description..." ng-model="eventDesc"></textarea>
                         </form>
                     </div>
@@ -49,10 +49,10 @@
 
                     <div class="vignettes" ng-repeat="event in data.events track by $index" >
                         <ul>
-                            <li ng-repeat="photos in event.events_medias track by $index|limitTo:1" style="background: url({{photos.medias_file}})"></li>
+                            <li ng-repeat="photos in event.events_medias track by $index|limitTo:1" style="background: url({{photos.medias_file}})" ng-click="fillform($event)" data-id="{{event.events_id}}"></li>
                         </ul>
 
-                        <div class="cercle" ng-click="fillform($event)" data-id="{{event.events_id}}"><img class="check" width="16" src="<?= HTML::link('default/images/check.png') ?>" alt=""></div>
+                        <div class="cercle" ><img class="check" width="16" src="<?= HTML::link('default/images/check.png') ?>" alt="" ></div>
 
                         <div class="titre_vignettes">
                             {{event.events_name}}

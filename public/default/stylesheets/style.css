@@ -2221,3 +2221,13 @@ a.close
     height: 15px;
     width: 18px;
 }
+
+/* notif */
+
+.red{
+    color: #D32F2F;
+}
+
+.green{
+    color: #43A047;
+}
