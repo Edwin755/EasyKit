@@ -1,17 +1,18 @@
-  <form class="sign-up">
+  <form class="sign-up" ng-controller="register" ng-submit="create()">
     <h1 class="sign-up-title">Register</h1>
     <ul class="social_button">
         <li class="button fb"><a href="#">Facebook</a></li>
     </ul>
 
     <div class="divider"></div>
-    <input type="email" class="sign-up-input" placeholder="Email" >
-<!--
-    <input type="text" class="sign-up-input" placeholder="What's your First name?" >
-    <input type="text" class="sign-up-input" placeholder="What's your Last name?" >
--->
-    <input type="password" class="sign-up-input" placeholder="Password">
-<!--     <input type="password" class="sign-up-input" placeholder="Choose a password"> -->
-    <p>By signing up, you agree to our terms of use.</p>
+
+    <input type="email" class="sign-up-input" name="email" ng-model="formData.email" placeholder="Email" ng-change="chrono()">
+    
+    <input type="password" class="sign-up-input" name="password" ng-model="formData.password" placeholder="Password">
+    
+    <input type="checkbox"  name="tc" ng-model="formData.tc">
+    
+    <p>I agree with the terms and conditions.</p>
+    <div class="notif"></div>
     <input type="submit" value="Register now!" class="sign-up-button">
   </form>
