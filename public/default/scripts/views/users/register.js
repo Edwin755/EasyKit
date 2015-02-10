@@ -20,7 +20,7 @@ app.controller("register", function($scope, $http) {
         }
             
         if(sec > 5){
-            $http.post(url + '/users/register', userInfos, {
+            $http.post(url + '/api/users/create', userInfos, {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                 transformRequest: transform
             }).success(function(responseData) {

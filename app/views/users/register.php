@@ -6,11 +6,11 @@
 
     <div class="divider"></div>
 
-    <input type="email" class="sign-up-input" name="email" ng-model="formData.email" placeholder="Email" ng-change="chrono()">
+    <input type="email" class="sign-up-input" name="email" ng-model="formData.email" placeholder="Email" ng-change="chrono()" autofocus>
     
     <input type="password" class="sign-up-input" name="password" ng-model="formData.password" placeholder="Password">
     
-    <input type="checkbox"  name="tc" ng-model="formData.tc">
+    <input type="checkbox"  name="tc" ng-model="formData.tc" required>
     
     <p>I agree with the terms and conditions.</p>
     <div class="notif"></div>
