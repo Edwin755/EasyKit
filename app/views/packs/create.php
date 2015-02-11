@@ -14,7 +14,7 @@
 
         <div id="block_formu">
             <div id="formulaire">
-                <div class="block_formu_parti">
+                <div id="block_formu_parti_1" class="block_formu_parti">
                     <h2>Create an Event</h2>
 
                     <div id="formu_event">
