@@ -1,5 +1,3 @@
-var app = angular.module("myApp",[]);
-
 app.controller("register", function($scope, $http) {
 
     $scope.formData = {};

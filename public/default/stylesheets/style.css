@@ -2241,6 +2241,9 @@ a.close
     width: 18px;
 }
 
+.like.on{
+    display: none;
+}
 /* notif */
 
 .red{

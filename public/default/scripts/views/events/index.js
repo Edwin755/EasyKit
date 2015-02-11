@@ -1,5 +1,3 @@
-var app = angular.module("myApp",[]);
-
 app.controller("allEvents", function($scope, $http) {
 
     $http.get(url + '/api/events').

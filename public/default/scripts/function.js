@@ -390,8 +390,59 @@ $("#formulaire-contributors .icones-formu").on('click',function(){
 
 // Likes
 
+var app = angular.module("myApp",[]);
+
+
 app.controller("likes", function($scope, $http) {
+
     
+/*
+    $http.get(url + '/likes/user').
+        success(function(data, status, headers, config) {
+            if (typeof data === 'object') {
+                var userLikes = data.likes;
+                
+                userLikes.forEach(function(entry) {
+                    
+                    console.log(entry);
+                });
+
+                return;
+            } else {
+                return;
+            }
+        })
+        .error(function(data, status, headers, config) {
+          // log error
+        });
+*/
+
+    $scope.unLike = function(e) {
+        e.preventDefault();
+        
+        var id = $(e.target).data('id');
+        $('ul[data-id="'+id+'"] .spinner-like').css('display','inline-block');
+        $('ul[data-id="'+id+'"] .like_number').hide();
+
+        $http.get(url+'/likes/destroy/'+id).
+            success(function(data, status, headers, config) {
+                if (data.success == true){
+                    nblike = $('ul[data-id="'+id+'"] .like_number').html();
+                    $('ul[data-id="'+id+'"] .like_number').html(parseInt(nblike)-1).show();
+                    $('#' + id + ' .like.on').hide();
+                    $('#' + id + ' .like.off').show();
+                };
+
+                $('ul[data-id="'+id+'"] .like_number').show()
+                $('ul[data-id="'+id+'"] .spinner-like').hide();
+
+                return;
+            })
+            .error(function(data, status, headers, config) {
+              // log error
+            });
+        return false;
+    }
     
     $scope.like = function(e) {
         e.preventDefault();
@@ -405,6 +456,8 @@ app.controller("likes", function($scope, $http) {
                 if (data.success == true){
                     nblike = $('ul[data-id="'+id+'"] .like_number').html();
                     $('ul[data-id="'+id+'"] .like_number').html(parseInt(nblike)+1).show();
+                    $('#' + id + ' .like.on').show();
+                    $('#' + id + ' .like.off').hide();
                 };
 
                 $('ul[data-id="'+id+'"] .like_number').show()

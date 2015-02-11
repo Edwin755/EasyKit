@@ -44,6 +44,8 @@ class Email
     	//Contenu
     	$message->setBody($this->content_html);
     
+        $message->setContentType("text/html");
+
     
     	//Destinataire
     	$message->setTo([$this->to]);
