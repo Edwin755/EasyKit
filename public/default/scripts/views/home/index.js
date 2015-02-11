@@ -6,10 +6,12 @@ app.controller("popularEvents", function($scope, $http) {
                 $scope.data = data;  
                  var events = data.events;
 
+                
             
             $http.get(url + '/likes/user').
                 success(function(data, status, headers, config) {
                     if (typeof data === 'object') {
+                        connect = data.authed;
                         userLikes = data.likes;
                     
                     events.forEach(function(event){
@@ -19,12 +21,14 @@ app.controller("popularEvents", function($scope, $http) {
                         userLikes.forEach(function(entry) { 
                             
                             if(eventid == entry){
-                                console.log('lalala');
                                 nblike = $('#' + eventid + ' .like_number').html();
                                 
                                 $('#' + eventid + ' .like.on').show();
                                 $('#' + eventid + ' .like.off').hide();
-                                $('#' + eventid + ' .like_number').html(parseInt(nblike)+1).show();
+                                
+                                if(connect == false){
+                                    $('#' + eventid + ' .like_number').html(parseInt(nblike)+1).show();
+                                }
                             }
 
                         });
