@@ -453,7 +453,13 @@
             View::make('events.index', $data, 'default');
         }
 
-
+        /**
+         * Show
+         *
+         * @param null $id
+         *
+         * @throws NotFoundHTTPException
+         */
         function show($id = null)
         {
             $return = current($this->getJSON($this->link('api/events/get/' . $id)));
@@ -464,6 +470,48 @@
             }
 
             View::make('events.show', $data, 'default');
+        }
+
+        /**
+         * Create
+         *
+         * @throws NotFoundHTTPException
+         */
+        function create()
+        {
+            if (!empty($_POST)) {
+                $post['name'] = $_POST['name'];
+                $post['description'] = $_POST['description'];
+                $post['starttime'] = $_POST['starttime'];
+                $post['endtime'] = $_POST['endtime'];
+                $post['token'] = $_POST['token'];
+                if (!empty($_POST['id'])) {
+                    $post['users_id'] = $_POST['users_id'];
+                    $return = $this->postCURL($this->link('api/events/create'), $post);
+
+                    $created = $return->success;
+                } else {
+                    $created = true;
+                }
+
+                if ($created) {
+                    $return = $this->postCURL($this->link('api/packs/create'), $post);
+
+                    if (!$return->success) {
+                        $this->errors = $return->errors;
+                    }
+                } else {
+                    $this->errors = $return->errors;
+                }
+
+            } else {
+                $this->errors['post'] = 'No POST received.';
+            }
+
+            $data['success'] = empty($this->errors) ? true : false;
+            $data['errors'] = $this->errors;
+
+            View::make('api.index', json_encode($data), false, 'application/json');
         }
 
         /**

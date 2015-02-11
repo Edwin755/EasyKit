@@ -256,10 +256,14 @@
                             if (!empty($cookie)) {
                                 if (!in_array($id, $cookie)) {
                                     $cookie[] = $id;
+                                } else {
+                                    $this->errors['like'] = 'You already liked this event.';
                                 }
                             } else {
                                 if (!in_array($id, $cookie)) {
                                     $cookie = [$id];
+                                } else {
+                                    $this->errors['like'] = 'You already liked this event.';
                                 }
                             }
                             Cookie::set('l', json_encode($cookie));

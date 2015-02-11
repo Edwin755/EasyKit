@@ -1267,8 +1267,12 @@ width: 50%;
 float: left;
 }
 
+#block_formu_parti_1 {
+border-right: 1px solid white;
+box-sizing: border-box;
+}
+
 #block_formu_parti_2 {
-border-left: 1px solid white;
 padding: 0px 0px 0px 25px;
 box-sizing: border-box;
 }
