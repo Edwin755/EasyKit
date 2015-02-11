@@ -11,13 +11,20 @@
 
     use Core;
     use Core\Controller;
+    use Core\Dispatcher;
     use Core\Exceptions\NotFoundHTTPException;
     use Core\Validation;
     use Core\View;
     use Core\Session;
     use Core\Cookie;
     use Core\Email;
+    use Exception;
+    use Facebook\FacebookRequestException;
     use HTML;
+    use Facebook\FacebookSession;
+    use Facebook\FacebookRequest;
+    use Facebook\FacebookRedirectLoginHelper;
+    use Facebook\GraphUser;
 
     /**
      * UsersController Class
@@ -54,8 +61,10 @@
          * @var string $lastname
          * @var string $birth
          * @var string $token
+         * @var string $fb_id
          */
-        private $email, $username, $password, $remember, $firstname, $lastname, $birth, $token;
+        private $email, $username, $password, $remember, $firstname, $lastname, $birth, $token, $fb_id;
+        private $helper;
 
         /**
          * Get the Email
@@ -225,6 +234,25 @@
         }
 
         /**
+         * Get FB ID
+         * @return mixed
+         */
+        public function getFbId()
+        {
+            return $this->fb_id;
+        }
+
+        /**
+         * Set FB ID
+         *
+         * @param mixed $fb_id
+         */
+        public function setFbId($fb_id)
+        {
+            $this->fb_id = $fb_id;
+        }
+
+        /**
          * Remember me
          *
          * @param object $user
@@ -343,34 +371,31 @@
                     $this->setBirth($_POST['birth']);
                 }
 
+                if (isset($_POST['fb_id'])) {
+                    $this->setFbId($_POST['fb_id']);
+                }
+
                 if (empty($this->errors)) {
                     $this->Users->save(array(
-                        'password'  => $this->getPassword(),
                         'email'     => $this->getEmail(),
+                        'password'  => $this->getPassword(),
                         'firstname' => $this->getFirstname(),
                         'lastname'  => $this->getLastname(),
                         'birth'     => $this->getBirth(),
+                        'fb_id'     => $this->getFbid(),
                     ));
-
-                    $data['success'] = true; 
-                    $data['redirect'] = $this->link('');
                     
                     $message = 'Welcome to Easykit, please login';                    
                     Session::setFlash('success', $message);
                     
                     $mail = new Email($this->getEmail(),['hello@easykit.ovh' => 'Easykit'], 'Welcome on Easykit', '<h1>Welcome on Easykit</h1>', 'Welcome on Easykit');
                     $mail->send();
-                    
-                    
-                } else {
-                    $data['success'] = false;
                 }
             } else {
-                $data['success'] = false;
-
                 $this->errors['POST'] = 'No POST received.';
             }
 
+            $data['success'] = !empty($this->errors) ? false : true;
             $data['errors'] = $this->errors;
 
             View::make('api.index', json_encode($data), false, 'application/json');
@@ -676,7 +701,69 @@
          */
         function register()
         {
+            View::$title = 'Register';
             $data = $_POST;
+            $permissions = [
+                'email'
+            ];
+            $app = Dispatcher::getAppFile();
+            FacebookSession::setDefaultApplication($app['app_id'], $app['app_secret']);
+            $helper = new FacebookRedirectLoginHelper($this->link('users/register'));
+            try {
+                if (Session::get('fb_token') != false) {
+                    $session = new FacebookSession(Session::get('fb_token'));
+                } else {
+                    $session = $helper->getSessionFromRedirect();
+                }
+            } catch(FacebookRequestException $e) {
+                throw new Exception($e->getMessage());
+            }
+
+            if (isset($session)) {
+                try {
+                    Session::set('fb_token', $session->getToken());
+                    $request = new FacebookRequest($session, 'GET', '/me');
+                    $profile = $request->execute()->getGraphObject('Facebook\GraphUser');
+                    if($profile->getEmail() === null){
+                        throw new Exception('Email missing.');
+                    }
+                    $post = [
+                        'email'     => $profile->getEmail(),
+                        'password'  => $profile->getId(),
+                        'fb_id'     => $profile->getId(),
+                        'firstname' => $profile->getFirstname(),
+                        'lastname'  => $profile->getLastname(),
+                        'tc'        => true
+                    ];
+                    $return = json_decode($this->postCURL($this->link('api/users/create'), $post), false);
+                    if ($return->success) {
+                        $return = json_decode($this->postCURL($this->link('users/signin'), $post), false);
+
+                        if ($return->success) {
+                            $data['login'] = 'Logged';
+                        } else {
+                            $data['login'] = 'Failed to log';
+                            Session::destroy('fb_token');
+                        }
+                    } else {
+                        $return = json_decode($this->postCURL($this->link('users/signin'), $post), false);
+
+                        if ($return->success) {
+                            $data['login'] = 'Logged';
+                        } else {
+                            $data['login'] = 'Failed to log';
+                            Session::destroy('fb_token');
+                        }
+                    }
+                } catch (Exception $e) {
+                    Session::destroy('fb_token');
+                    $loginUrl = $helper->getReRequestUrl($permissions);
+                    $data['login'] = '<a href="' . $loginUrl . '">Login</a>';
+                }
+            } else {
+                $loginUrl = $helper->getLoginUrl($permissions);
+                $data['login'] = '<a href="' . $loginUrl . '">Login</a>';
+            }
 
             View::make('users.register', $data, 'default');
         }
