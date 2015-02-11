@@ -103,7 +103,7 @@
             <div class="trait-block-text"></div>
 
             <ul class="icones" data-id="{{event.events_id}}">
-                <li>
+                <li ng-controller="likes">
                     <img src="<?= HTML::link('default/images/like.png'); ?>" data-id="{{event.events_id}}" ng-click="like($event)" class="like" title="Like this event" width="21" alt="like">
                     <div class="spinner-like"></div>
                     <span class="like_number">{{event.events_like}}</span>

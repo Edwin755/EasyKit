@@ -16,6 +16,7 @@
     use Core\View;
     use Core\Session;
     use Core\Cookie;
+    use Core\Email;
     use HTML;
 
     /**
@@ -305,7 +306,7 @@
                 $this->loadModel('Users');
 
                 if (!isset($_POST['email']) || $_POST['email'] == null || !Validation::validateEmail($_POST['email'])) {
-                    $this->errors['email'] = 'Empty email.';
+                    $this->errors['email'] = 'Email not valid.';
                 } else {
                     $user = $this->Users->select(array(
                         'conditions'    => array(
@@ -353,8 +354,13 @@
 
                     $data['success'] = true; 
                     $data['redirect'] = $this->link('');
-                                       
-//                     Session::setFlash('success', $message);
+                    
+                    $message = 'Welcome to Easykit, please login';                    
+                    Session::setFlash('success', $message);
+                    
+                    $mail = new Email($this->getEmail(),['hello@easykit.ovh' => 'Easykit'], 'Welcome on Easykit', '<h1>Welcome on Easykit</h1>', 'Welcome on Easykit');
+                    $mail->send();
+                    
                     
                 } else {
                     $data['success'] = false;
