@@ -296,11 +296,13 @@
                     foreach ($likes as $like) {
                         $data['likes'][] = $like->likes_events_id;
                     }
+                    $data['authed'] = true;
                 } else {
                     $this->errors = $return->errors;
                 }
             } else {
                 $data['likes'] = json_decode(Cookie::get('l'), true);
+                $data['authed'] = false;
             }
 
             $data['success'] = !empty($this->errors) ? false : true;
