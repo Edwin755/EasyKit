@@ -19,6 +19,7 @@ app.controller("popularEvents", function($scope, $http) {
                         userLikes.forEach(function(entry) { 
                             
                             if(eventid == entry){
+                                console.log('lalala');
                                 nblike = $('#' + eventid + ' .like_number').html();
                                 
                                 $('#' + eventid + ' .like.on').show();

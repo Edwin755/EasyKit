@@ -317,7 +317,6 @@
         {
             if (!is_null($id)) {
                 if (isset($_SESSION['user'])) {
-                    var_dump('if');
                     $return = json_decode($this->postCURL($this->link('api/likes/destroy/' . $id), ['token' => Session::get('user')->token]));
                     if (!empty($return->errors)) {
                         $this->errors = $return->errors;
@@ -332,9 +331,15 @@
                     if (!$init) {
                         $cookie = json_decode(Cookie::get('l'), false);
                         if (!empty($cookie)) {
-                            if (in_array($id, $cookie)) {
-                                unset($cookie[$id]);
-                            } else {
+                            $delete = false;
+                            foreach ($cookie as $k => $v) {
+                                if ($v == $id) {
+                                    $delete = true;
+                                    unset($cookie[$k]);
+                                }
+                            }
+
+                            if (!$delete) {
                                 $this->errors['id'] = 'You didn\'t liked this event.';
                             }
                         } else {
