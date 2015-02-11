@@ -290,9 +290,12 @@
         function user()
         {
             if (isset($_SESSION['user'])) {
-                $return = json_decode($this->postCURL($this->link('api/likes/user/'), ['token' => Session::get('user')->token]));
+                $return = json_decode($this->postCURL($this->link('api/likes/user/'), ['token' => Session::get('user')->token]), false);
                 if (empty($return->errors)) {
-                    $data['likes'] = current($return);
+                    $likes = current($return);
+                    foreach ($likes as $like) {
+                        $data['likes'][] = $like->likes_events_id;
+                    }
                 } else {
                     $this->errors = $return->errors;
                 }
