@@ -57,8 +57,6 @@
                     $this->redirect('admin1259/users/signin');
                 }
             }
-
-
         }
 
         /**

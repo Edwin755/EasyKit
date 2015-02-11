@@ -665,8 +665,6 @@
             $data['success'] = !empty($this->errors) ? false : true;
             $data['errors'] = $this->errors;
 
-            $data['errors'] = $this->errors;
-
             View::make('api.index', json_encode($data), false, 'application/json');
         }
 
@@ -703,69 +701,91 @@
         {
             View::$title = 'Register';
             $data = $_POST;
-            $permissions = [
-                'email'
-            ];
-            $app = Dispatcher::getAppFile();
-            FacebookSession::setDefaultApplication($app['app_id'], $app['app_secret']);
-            $helper = new FacebookRedirectLoginHelper($this->link('users/register'));
-            try {
-                if (Session::get('fb_token') != false) {
-                    $session = new FacebookSession(Session::get('fb_token'));
-                } else {
-                    $session = $helper->getSessionFromRedirect();
-                }
-            } catch(FacebookRequestException $e) {
-                throw new Exception($e->getMessage());
-            }
-
-            if (isset($session)) {
+            if (Session::get('user') == false) {
+                $permissions = [
+                    'email'
+                ];
+                $app = Dispatcher::getAppFile();
+                FacebookSession::setDefaultApplication($app['app_id'], $app['app_secret']);
+                $helper = new FacebookRedirectLoginHelper($this->link('users/register'));
                 try {
-                    Session::set('fb_token', $session->getToken());
-                    $request = new FacebookRequest($session, 'GET', '/me');
-                    $profile = $request->execute()->getGraphObject('Facebook\GraphUser');
-                    if($profile->getEmail() === null){
-                        throw new Exception('Email missing.');
-                    }
-                    $post = [
-                        'email'     => $profile->getEmail(),
-                        'password'  => $profile->getId(),
-                        'fb_id'     => $profile->getId(),
-                        'firstname' => $profile->getFirstname(),
-                        'lastname'  => $profile->getLastname(),
-                        'tc'        => true
-                    ];
-                    $return = json_decode($this->postCURL($this->link('api/users/create'), $post), false);
-                    if ($return->success) {
-                        $return = json_decode($this->postCURL($this->link('users/signin'), $post), false);
-
-                        if ($return->success) {
-                            $data['login'] = 'Logged';
-                        } else {
-                            $data['login'] = 'Failed to log';
-                            Session::destroy('fb_token');
-                        }
+                    if (Session::get('fb_token') != false) {
+                        $session = new FacebookSession(Session::get('fb_token'));
                     } else {
-                        $return = json_decode($this->postCURL($this->link('users/signin'), $post), false);
-
-                        if ($return->success) {
-                            $data['login'] = 'Logged';
-                        } else {
-                            $data['login'] = 'Failed to log';
-                            Session::destroy('fb_token');
-                        }
+                        $session = $helper->getSessionFromRedirect();
                     }
-                } catch (Exception $e) {
-                    Session::destroy('fb_token');
-                    $loginUrl = $helper->getReRequestUrl($permissions);
-                    $data['login'] = '<a href="' . $loginUrl . '">Login</a>';
+                } catch(FacebookRequestException $e) {
+                    throw new Exception($e->getMessage());
                 }
-            } else {
-                $loginUrl = $helper->getLoginUrl($permissions);
-                $data['login'] = '<a href="' . $loginUrl . '">Login</a>';
-            }
 
-            View::make('users.register', $data, 'default');
+                if (isset($session)) {
+                    try {
+                        Session::set('fb_token', $session->getToken());
+                        $request = new FacebookRequest($session, 'GET', '/me');
+                        $profile = $request->execute()->getGraphObject('Facebook\GraphUser');
+                        if($profile->getEmail() === null){
+                            throw new Exception('Email missing.');
+                        }
+                        $post = [
+                            'email'     => $profile->getEmail(),
+                            'password'  => $profile->getId(),
+                            'fb_id'     => $profile->getId(),
+                            'firstname' => $profile->getFirstname(),
+                            'lastname'  => $profile->getLastname(),
+                            //'birth'     => $profile->getBirthday(),
+                            'tc'        => true
+                        ];
+                        $return = json_decode($this->postCURL($this->link('api/users/create'), $post), false);
+                        if ($return->success) {
+                            $return = json_decode($this->postCURL($this->link('users/signin'), $post), false);
+
+                            if ($return->success) {
+                                Session::set('user', $return->user);
+                                $this->redirect('/');
+                            } else {
+                                $loginUrl = $helper->getLoginUrl($permissions);
+                                $data['login'] = $loginUrl;
+                                $this->errors = $return->errors;
+                                Session::destroy('fb_token');
+                            }
+                        } else {
+                            $return = json_decode($this->postCURL($this->link('users/signin'), $post), false);
+
+                            if ($return->success) {
+                                Session::set('user', $return->user);
+                                $this->redirect('/');
+                            } else {
+                                $loginUrl = $helper->getLoginUrl($permissions);
+                                $data['login'] = $loginUrl;
+                                $this->errors = $return->errors;
+                                Session::destroy('fb_token');
+                            }
+                        }
+                    } catch (Exception $e) {
+                        Session::destroy('fb_token');
+                        $loginUrl = $helper->getReRequestUrl($permissions);
+                        $data['login'] = $loginUrl;
+                    }
+                } else {
+                    $loginUrl = $helper->getLoginUrl($permissions);
+                    $data['login'] = $loginUrl;
+                }
+
+                $data['success'] = !empty($this->errors) ? false : true;
+                $data['errors'] = $this->errors;
+
+                View::make('users.register', $data, 'default');
+            } else {
+                $this->redirect('/');
+            }
+        }
+
+        /**
+         *
+         */
+        function logout()
+        {
+
         }
 
         /**
