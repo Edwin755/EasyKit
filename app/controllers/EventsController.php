@@ -472,6 +472,11 @@
             View::make('events.show', $data, 'default');
         }
 
+        /**
+         * Create
+         *
+         * @throws NotFoundHTTPException
+         */
         function create()
         {
             if (!empty($_POST)) {
