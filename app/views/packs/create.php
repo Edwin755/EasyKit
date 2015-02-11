@@ -55,7 +55,7 @@
 
                         <div class="cercle" ><img class="check" width="16" src="<?= HTML::link('default/images/check.png') ?>" alt="" ></div>
 
-                        <div class="titre_vignettes">
+                        <div class="titre_vignettes" ng-click="fillform($event)" data-id="{{event.events_id}}">
                             {{event.events_name}}
                         </div>
                     </div>
