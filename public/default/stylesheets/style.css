@@ -82,6 +82,36 @@
 	clear:both;
 }
 
+
+.sucess_alert
+{
+	background-color: rgba(15, 167, 15, 0.60);
+}
+
+
+.warning_alert
+{
+	background-color: rgba(222, 165, 0, 0.6);
+}
+
+.wrong_alert
+{
+	background-color: #dc2626;
+}
+
+.wrong_alert p, .warning_alert p, .sucess_alert p
+{
+	color: white;
+	text-align: center;
+	padding-bottom: 4px;
+}
+
+.wrong_alert img, .warning_alert img, .sucess_alert img
+{
+	position: relative;
+	top: 4px;
+}
+
 /*** 	PAGE SIGN UP 	***/
 
 .fa-times:
@@ -1288,6 +1318,7 @@ box-sizing: border-box;
 	font-size:1.7em;
 	text-align:left;
 	color:white;
+	clear: both;
 }
 
 .block_formu_parti h3{
@@ -1465,6 +1496,51 @@ display:none;
 	display:none;
 }
 
+a.other_option
+{
+	float: right;
+	color: white;
+	text-decoration: none;
+}
+
+.dragdrop p
+{
+	color: white;
+	float: left;
+	font-family: 'source_sans_prolight';
+}
+
+.image_drop:first-of-type
+{
+	float: left;
+width: 270px;
+border-radius: 5px;
+height: 120px;
+position: relative;
+display: inline-block;
+margin-right: 10px;
+margin-bottom: 10px;
+cursor:pointer;
+}
+
+.image_drop
+{
+	float: left;
+width: 130px;
+border-radius: 5px;
+height: 67px;
+position: relative;
+display: inline-block;
+margin-right: 8px;
+margin-bottom: 2px;
+cursor:pointer;
+}
+
+.image_drop:last-of-type
+{
+margin-right: 0px;
+float: left;
+}
 
 
 /***** PAGE EVENT ******/
