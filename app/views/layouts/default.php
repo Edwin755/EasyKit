@@ -59,13 +59,13 @@
 </div>
 
 <div class="sucess_alert">
-        <p><img src="../../../public/default/images/success.png" /> Success </p>
+        <p><img src="<?= HTML::link('default/images/success.png') ?> " /> Success </p>
 </div>
 <div class="warning_alert">
-        <p><img src="../../../public/default/images/warning.png" /> Warning </p>
+        <p><img src="<?= HTML::link('default/images/warning.png') ?> " /> Warning </p>
 </div>
 <div class="wrong_alert">
-        <p><img src="../../../public/default/images/wrong.png" /> Wrong </p>
+        <p><img src="<?= HTML::link('default/images/wrong.png') ?> " /> Wrong </p>
 </div>
 <?= $content_for_layout; ?>
 
