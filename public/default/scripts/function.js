@@ -395,28 +395,6 @@ var app = angular.module("myApp",[]);
 
 app.controller("likes", function($scope, $http) {
 
-    
-/*
-    $http.get(url + '/likes/user').
-        success(function(data, status, headers, config) {
-            if (typeof data === 'object') {
-                var userLikes = data.likes;
-                
-                userLikes.forEach(function(entry) {
-                    
-                    console.log(entry);
-                });
-
-                return;
-            } else {
-                return;
-            }
-        })
-        .error(function(data, status, headers, config) {
-          // log error
-        });
-*/
-
     $scope.unLike = function(e) {
         e.preventDefault();
         

@@ -500,7 +500,7 @@ margin-top: 15px;
 }
 
 #bar-menu{
-	height:90px;
+	height:70px;
 	position:relative;
 	margin:auto;
 	padding-left:50px;
@@ -513,9 +513,15 @@ margin-top: 15px;
 	float:left
 }
 
+#logo .default{
+	height:40px;
+	margin-top:15px;
+	float:left
+}
+
 #buttons{
 	float:right;
-	margin-top: 26px;
+	margin-top: 15px;
 }
 
 #buttons li{

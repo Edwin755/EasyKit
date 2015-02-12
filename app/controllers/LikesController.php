@@ -260,8 +260,9 @@
                                     $this->errors['like'] = 'You already liked this event.';
                                 }
                             } else {
+                                $cookie = [];
                                 if (!in_array($id, $cookie)) {
-                                    $cookie = [$id];
+                                    $cookie[] = $id;
                                 } else {
                                     $this->errors['like'] = 'You already liked this event.';
                                 }
@@ -301,7 +302,7 @@
                     $this->errors = $return->errors;
                 }
             } else {
-                $data['likes'] = json_decode(Cookie::get('l'), true);
+                $data['likes'] = json_decode(Cookie::get('l'), false);
                 $data['authed'] = false;
             }
 
