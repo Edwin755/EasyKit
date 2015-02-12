@@ -54,6 +54,18 @@
             <li class="menu_deroulant"><a href="register.html">Register</a></li>
         </ul>
     </div>
+
+
+</div>
+
+<div class="sucess_alert">
+        <p><img src="../../../public/default/images/success.png" /> Success </p>
+</div>
+<div class="warning_alert">
+        <p><img src="../../../public/default/images/warning.png" /> Warning </p>
+</div>
+<div class="wrong_alert">
+        <p><img src="../../../public/default/images/wrong.png" /> Wrong </p>
 </div>
 <?= $content_for_layout; ?>
 

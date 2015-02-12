@@ -387,3 +387,9 @@ $("#formulaire-contributors .icones-formu").on('click',function(){
 	}
 });
   
+
+
+
+$(".other_option").on('click',function(){
+	$(".add_option").html('<input type="text" class="champs" placeholder="Titre..."></textarea><textarea name="description" class="champs" placeholder="Description..."></textarea><input type="number" class="champs" placeholder="Price per person...">');
+});

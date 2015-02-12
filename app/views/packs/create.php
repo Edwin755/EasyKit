@@ -25,6 +25,12 @@
                             <input type="datetime-local" class="champs datestart" ng-model="eventStartDate"> 
                             <input type="datetime-local" class="champs datesend" ng-model="eventEndDate"> 
                             <textarea name="description" class="champs" placeholder="Description..." ng-model="eventDesc"></textarea>
+                            <div class="dragdrop"><h2>Add some pictures:</h2><br/>
+                                <img src="../../../public/default/images/event-1-vignette.jpg" class="image_drop"/>
+                                <img src="../../../public/default/images/event-1-vignette.jpg" class="image_drop"/>
+                                <img src="../../../public/default/images/event-1-vignette.jpg" class="image_drop"/>
+  
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -180,9 +186,22 @@
 
                 <div class="formu-onglet">
                     <form id="formu5" method="post" action="traitement.php">
+                        <input type="text" class="champs" placeholder="Titre..."></textarea>
                         <textarea name="description" class="champs" placeholder="Description...">
 </textarea>
+                        <input type="number" class="champs" placeholder="Price per person...">
+
+
+                        <div class="add_option">
+
+                        </div>
+
+                        <a href="#" class="other_option">+ Add an option</a>
+
+
                     </form>
+
+                    
                 </div>
             </div>
 
