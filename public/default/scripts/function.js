@@ -386,7 +386,7 @@ $("#formulaire-contributors .icones-formu").on('click',function(){
 		$(this).addClass('icones-bordures');
 	}
 });
-<<<<<<< HEAD
+
   
 
 
@@ -394,7 +394,7 @@ $("#formulaire-contributors .icones-formu").on('click',function(){
 $(".other_option").on('click',function(){
 	$(".add_option").html('<input type="text" class="champs" placeholder="Titre..."></textarea><textarea name="description" class="champs" placeholder="Description..."></textarea><input type="number" class="champs" placeholder="Price per person...">');
 });
-=======
+
 
 
 // Likes
@@ -431,5 +431,3 @@ app.controller("likes", function($scope, $http) {
 
 
 
-  
->>>>>>> 5168626e4c39bef7c112d9421b9485333b84b24b
