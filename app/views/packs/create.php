@@ -2,7 +2,6 @@
     <div id="create_event">
         <div id="block_menu">
             <ul>
-
                 <li id="bar-menu-1" class="activeAfter"><i class="fa fa-calendar-o"></i><span>Event</span></li>
                 <li id="bar-menu-2"><i class="fa fa-home"></i><span>Hosting</span></li>
                 <li id="bar-menu-3"><i class="fa fa-car"></i><span>Transport</span></li>
@@ -14,11 +13,11 @@
 
         <div id="block_formu">
             <div id="formulaire">
-                <div class="block_formu_parti">
+                <div id="block_formu_parti_1" class="block_formu_parti">
                     <h2>Create an Event</h2>
 
                     <div id="formu_event">
-                        <form id="formu1" method="post" action="traitement.php">
+                        <form id="formu1" method="post" action="<?= HTML::link('events/create') ?>">
                             <input type="text" class="champs" placeholder="Name..." ng-model="eventName"> 
                             <input type="text" class="champs" placeholder="Location..." ng-model="eventLocation"> 
                             <input type="number" class="champs" placeholder="Price per person..." ng-model="eventPrice"> 
@@ -61,7 +60,7 @@
 
                         <div class="cercle" ><img class="check" width="16" src="<?= HTML::link('default/images/check.png') ?>" alt="" ></div>
 
-                        <div class="titre_vignettes">
+                        <div class="titre_vignettes" ng-click="fillform($event)" data-id="{{event.events_id}}">
                             {{event.events_name}}
                         </div>
                     </div>

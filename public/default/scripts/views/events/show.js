@@ -1,10 +1,17 @@
 var app = angular.module("myApp",[]);
-
-app.controller("allEvents", function($scope, $http) {
-
-    $http.get(url + '/api/events').
+    
+app.controller("event", function($scope, $http) {
+    
+    
+    var actualUrl = window.location.href;
+    var id = actualUrl.split("/").pop();
+    
+    
+    console.log('a');
+    $http.get(url + '/api/events/get/' + id).
         success(function(data, status, headers, config) {
             if (typeof data === 'object') {
+                console.log('alala');
                 $scope.data = data;
                 $('.spinner').hide();
                 return;
@@ -13,29 +20,9 @@ app.controller("allEvents", function($scope, $http) {
             }
         })
         .error(function(data, status, headers, config) {
-          // log error
+            
         });
-
-    $scope.update = function () {
-
-        $('.spinner').show();
-        $('.block').hide();
-
-
-        $http.get(url + '/api/events/?search=' + $scope.search).
-            success(function(data, status, headers, config) {
-                if (typeof data === 'object') {
-                    $scope.data = data;
-                    $('.block').show();
-                    $('.spinner').hide();
-                    return;
-                } else {
-                    return;
-                }
-            })
-            .error(function(data, status, headers, config) {
-                console.log(data);
-            });
-    }
-
+        
 });
+
+

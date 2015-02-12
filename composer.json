@@ -16,6 +16,7 @@
         "ifsnop/mysqldump-php": "1.4.1",
         "imagine/imagine": "0.6.2",
         "swiftmailer/swiftmailer": "@stable",
-        "monolog/monolog": "~1.12"
+        "monolog/monolog": "~1.12",
+        "facebook/php-sdk-v4": "4.0.16"
     }
 }

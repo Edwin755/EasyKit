@@ -256,10 +256,14 @@
                             if (!empty($cookie)) {
                                 if (!in_array($id, $cookie)) {
                                     $cookie[] = $id;
+                                } else {
+                                    $this->errors['like'] = 'You already liked this event.';
                                 }
                             } else {
                                 if (!in_array($id, $cookie)) {
                                     $cookie = [$id];
+                                } else {
+                                    $this->errors['like'] = 'You already liked this event.';
                                 }
                             }
                             Cookie::set('l', json_encode($cookie));
@@ -286,14 +290,19 @@
         function user()
         {
             if (isset($_SESSION['user'])) {
-                $return = json_decode($this->postCURL($this->link('api/likes/user/'), ['token' => Session::get('user')->token]));
+                $return = json_decode($this->postCURL($this->link('api/likes/user/'), ['token' => Session::get('user')->token]), false);
                 if (empty($return->errors)) {
-                    $data['likes'] = current($return);
+                    $likes = current($return);
+                    foreach ($likes as $like) {
+                        $data['likes'][] = $like->likes_events_id;
+                    }
+                    $data['authed'] = true;
                 } else {
                     $this->errors = $return->errors;
                 }
             } else {
                 $data['likes'] = json_decode(Cookie::get('l'), true);
+                $data['authed'] = false;
             }
 
             $data['success'] = !empty($this->errors) ? false : true;
@@ -313,7 +322,6 @@
         {
             if (!is_null($id)) {
                 if (isset($_SESSION['user'])) {
-                    var_dump('if');
                     $return = json_decode($this->postCURL($this->link('api/likes/destroy/' . $id), ['token' => Session::get('user')->token]));
                     if (!empty($return->errors)) {
                         $this->errors = $return->errors;
@@ -328,9 +336,15 @@
                     if (!$init) {
                         $cookie = json_decode(Cookie::get('l'), false);
                         if (!empty($cookie)) {
-                            if (in_array($id, $cookie)) {
-                                unset($cookie[$id]);
-                            } else {
+                            $delete = false;
+                            foreach ($cookie as $k => $v) {
+                                if ($v == $id) {
+                                    $delete = true;
+                                    unset($cookie[$k]);
+                                }
+                            }
+
+                            if (!$delete) {
                                 $this->errors['id'] = 'You didn\'t liked this event.';
                             }
                         } else {

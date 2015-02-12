@@ -1,18 +1,19 @@
-  <form class="sign-up" ng-controller="register" ng-submit="create()">
-    <h1 class="sign-up-title">Register</h1>
-    <ul class="social_button">
-        <li class="button fb"><a href="#">Facebook</a></li>
-    </ul>
+<form class="sign-up" ng-controller="register" ng-submit="create()">
+  <h1 class="sign-up-title">Register</h1>
 
-    <div class="divider"></div>
+  <div class="divider"></div>
 
-    <input type="email" class="sign-up-input" name="email" ng-model="formData.email" placeholder="Email" ng-change="chrono()" autofocus required="">
-    
-    <input type="password" class="sign-up-input" name="password" ng-model="formData.password" placeholder="Password" required>
-    
-    <input type="checkbox"  name="tc" ng-model="formData.tc" required>
-    
-    <p>I agree with the terms and conditions.</p>
-    <div class="notif"></div>
-    <input type="submit" value="Register now!" class="sign-up-button">
-  </form>
+  <input type="email" class="sign-up-input" name="email" ng-model="formData.email" placeholder="Email" ng-change="chrono()" autofocus required="">
+
+  <input type="password" class="sign-up-input" name="password" ng-model="formData.password" placeholder="Password" required>
+
+  <label>
+    <input type="checkbox" name="tc" ng-model="formData.tc" required>
+    I agree with the terms and conditions.
+  </label>
+  <div class="notif"></div>
+  <input type="submit" value="Register now!" class="sign-up-button">
+  <ul class="social_button">
+    <li class="button fb"><a href="<?= $login ?>">Login with Facebook</a></li>
+  </ul>
+</form>
