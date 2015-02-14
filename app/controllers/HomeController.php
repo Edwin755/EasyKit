@@ -19,7 +19,7 @@
     /**
      * HomeController Class
      */
-    class HomeController extends Controller
+    class HomeController extends AppController
     {
 
         /**

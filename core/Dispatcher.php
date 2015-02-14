@@ -85,6 +85,7 @@ class Dispatcher
      */
     static public function loadController($req = array())
     {
+        require __DIR__ . '/../app/controllers/AppController.php';
         if (!empty($req)) {
             $controller = ucfirst($req['controller']) . 'Controller';
             $action = $req['action'];

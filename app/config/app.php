@@ -22,8 +22,8 @@
         /**
          * Facebook
          */
-        'app_id'        => '807601375954392',
-        'app_secret'    => '9f3dea85db0fa10b858ea7f8969675c4',
+        'app_id'        => '1504498789824094',
+        'app_secret'    => '3827bbf168228f67cd109e4281bfacca',
 
 
     );

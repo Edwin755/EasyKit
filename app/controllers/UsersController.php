@@ -33,7 +33,7 @@
      * @property mixed Users
      * @property mixed Admin
      */
-    class UsersController extends Controller
+    class UsersController extends AppController
     {
 
         /**
@@ -273,7 +273,7 @@
          */
         function constructor()
         {
-            if (isset($_SESSION['admin'])) {
+            if (isset($_SESSION['admin']) && $this->getPrefix() == 'admin') {
                 $admin = Session::get('admin');
                 if (!$this->getJSON($this->link('admin1259/is_admin/' . $admin->admin_username . '/' . $admin->admin_password))->admin) {
                     if ($this->getPrefix() != false && $this->getPrefix() == 'admin') {
@@ -385,11 +385,13 @@
                         'fb_id'     => $this->getFbid(),
                     ));
                     
-                    $message = 'Welcome to Easykit, please login';                    
+                    $message = 'Welcome to Easykit, please login';
                     Session::setFlash('success', $message);
                     
                     $mail = new Email($this->getEmail(),['hello@easykit.ovh' => 'Easykit'], 'Welcome on Easykit', '<h1>Welcome on Easykit</h1>', 'Welcome on Easykit');
-                    $mail->send();
+                    if (!$mail->send()) {
+                        $this->errors['send'] = 'Could not send the message';
+                    }
                 }
             } else {
                 $this->errors['POST'] = 'No POST received.';
@@ -702,12 +704,8 @@
             View::$title = 'Register';
             $data = $_POST;
             if (Session::get('user') == false) {
-                $permissions = [
-                    'email'
-                ];
-                $app = Dispatcher::getAppFile();
-                FacebookSession::setDefaultApplication($app['app_id'], $app['app_secret']);
-                $helper = new FacebookRedirectLoginHelper($this->link('users/register'));
+                $helper = $this->initFb();
+
                 try {
                     if (Session::get('fb_token') != false) {
                         $session = new FacebookSession(Session::get('fb_token'));
@@ -732,7 +730,6 @@
                             'fb_id'     => $profile->getId(),
                             'firstname' => $profile->getFirstname(),
                             'lastname'  => $profile->getLastname(),
-                            //'birth'     => $profile->getBirthday(),
                             'tc'        => true
                         ];
                         $return = json_decode($this->postCURL($this->link('api/users/create'), $post), false);
@@ -743,7 +740,7 @@
                                 Session::set('user', $return->user);
                                 $this->redirect('/');
                             } else {
-                                $loginUrl = $helper->getLoginUrl($permissions);
+                                $loginUrl = $this->generateFbLink();
                                 $data['login'] = $loginUrl;
                                 $this->errors = $return->errors;
                                 Session::destroy('fb_token');
@@ -755,7 +752,7 @@
                                 Session::set('user', $return->user);
                                 $this->redirect('/');
                             } else {
-                                $loginUrl = $helper->getLoginUrl($permissions);
+                                $loginUrl = $this->generateFbLink();
                                 $data['login'] = $loginUrl;
                                 $this->errors = $return->errors;
                                 Session::destroy('fb_token');
@@ -763,11 +760,11 @@
                         }
                     } catch (Exception $e) {
                         Session::destroy('fb_token');
-                        $loginUrl = $helper->getReRequestUrl($permissions);
+                        $loginUrl = $this->generateFbLink(true);
                         $data['login'] = $loginUrl;
                     }
                 } else {
-                    $loginUrl = $helper->getLoginUrl($permissions);
+                    $loginUrl = $this->generateFbLink();
                     $data['login'] = $loginUrl;
                 }
 

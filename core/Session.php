@@ -17,7 +17,6 @@ class Session
 
     /**
      * Construct
-     * Secure the session by mcrypt
      *
      * @return boolean
      */

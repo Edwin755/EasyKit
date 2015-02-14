@@ -449,8 +449,7 @@
         function index()
         {
             View::$title = 'All events';
-            $data = current($this->getJSON($this->link('api/events')));
-            View::make('events.index', $data, 'default');
+            View::make('events.index', null, 'default');
         }
 
         /**
