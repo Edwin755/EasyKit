@@ -57,3 +57,12 @@ class AppController extends Controller {
         return $reRequest ? $this->helper->getReRequestUrl($this->permissions) : $this->helper->getLoginUrl($this->permissions);
     }
 }
+
+
+
+
+
+
+
+
+

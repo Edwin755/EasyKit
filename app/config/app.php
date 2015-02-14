@@ -1,29 +1,36 @@
 <?php
 
-    return array(
+/**
+ * Application file
+ *
+ * @author Edwin Dayot <edwin.dayot@sfr.fr>
+ * @copyright 2014
+ */
 
-        /**
-         * Session
-         */
-        'session_name'  => 'EasyKit_session',
+return array(
 
-        /**
-         * Cookie
-         */
-        'cookie_name'   => 'EasyKit_cookie',
-        'cookie_time'   => 3600 * 24 * 28 * 3,
+    /**
+     * Session
+     */
+    'session_name'  => 'EasyKit_session',
 
-        /**
-         * Security
-         */
-        'secure_key'    => 'o1Xc7m9KJ2S9X8307jFK67Fr',
-        'debug'         => true,
+    /**
+     * Cookie
+     */
+    'cookie_name'   => 'EasyKit_cookie',
+    'cookie_time'   => 3600 * 24 * 28 * 3,
 
-        /**
-         * Facebook
-         */
-        'app_id'        => '1504498789824094',
-        'app_secret'    => '3827bbf168228f67cd109e4281bfacca',
+    /**
+     * Security
+     */
+    'secure_key'    => 'o1Xc7m9KJ2S9X8307jFK67Fr',
+    'debug'         => true,
+
+    /**
+     * Facebook
+     */
+    'app_id'        => '1504498789824094',
+    'app_secret'    => '3827bbf168228f67cd109e4281bfacca',
 
 
-    );
+);
