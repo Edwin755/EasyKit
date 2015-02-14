@@ -10,11 +10,7 @@ namespace App\Controllers;
 
 use Core\Controller;
 use Core\Dispatcher;
-use Core\Session;
-use Exception;
 use Facebook\FacebookRedirectLoginHelper;
-use Facebook\FacebookRequest;
-use Facebook\FacebookRequestException;
 use Facebook\FacebookSession;
 
 /**
@@ -24,12 +20,20 @@ use Facebook\FacebookSession;
  */
 class AppController extends Controller {
 
-    private $errors;
-
+    /**
+     * Permissions for Facebook API
+     *
+     * @var array $permissions
+     */
     private $permissions = [
         'email'
     ];
 
+    /**
+     * Helper for Facebook API
+     *
+     * @var FacebookRedirectLoginHelper
+     */
     private $helper;
 
     /**
