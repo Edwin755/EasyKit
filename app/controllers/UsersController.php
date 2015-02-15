@@ -373,14 +373,14 @@ class UsersController extends AppController
             }
 
             if (empty($this->errors)) {
-                /*$this->Users->save(array(
+                $this->Users->save(array(
                     'email'     => $this->getEmail(),
                     'password'  => $this->getPassword(),
                     'firstname' => $this->getFirstname(),
                     'lastname'  => $this->getLastname(),
                     'birth'     => $this->getBirth(),
                     'fb_id'     => $this->getFbid(),
-                ));*/
+                ));
 
                 $message = 'Welcome to Easykit, please login';
                 Session::setFlash('success', $message);
