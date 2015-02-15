@@ -32,5 +32,12 @@ return array(
     'app_id'        => '1504498789824094',
     'app_secret'    => '3827bbf168228f67cd109e4281bfacca',
 
+    /**
+     * Email
+     */
+    'mail_smtp'          => 'smtp.easykit.ovh',
+    'mail_port'          => 25,
+    'mail_username'      => 'hello',
+    'mail_password'      => 'helloeemi'
 
 );
