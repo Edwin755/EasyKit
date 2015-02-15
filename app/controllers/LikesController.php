@@ -1,20 +1,16 @@
 <?php
-
 /**
  * LikesController file
  *
  * Created by worker
  */
-
 namespace App\Controllers;
-
 use Core;
 use Core\Controller;
 use Core\Validation;
 use Core\View;
 use Core\Session;
 use Core\Cookie;
-
 /**
  * Class LikesController
  *
@@ -22,21 +18,18 @@ use Core\Cookie;
  */
 class LikesController extends AppController
 {
-
     /**
      * Errors
      *
      * @var array $errors
      */
     private $errors = [];
-
     /**
      * Data for model
      *
      * @var string token
      */
     private $token;
-
     /**
      * Get Token
      *
@@ -46,7 +39,6 @@ class LikesController extends AppController
     {
         return $this->token;
     }
-
     /**
      * Set Token
      *
@@ -56,7 +48,6 @@ class LikesController extends AppController
     {
         $this->token = $token;
     }
-
     /**
      * API Create
      *
@@ -68,7 +59,6 @@ class LikesController extends AppController
     {
         if (!is_null($id)) {
             $event = current($this->getJSON($this->link('api/events/get/' . $id)));
-
             if (!empty($_POST)) {
                 if (isset($_POST['token']) && $_POST['token'] != null) {
                     $this->setToken($_POST['token']);
@@ -81,7 +71,6 @@ class LikesController extends AppController
                 } else {
                     $this->errors['token'] = 'Empty token.';
                 }
-
                 if (!is_null($event) && empty($this->errors)) {
                     $this->loadModel('Likes');
                     $like = $this->Likes->select([
@@ -90,7 +79,6 @@ class LikesController extends AppController
                             'events_id' => $id
                         ]
                     ]);
-
                     if (empty($like)) {
                         $this->Likes->save([
                             'users_id'  => $user_id,
@@ -108,13 +96,10 @@ class LikesController extends AppController
         } else {
             $this->errors['id'] = 'Empty id.';
         }
-
         $data['success'] = !empty($this->errors) ? false : true;
         $data['errors'] = $this->errors;
-
         View::make('api.index', json_encode($data), false, 'application/json');
     }
-
     /**
      * API Destroy
      *
@@ -126,7 +111,6 @@ class LikesController extends AppController
     {
         if (!is_null($id)) {
             $event = current($this->getJSON($this->link('api/events/get/' . $id)));
-
             if (!empty($_POST)) {
                 if (isset($_POST['token']) && $_POST['token'] != null) {
                     $this->setToken($_POST['token']);
@@ -139,10 +123,8 @@ class LikesController extends AppController
                 } else {
                     $this->errors['token'] = 'Empty token.';
                 }
-
                 if (!is_null($event) && empty($this->errors)) {
                     $this->loadModel('Likes');
-
                     $this->Likes->delete([
                         'users_id'  => $user_id,
                         'events_id' => $id
@@ -156,13 +138,10 @@ class LikesController extends AppController
         } else {
             $this->errors['id'] = 'Empty id.';
         }
-
         $data['success'] = !empty($this->errors) ? false : true;
         $data['errors'] = $this->errors;
-
         View::make('api.index', json_encode($data), false, 'application/json');
     }
-
     /**
      * API Get
      *
@@ -174,7 +153,6 @@ class LikesController extends AppController
     function api_get($id = null)
     {
         $data = [];
-
         if (!is_null($id)) {
             $this->loadModel('Likes');
             $data['count'] = $this->Likes->select([
@@ -184,10 +162,8 @@ class LikesController extends AppController
                 ]
             ]);
         }
-
         View::make('api.index', json_encode($data), false, 'application/json');
     }
-
     /**
      * API User
      *
@@ -207,7 +183,6 @@ class LikesController extends AppController
             } else {
                 $this->errors['token'] = 'Empty token.';
             }
-
             if (empty($this->errors)) {
                 $this->loadModel('Likes');
                 $data['likes'] = $this->Likes->select([
@@ -219,13 +194,10 @@ class LikesController extends AppController
         } else {
             $this->errors['post'] = 'No POST received.';
         }
-
         $data['success'] = !empty($this->errors) ? false : true;
         $data['errors'] = $this->errors;
-
         View::make('api.index', json_encode($data), false, 'application/json');
     }
-
     /**
      * Create
      *
@@ -237,7 +209,6 @@ class LikesController extends AppController
     {
         if (!is_null($id)) {
             $event = current($this->getJSON($this->link('api/events/get/' . $id)));
-
             if (!empty($event)) {
                 if (isset($_SESSION['user'])) {
                     $return = json_decode($this->postCURL($this->link('api/likes/create/' . $id), ['token' => Session::get('user')->token]));
@@ -250,7 +221,6 @@ class LikesController extends AppController
                         $init = true;
                         Cookie::set('l', json_encode([$id]));
                     }
-
                     if (!$init) {
                         $cookie = json_decode(Cookie::get('l'), false);
                         if (!empty($cookie)) {
@@ -275,13 +245,10 @@ class LikesController extends AppController
         } else {
             $this->errors['id'] = 'Empty id.';
         }
-
         $data['success'] = !empty($this->errors) ? false : true;
         $data['errors'] = $this->errors;
-
         View::make('api.index', json_encode($data), false, 'application/json');
     }
-
     /**
      * User likes
      *
@@ -304,13 +271,10 @@ class LikesController extends AppController
             $data['likes'] = json_decode(Cookie::get('l'), true);
             $data['authed'] = false;
         }
-
         $data['success'] = !empty($this->errors) ? false : true;
         $data['errors'] = $this->errors;
-
         View::make('api.index', json_encode($data), false, 'application/json');
     }
-
     /**
      * Destroy
      *
@@ -332,7 +296,6 @@ class LikesController extends AppController
                     $init = true;
                     Cookie::set('l', json_encode([$id]));
                 }
-
                 if (!$init) {
                     $cookie = json_decode(Cookie::get('l'), false);
                     if (!empty($cookie)) {
@@ -343,7 +306,6 @@ class LikesController extends AppController
                                 unset($cookie[$k]);
                             }
                         }
-
                         if (!$delete) {
                             $this->errors['id'] = 'You didn\'t liked this event.';
                         }
@@ -358,11 +320,8 @@ class LikesController extends AppController
         } else {
             $this->errors['id'] = 'Empty id.';
         }
-
-
         $data['success'] = !empty($this->errors) ? false : true;
         $data['errors'] = $this->errors;
-
         View::make('api.index', json_encode($data), false, 'application/json');
     }
 }
