@@ -60,7 +60,7 @@ class Email
     function send()
     {
         $transport = Swift_SmtpTransport::newInstance('smtp.easykit.ovh', 25)
-            ->setUsername('hello@easykit.ovh')
+            ->setUsername('hello')
             ->setPassword('helloeemi');
         $mailer = Swift_Mailer::newInstance($transport);
         $message = Swift_Message::newInstance();

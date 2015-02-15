@@ -20,11 +20,8 @@ use Core\Cookie;
 use Core\Email;
 use Exception;
 use Facebook\FacebookRequestException;
-use HTML;
 use Facebook\FacebookSession;
 use Facebook\FacebookRequest;
-use Facebook\FacebookRedirectLoginHelper;
-use Facebook\GraphUser;
 
 /**
  * UsersController Class
@@ -376,14 +373,14 @@ class UsersController extends AppController
             }
 
             if (empty($this->errors)) {
-                $this->Users->save(array(
+                /*$this->Users->save(array(
                     'email'     => $this->getEmail(),
                     'password'  => $this->getPassword(),
                     'firstname' => $this->getFirstname(),
                     'lastname'  => $this->getLastname(),
                     'birth'     => $this->getBirth(),
                     'fb_id'     => $this->getFbid(),
-                ));
+                ));*/
 
                 $message = 'Welcome to Easykit, please login';
                 Session::setFlash('success', $message);
@@ -732,6 +729,8 @@ class UsersController extends AppController
                         'lastname'  => $profile->getLastname(),
                         'tc'        => true
                     ];
+                    print_r($this->postCURL($this->link('api/users/create'), $post));
+                    die();
                     $return = json_decode($this->postCURL($this->link('api/users/create'), $post), false);
                     if ($return->success) {
                         $return = json_decode($this->postCURL($this->link('users/signin'), $post), false);
