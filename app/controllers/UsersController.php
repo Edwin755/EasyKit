@@ -729,8 +729,6 @@ class UsersController extends AppController
                         'lastname'  => $profile->getLastname(),
                         'tc'        => true
                     ];
-                    print_r($this->postCURL($this->link('api/users/create'), $post));
-                    die();
                     $return = json_decode($this->postCURL($this->link('api/users/create'), $post), false);
                     if ($return->success) {
                         $return = json_decode($this->postCURL($this->link('users/signin'), $post), false);

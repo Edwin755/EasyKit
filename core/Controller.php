@@ -285,8 +285,6 @@ class Controller
         }
         curl_close($ch);
 
-        print_r($return);
-
         return $result;
     }
 
