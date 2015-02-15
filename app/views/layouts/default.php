@@ -37,7 +37,7 @@
                 <input type="checkbox"> Remember me <br/> <a href="#" class="forgot_pass">Forgot password?</a> <br/>
                 <input type="submit" id="submitLogin" value="Log in!" class="sign-up-button">
                 <ul class="social_button">
-                    <li class="button fb"><a href="construction.html">With Facebook</a></li>
+                    <li class="button fb"><a href="<?= HTML::link('users') ?>">With Facebook</a></li>
                 </ul>
             </form>
         </div>
