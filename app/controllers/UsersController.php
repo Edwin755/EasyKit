@@ -385,7 +385,7 @@ class UsersController extends AppController
                 $message = 'Welcome to Easykit, please login';
                 Session::setFlash('success', $message);
 
-                $mail = new Email($this->getEmail(),['hello@easykit.ovh' => 'Easykit'], 'Welcome on Easykit', '<h1>Welcome on Easykit</h1>', 'Welcome on Easykit');
+                $mail = new Email($this->getEmail(),['hello@easykit.me' => 'Easykit'], 'Welcome on Easykit', '<h1>Welcome on Easykit</h1>', 'Welcome on Easykit');
                 if (!$mail->send()) {
                     $this->errors['send'] = 'Could not send the message';
                 }
