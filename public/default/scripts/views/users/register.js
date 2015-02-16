@@ -31,7 +31,7 @@ app.controller("register", function($scope, $http) {
                 }
                     
                 if(responseData.success == true){
-                    document.location.href = responseData.redirect ;
+                    document.location.href = responseData.redirect;
                 }
 
             });

@@ -299,6 +299,12 @@ class PacksController extends AppController
         View::make('packs.summary', $data, 'default');
     }
 
+    function show()
+    {
+        $data = false;
+        View::make('packs.show', $data, 'default');
+    }
+
     /**
      * Admin Index Action
      *
