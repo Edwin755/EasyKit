@@ -239,7 +239,8 @@ class Controller
             CURLOPT_URL => $url,
             CURLOPT_HEADER => 0,
             CURLOPT_RETURNTRANSFER => TRUE,
-            CURLOPT_TIMEOUT => 30
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
         );
 
         $ch = curl_init();
@@ -247,6 +248,7 @@ class Controller
         if (!$result = curl_exec($ch)) {
             trigger_error(curl_error($ch));
         }
+
         curl_close($ch);
 
         return json_decode($result, false);
@@ -271,14 +273,7 @@ class Controller
             CURLOPT_POST => count($fields)
         ];
 
-        $field_string = '';
-
-        foreach ($fields as $k => $v) {
-            $fields[$k] = urlencode($v);
-            $field_string .= $k . '=' . $v . '&';
-        }
-
-        rtrim($field_string, '&');
+        $field_string = http_build_query($fields);
 
         $options[CURLOPT_POSTFIELDS] = $field_string;
 
@@ -286,7 +281,7 @@ class Controller
         curl_setopt_array($ch, ($options + $defaults));
 
         if (!$result = curl_exec($ch)) {
-            trigger_error(curl_error($ch));
+            $result = curl_error($ch);
         }
         curl_close($ch);
 

@@ -10,7 +10,6 @@
 namespace Core;
 
 use App\Controllers;
-use Core\ErrorHandler;
 use Core\Exceptions\NotFoundHTTPException;
 use Exception;
 use Monolog\Handler\StreamHandler;
@@ -46,6 +45,13 @@ class Dispatcher
     private $debug;
 
     /**
+     * App file
+     *
+     * @var array
+     */
+    private static $appfile;
+
+    /**
      * Construct
      *
      * @return void
@@ -53,6 +59,8 @@ class Dispatcher
     function __construct()
     {
         $this->debugHandler();
+
+        require __DIR__ . '/../app/controllers/AppController.php';
 
         try {
             self::$router = new Router;
@@ -155,6 +163,9 @@ class Dispatcher
      */
     static function getAppFile()
     {
-        return require __DIR__ . '/../app/config/app.php';
+        if (empty(self::$appfile)) {
+            self::$appfile = require __DIR__ . '/../app/config/app.php';
+        }
+        return self::$appfile;
     }
 }

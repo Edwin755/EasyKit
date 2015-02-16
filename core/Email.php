@@ -59,9 +59,10 @@ class Email
      */
     function send()
     {
-        $transport = Swift_SmtpTransport::newInstance('smtp.easykit.ovh', 587)
-            ->setUsername('hello@easykit.ovh')
-            ->setPassword('helloeemi');
+        $app = Dispatcher::getAppFile();
+        $transport = Swift_SmtpTransport::newInstance($app['mail_smtp'], $app['mail_port'])
+            ->setUsername($app['mail_username'])
+            ->setPassword($app['mail_password']);
         $mailer = Swift_Mailer::newInstance($transport);
         $message = Swift_Message::newInstance();
     	$message
@@ -79,12 +80,10 @@ class Email
 
     	$headers = $message->getHeaders();
 
-        try {
-            $mailer->send($message);
-        } catch (Exception $e) {
-            var_dump($e);
+        if ($mailer->send($message)) {
+            return true;
+        } else {
+            return false;
         }
-
-        return true;
     }
-}	
+}

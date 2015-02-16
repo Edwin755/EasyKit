@@ -1,174 +1,174 @@
 <?php
 
+/**
+ * StepsController file
+ *
+ * Created by worker
+ */
+
+namespace App\Controllers;
+
+use Core;
+use Core\Controller;
+use Core\Validation;
+use Core\View;
+use Core\Session;
+use Core\Cookie;
+
+/**
+ * Class StepsController
+ * @property object Steps
+ */
+class StepsController extends AppController
+{
+
     /**
-     * StepsController file
+     * Errors
      *
-     * Created by worker
+     * @var array $errors
      */
-
-    namespace App\Controllers;
-
-    use Core;
-    use Core\Controller;
-    use Core\Validation;
-    use Core\View;
-    use Core\Session;
-    use Core\Cookie;
+    private $errors = [];
 
     /**
-     * Class StepsController
-     * @property object Steps
+     * Datas for model
+     *
+     * @var string $name
+     * @var int $goal
+     * @var int pack
+     * @var string $token
      */
-    class StepsController extends Controller
+    private $name, $goal, $pack, $token;
+
+    /**
+     * @return string
+     */
+    public function getName()
     {
+        return $this->name;
+    }
 
-        /**
-         * Errors
-         *
-         * @var array $errors
-         */
-        private $errors = [];
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
 
-        /**
-         * Datas for model
-         *
-         * @var string $name
-         * @var int $goal
-         * @var int pack
-         * @var string $token
-         */
-        private $name, $goal, $pack, $token;
+    /**
+     * @return string
+     */
+    public function getGoal()
+    {
+        return $this->goal;
+    }
 
-        /**
-         * @return string
-         */
-        public function getName()
-        {
-            return $this->name;
-        }
+    /**
+     * @param string $goal
+     */
+    public function setGoal($goal)
+    {
+        $this->goal = $goal;
+    }
 
-        /**
-         * @param string $name
-         */
-        public function setName($name)
-        {
-            $this->name = $name;
-        }
+    /**
+     * @return string
+     */
+    public function getPack()
+    {
+        return $this->pack;
+    }
 
-        /**
-         * @return string
-         */
-        public function getGoal()
-        {
-            return $this->goal;
-        }
+    /**
+     * @param string $pack
+     */
+    public function setPack($pack)
+    {
+        $this->pack = $pack;
+    }
 
-        /**
-         * @param string $goal
-         */
-        public function setGoal($goal)
-        {
-            $this->goal = $goal;
-        }
+    /**
+     * @return mixed
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
 
-        /**
-         * @return string
-         */
-        public function getPack()
-        {
-            return $this->pack;
-        }
+    /**
+     * @param mixed $token
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+    }
 
-        /**
-         * @param string $pack
-         */
-        public function setPack($pack)
-        {
-            $this->pack = $pack;
-        }
+    /**
+     * Create a step
+     *
+     * @param int $id
+     */
+    function api_create()
+    {
+        if (!empty($_POST)) {
+            if (isset($_POST['name']) && $_POST['name'] != null) {
+                $this->setName($_POST['name']);
+            } else {
+                $this->errors['name'] = 'Empty name.';
+            }
 
-        /**
-         * @return mixed
-         */
-        public function getToken()
-        {
-            return $this->token;
-        }
+            if (isset($_POST['goal']) && $_POST['goal'] != null) {
+                $this->setGoal($_POST['goal']);
+            } else {
+                $this->errors['goal'] = 'Empty goal.';
+            }
 
-        /**
-         * @param mixed $token
-         */
-        public function setToken($token)
-        {
-            $this->token = $token;
-        }
+            if (isset($_POST['pack']) && $_POST['pack'] != null) {
+                $this->setPack($_POST['pack']);
+            } else {
+                $this->errors['pack'] = 'Empty pack id.';
+            }
 
-        /**
-		 * Create a step
-         *
-         * @param int $id
-		 */
-        function api_create()
-        {
-            if (!empty($_POST)) {
-                if (isset($_POST['name']) && $_POST['name'] != null) {
-                    $this->setName($_POST['name']);
+            if (isset($_POST['token']) && $_POST['token'] != null) {
+                $this->setToken($_POST['token']);
+            } else {
+                $this->errors['token'] = 'Empty token.';
+            }
+
+            if (empty($this->errors)) {
+                $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getToken() . '/' . $_SERVER['REMOTE_ADDR']));
+                if ($user->valid) {
+                    $user_id = $user->user->tokens_users_id;
+
+                    $pack = $this->getJSON($this->link('api/packs/get/' . $this->getPack()));
+
+                    if ($pack->pack != false) {
+                        if ($pack->pack->packs_users_id != $user_id) {
+                            $this->errors['pack'] = 'You aren\'t the ownner of this pack.';
+                        }
+                    } else {
+                        $this->errors['pack'] = 'This pack doesn\'t exists.';
+                    }
                 } else {
-                    $this->errors['name'] = 'Empty name.';
-                }
-
-                if (isset($_POST['goal']) && $_POST['goal'] != null) {
-                    $this->setGoal($_POST['goal']);
-                } else {
-                    $this->errors['goal'] = 'Empty goal.';
-                }
-
-                if (isset($_POST['pack']) && $_POST['pack'] != null) {
-                    $this->setPack($_POST['pack']);
-                } else {
-                    $this->errors['pack'] = 'Empty pack id.';
-                }
-
-                if (isset($_POST['token']) && $_POST['token'] != null) {
-                    $this->setToken($_POST['token']);
-                } else {
-                    $this->errors['token'] = 'Empty token.';
+                    $this->errors['user'] = $user->errors;
                 }
 
                 if (empty($this->errors)) {
-                    $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getToken() . '/' . $_SERVER['REMOTE_ADDR']));
-                    if ($user->valid) {
-                        $user_id = $user->user->tokens_users_id;
-
-                        $pack = $this->getJSON($this->link('api/packs/get/' . $this->getPack()));
-
-                        if ($pack->pack != false) {
-                            if ($pack->pack->packs_users_id != $user_id) {
-                                $this->errors['pack'] = 'You aren\'t the ownner of this pack.';
-                            }
-                        } else {
-                            $this->errors['pack'] = 'This pack doesn\'t exists.';
-                        }
-                    } else {
-                        $this->errors['user'] = $user->errors;
-                    }
-
-                    if (empty($this->errors)) {
-                        $this->loadModel('Steps');
-                        $this->Steps->save([
-                            'packs_id'  => $this->getPack(),
-                            'name'      => $this->getName(),
-                            'goal'      => $this->getGoal()
-                        ]);
-                    }
+                    $this->loadModel('Steps');
+                    $this->Steps->save([
+                        'packs_id'  => $this->getPack(),
+                        'name'      => $this->getName(),
+                        'goal'      => $this->getGoal()
+                    ]);
                 }
-            } else {
-                $this->errors['post'] = 'No POST received.';
             }
-
-            $data['success'] = empty($this->errors) ? true : false;
-            $data['errors'] = $this->errors;
-
-            View::make('api.index', json_encode($data), false, 'application/json');
+        } else {
+            $this->errors['post'] = 'No POST received.';
         }
+
+        $data['success'] = empty($this->errors) ? true : false;
+        $data['errors'] = $this->errors;
+
+        View::make('api.index', json_encode($data), false, 'application/json');
     }
+}

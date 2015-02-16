@@ -14,7 +14,7 @@
 
 <div id="bar-menu" style="background:black;">
     <div id="logo">
-        <a href="<?= HTML::link('/') ?>"><img src="<?= HTML::link('default/images/logo.png'); ?>" alt="" /></a>
+        <a href="<?= HTML::link('/') ?>"><img src="<?= HTML::link('default/images/logo.png'); ?>" alt="" class="default"/></a>
     </div>
 
     <ul id="buttons">
@@ -37,7 +37,7 @@
                 <input type="checkbox"> Remember me <br/> <a href="#" class="forgot_pass">Forgot password?</a> <br/>
                 <input type="submit" id="submitLogin" value="Log in!" class="sign-up-button">
                 <ul class="social_button">
-                    <li class="button fb"><a href="construction.html">With Facebook</a></li>
+                    <li class="button fb"><a href="<?= HTML::link('users') ?>">With Facebook</a></li>
                 </ul>
             </form>
         </div>
@@ -59,13 +59,13 @@
 </div>
 
 <div class="sucess_alert">
-        <p><img src="../../../public/default/images/success.png" /> Success </p>
+        <p><img src="<?= HTML::link('default/images/success.png') ?> " /> Success </p>
 </div>
 <div class="warning_alert">
-        <p><img src="../../../public/default/images/warning.png" /> Warning </p>
+        <p><img src="<?= HTML::link('default/images/warning.png') ?> " /> Warning </p>
 </div>
 <div class="wrong_alert">
-        <p><img src="../../../public/default/images/wrong.png" /> Wrong </p>
+        <p><img src="<?= HTML::link('default/images/wrong.png') ?> " /> Wrong </p>
 </div>
 <?= $content_for_layout; ?>
 
@@ -79,8 +79,8 @@
 <script src="<?= HTML::link('default/scripts/jquery.min.js'); ?>"></script>
 <script src="<?= HTML::link('default/scripts/angular.min.js'); ?>"></script>
 <script src="<?= HTML::link('default/scripts/login.js'); ?>"></script>
-<script src="<?= HTML::link('default/scripts/views/' . self::getFolders() . '.js'); ?>"></script>
 <script src="<?= HTML::link('default/scripts/function.js'); ?>"></script>
+<script src="<?= HTML::link('default/scripts/views/' . self::getFolders() . '.js'); ?>"></script>
 
 </body>
 </html>
