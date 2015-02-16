@@ -870,20 +870,19 @@ list-style-type: none;
 	position:relative;
 	margin:auto;
 	padding-top:60px;
-	background:rgba(224, 224, 224, 0.4);
 }
 
 #image-info img{
 	max-width:100%;
 }
 
-#image-info{
-	margin:auto;
-	max-width:1280px;
-	height:500px;
-	background:url(../images/infographie.png);
-	background-repeat:no-repeat;
-	background-size:contain;
+#video_how
+{
+	width: 100%;
+
+	min-width: 100%;
+	min-height: 100%;
+
 }
 
 #infographie h2{
