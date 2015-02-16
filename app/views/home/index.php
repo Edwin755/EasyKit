@@ -129,7 +129,9 @@
 
     <div class="trait"></div>
 
-    <div id="image-info"></div>
+    <video loop preload controls id="video_how" poster="<?= HTML::link('default/images/easykit_bg.png') ?>">
+        <source src="<?= HTML::link('default/videos/easykit_howitworks.mov') ?>" >
+    </video>
 </div>
 
 <div id="joinus">
