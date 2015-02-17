@@ -686,6 +686,8 @@ class UsersController extends AppController
                 $data->user->users_media = current($this->getJSON($this->link('api/medias/get') . '/' . $return->user->users_medias_id));
                 Session::set('user', $data->user);
             }
+        } else {
+            $data = Session::get('user');
         }
 
         View::make('api.index', json_encode($data), false, 'application/json');

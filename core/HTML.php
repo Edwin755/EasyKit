@@ -6,6 +6,9 @@
  * @author Edwin Dayot <edwin.dayot@sfr.fr>
  * @copyright 2014
  */
+use Core\Dispatcher;
+use Facebook\FacebookRedirectLoginHelper;
+use Facebook\FacebookSession;
 
 /**
  * HTML Class
@@ -142,5 +145,13 @@ class HTML
                 return (strlen($out) == strlen($str)) ? $out : $out . $end_char;
             }
         }
+    }
+
+    static function getFbLink($permissions = array())
+    {
+        $app = Dispatcher::getAppFile();
+        FacebookSession::setDefaultApplication($app['app_id'], $app['app_secret']);
+        $helper = new FacebookRedirectLoginHelper(self::link('users/register'));
+        return $helper->getLoginUrl($permissions);
     }
 }

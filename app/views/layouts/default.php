@@ -24,7 +24,7 @@
             <li id="item3" class="item3"><a href="#">My Account</a></li>
         <?php else : ?>
             <li id="item3" class="item3"><a href="#">Log in</a></li>
-            <li id="item4"><a href="<?= HTML::link('users/register') ?>">Register</a></li>
+            <li id="item4"><a href="<?= HTML::getFbLink(['email']) ?>">Register</a></li>
         <?php endif; ?>
     </ul>
 
