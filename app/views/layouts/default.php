@@ -24,7 +24,7 @@
             <li id="item3" class="item3"><a href="#">My Account</a></li>
         <?php else : ?>
             <li id="item3" class="item3"><a href="#">Log in</a></li>
-            <li id="item4"><a href="<?= FbHelper::getFbLink(['email']) ?>">Register</a></li>
+            <li id="item4"><a href="<?= HTML::link('users/register') ?>">Register</a></li>
         <?php endif; ?>
     </ul>
 
@@ -37,7 +37,7 @@
                 <input type="checkbox"> Remember me <br/> <a href="#" class="forgot_pass">Forgot password?</a> <br/>
                 <input type="submit" id="submitLogin" value="Log in!" class="sign-up-button">
                 <ul class="social_button">
-                    <li class="button fb"><a href="<?= HTML::link('users') ?>">With Facebook</a></li>
+                    <li class="button fb"><a href="<?= FbHelper::getFbLink(['email']) ?>">With Facebook</a></li>
                 </ul>
             </form>
         </div>
