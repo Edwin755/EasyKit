@@ -24,6 +24,7 @@ use HTML;
  *
  * @property mixed Events
  * @property mixed Users
+ * @property mixed Events_medias
  */
 class EventsController extends AppController
 {
@@ -505,6 +506,32 @@ class EventsController extends AppController
 
         } else {
             $this->errors['post'] = 'No POST received.';
+        }
+
+        $data['success'] = empty($this->errors) ? true : false;
+        $data['errors'] = $this->errors;
+
+        View::make('api.index', json_encode($data), false, 'application/json');
+    }
+
+    function api_image($id)
+    {
+        $return = json_decode($this->postCURL($this->link('api/medias/send'), [], $_FILES), true);
+
+        if ($return['success']) {
+            foreach ($return['upload'] as $upload) {
+                if ($upload['success']) {
+                    $this->loadModel('Events_medias');
+                    $this->Events_medias->save([
+                        'events_id' => $id,
+                        'medias_id' => $upload['medias_id']
+                    ]);
+                } else {
+                    $this->errors = $return['errors'];
+                }
+            }
+        } else {
+            $this->errors = $return['errors'];
         }
 
         $data['success'] = empty($this->errors) ? true : false;
