@@ -9,6 +9,8 @@
 namespace Core\Helpers;
 
 
+use HTML;
+
 class FileHelper
 {
     /**
@@ -23,7 +25,7 @@ class FileHelper
 
         foreach ($files as $file) {
             if (in_array($file['type'], $permission)) {
-                $directory = __DIR__ . '/../public/uploads/';
+                $directory = __DIR__ . '/../../public/uploads/';
                 $url = HTML::link('uploads') . '/';
 
                 $type = explode('/', $file['type']);
