@@ -71,3 +71,14 @@ app.controller("packCreate", function($scope, $http) {
         }
     }
 });
+
+jQuery(function($){
+  $('.droparea').dropfile({
+	  message : '',
+	  script : '../api/events/image/43',
+	  clone: false
+  });
+});
+
+
+

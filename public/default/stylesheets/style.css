@@ -2335,4 +2335,16 @@ a.close
     color: #43A047;
 }
 
+.droparea{
+    min-height: 200px
+}
+
+.droparea:hover{
+    background: red;
+}
+
+.droparea img{
+    width: 30%;
+}
+
 /* Share icones */

@@ -77,6 +77,7 @@
     var url = "<?= HTML::link(''); ?>"
 </script>
 <script src="<?= HTML::link('default/scripts/jquery.min.js'); ?>"></script>
+<script src="<?= HTML::link('default/scripts/dropfile.js'); ?>"></script>
 <script src="<?= HTML::link('default/scripts/angular.min.js'); ?>"></script>
 <script src="<?= HTML::link('default/scripts/login.js'); ?>"></script>
 <script src="<?= HTML::link('default/scripts/function.js'); ?>"></script>

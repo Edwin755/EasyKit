@@ -24,7 +24,7 @@
                             <input type="datetime-local" class="champs datestart" ng-model="eventStartDate"> 
                             <input type="datetime-local" class="champs datesend" ng-model="eventEndDate"> 
                             <textarea name="description" class="champs" placeholder="Description..." ng-model="eventDesc"></textarea>
-                            <div class="dragdrop"><h2>Add some pictures:</h2><br/>
+                            <div class="droparea"><h2>Add some pictures:</h2><br/>
                                 <img src="<?= HTML::link('default/images/event-1-vignette.jpg') ?>" class="image_drop"/>
                                 <img src="<?= HTML::link('default/images/event-1-vignette.jpg') ?>" class="image_drop"/>
                                 <img src="<?= HTML::link('default/images/event-1-vignette.jpg') ?>" class="image_drop"/>
