@@ -9,12 +9,10 @@
 namespace App\Controllers;
 
 use Core;
-use Core\Controller;
 use Core\Exceptions\NotFoundHTTPException;
-use Core\Validation;
+use Core\Helpers\FileHelper;
 use Core\View;
 use Core\Session;
-use Core\Cookie;
 use Exception;
 use HTML;
 use Imagine\Gd\Imagine;
@@ -111,7 +109,7 @@ class MediasController extends AppController
             $files = ['image/jpeg', 'image/gif', 'image/png', 'video/mpeg', 'video/mp4', 'video/webm'];
             $images = ['image/jpeg', 'image/gif', 'image/png'];
 
-            $data['upload'] = $this->upload($_FILES, $files);
+            $data['upload'] = FileHelper::upload($_FILES, $files);
 
             $this->loadModel('Medias');
 
