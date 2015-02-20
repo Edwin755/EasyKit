@@ -10,6 +10,7 @@
 namespace Core;
 
 use Core\Exceptions\NotFoundHTTPException;
+use CURLFile;
 use Exception;
 use HTML;
 
@@ -263,22 +264,21 @@ class Controller
      *
      * @return bool
      */
-    protected function postCURL($url, $fields, $options = [])
+    protected function postCURL($url, $fields, $files = [])
     {
-        $defaults = [
-            CURLOPT_URL => $url,
-            CURLOPT_HEADER => 0,
-            CURLOPT_RETURNTRANSFER => TRUE,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_POST => count($fields)
-        ];
-
-        $field_string = http_build_query($fields);
-
-        $options[CURLOPT_POSTFIELDS] = $field_string;
+        if (!empty($files)) {
+            foreach ($files as $k => $v) {
+                $fields[$k] = new CURLFile($v['tmp_name'], $v['type'], $v['name']);
+            }
+        }
 
         $ch = curl_init();
-        curl_setopt_array($ch, ($options + $defaults));
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_POST, TRUE);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
 
         if (!$result = curl_exec($ch)) {
             $result = curl_error($ch);
@@ -339,54 +339,5 @@ class Controller
         );
 
         Dispatcher::loadController($req);
-    }
-
-    /**
-     * Upload file
-     *
-     * @param $file
-     * @param array $permission
-     */
-    protected function upload($files, $permission = array())
-    {
-        $return = [];
-
-        foreach ($files as $file) {
-            if (in_array($file['type'], $permission)) {
-                $directory = __DIR__ . '/../public/uploads/';
-                $url = HTML::link('uploads') . '/';
-
-                $type = explode('/', $file['type']);
-
-                foreach ($type as $value) {
-                    if (!is_dir($directory . $value)) {
-                        mkdir($directory . $value, 0755);
-                    }
-
-                    $directory .= $value . '/';
-                    $url .= $value . '/';
-                }
-
-                $filename = md5(uniqid(mt_rand(), true)) . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
-                $directory .= $filename;
-                $url .= $filename;
-
-                if (move_uploaded_file($file['tmp_name'], $directory)) {
-                    $return[] = [
-                        'success' => true,
-                        'file' => realpath($directory),
-                        'url' => $url,
-                        'filename' => pathinfo($directory, PATHINFO_FILENAME),
-                        'extension' => pathinfo($directory, PATHINFO_EXTENSION)
-                    ];
-                } else {
-                    $return[] = [
-                        'success' => false
-                    ];
-                }
-            }
-        }
-
-        return $return;
     }
 }

@@ -35,9 +35,9 @@ return array(
     /**
      * Email
      */
-    'mail_smtp'          => 'smtp.easykit.ovh',
+    'mail_smtp'          => 'mail.easykit.me',
     'mail_port'          => 25,
-    'mail_username'      => 'hello',
+    'mail_username'      => 'hello@easykit.me',
     'mail_password'      => 'helloeemi'
 
 );

@@ -12,6 +12,7 @@ namespace App\Controllers;
 use Core;
 use Core\Controller;
 use Core\Exceptions\NotFoundHTTPException;
+use Core\Helpers\StringHelper;
 use Core\Session;
 use Core\Validation;
 use Core\View;
@@ -257,14 +258,15 @@ class PacksController extends AppController
                 $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getToken() . '/' . $_SERVER['REMOTE_ADDR']));
 
                 if ($user->valid) {
-                    $this->Packs->save(array(
-                        'name' => $this->getName(),
-                        'description' => $this->getDescription(),
-                        'endtime' => $this->getEnd(),
-                        'users_id' => $user->user->tokens_users_id,
-                    ));
+                    $this->Packs->save([
+                        'name'          => $this->getName(),
+                        'description'   => $this->getDescription(),
+                        'endtime'       => $this->getEnd(),
+                        'slug'          => StringHelper::generateRandomString(6),
+                        'users_id'      => $user->user->tokens_users_id,
+                    ]);
                 } else {
-                    $this->errors['user'] = 'User does not exist.';
+                    $this->errors = $user->errors;
                 }
             }
         } else {

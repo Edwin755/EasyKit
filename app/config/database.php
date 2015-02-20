@@ -28,8 +28,8 @@ return array(
         'local' => array(
             'host'      => '91.121.220.30',
             'database'  => 'easykit',
-            'username'  => 'hello',
-            'password'  => 'world',
+            'username'  => 'easykit',
+            'password'  => 'world12',
             'charset'   => 'utf8',
             'prefix'    => 'ek_'
         ),

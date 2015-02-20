@@ -6,6 +6,9 @@
  * @author Edwin Dayot <edwin.dayot@sfr.fr>
  * @copyright 2014
  */
+use Core\Dispatcher;
+use Facebook\FacebookRedirectLoginHelper;
+use Facebook\FacebookSession;
 
 /**
  * HTML Class

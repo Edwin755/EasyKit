@@ -9,7 +9,9 @@
     ],
     "autoload": {
         "psr-4": {
-            "Core\\": "core/"
+            "Core\\": "core/",
+            "": "app/helpers/",
+            "Core\\Helpers\\": "core/Helpers"
         }
     },
     "require": {

@@ -9,12 +9,11 @@
 namespace App\Controllers;
 
 use Core;
-use Core\Controller;
 use Core\Exceptions\NotFoundHTTPException;
-use Core\Validation;
+use Core\Helpers\FileHelper;
 use Core\View;
 use Core\Session;
-use Core\Cookie;
+use Exception;
 use HTML;
 use Imagine\Gd\Imagine;
 use Imagine\Image\ImageInterface;
@@ -59,7 +58,7 @@ class MediasController extends AppController
      *
      * @param int $id
      * @throws Core\Exceptions\NotFoundHTTPException
-     * @throws \Exception
+     * @throws Exception
      */
     function api_get($id = null)
     {
@@ -102,7 +101,7 @@ class MediasController extends AppController
      *
      * @param string $mode
      * @throws Core\Exceptions\NotFoundHTTPException
-     * @throws \Exception
+     * @throws Exception
      */
     function api_send($mode = null)
     {
@@ -110,7 +109,7 @@ class MediasController extends AppController
             $files = ['image/jpeg', 'image/gif', 'image/png', 'video/mpeg', 'video/mp4', 'video/webm'];
             $images = ['image/jpeg', 'image/gif', 'image/png'];
 
-            $data['upload'] = $this->upload($_FILES, $files);
+            $data['upload'] = FileHelper::upload($_FILES, $files);
 
             $this->loadModel('Medias');
 
@@ -137,9 +136,14 @@ class MediasController extends AppController
                         foreach ($sizes as $key => $value) {
                             $filename = preg_replace('#.' . $data['upload'][$i]['extension'] . '$#', '', $data['upload'][$i]['file']);
 
-                            $imagine->open($data['upload'][$i]['file'])
-                                ->thumbnail(new Box($key, $value), $mode)
-                                ->save($filename . '-x' . $key . '.' . $data['upload'][$i]['extension']);
+                            try {
+                                $imagine->open($data['upload'][$i]['file'])
+                                    ->thumbnail(new Box($key, $value), $mode)
+                                    ->save($filename . '-x' . $key . '.' . $data['upload'][$i]['extension']);
+                            } catch (Exception $e) {
+                                $this->errors[$e->getCode()] = $e->getMessage();
+                            }
+
                         }
                     }
 
@@ -169,7 +173,7 @@ class MediasController extends AppController
      * @param int $id
      *
      * @throws Core\Exceptions\NotFoundHTTPException
-     * @throws \Exception
+     * @throws Exception
      */
     function api_destroy($id = null)
     {
