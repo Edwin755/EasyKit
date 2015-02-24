@@ -24,6 +24,8 @@ use HTML;
  *
  * @property mixed Users
  * @property mixed Token
+ * @property mixed Packs
+ * @property mixed Steps
  * @package App\Controllers
  */
 class PacksController extends AppController
@@ -124,6 +126,22 @@ class PacksController extends AppController
      */
     function getToken() {
         return $this->token;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
     }
 
     /**
@@ -244,8 +262,10 @@ class PacksController extends AppController
 
             if (!empty($_POST['token'])) {
                 $this->setToken($_POST['token']);
+                $token = true;
             } else {
-                $this->errors['token'] = 'Empty token.';
+                $this->setUser(1);
+                $token = false;
             }
 
             if (!empty($_POST['description'])) {
@@ -255,16 +275,26 @@ class PacksController extends AppController
             if (empty($this->errors)) {
                 $this->loadModel('Packs');
 
-                $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getToken() . '/' . $_SERVER['REMOTE_ADDR']));
+                if ($token) {
+                    $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getToken() . '/' . $_SERVER['REMOTE_ADDR']));
+                    if ($user->valid) {
+                        $user_id = $user->user->tokens_users_id;
+                    } else {
+                        $this->errors['user'] = $user->errors;
+                    }
+                } else {
+                    $user_id = $this->getUser();
+                }
 
-                if ($user->valid) {
+                if (empty($this->errors)) {
                     $this->Packs->save([
                         'name'          => $this->getName(),
                         'description'   => $this->getDescription(),
                         'endtime'       => $this->getEnd(),
                         'slug'          => StringHelper::generateRandomString(6),
-                        'users_id'      => $user->user->tokens_users_id,
+                        'users_id'      => $user_id,
                     ]);
+                    $data['pack'] = $this->Packs->lastInsertId;
                 } else {
                     $this->errors = $user->errors;
                 }
@@ -286,9 +316,82 @@ class PacksController extends AppController
      */
     function create()
     {
-        if(!empty($_POST)){
-            var_dump($_POST);
+        if (!empty($_POST)) {
+            foreach ($_POST as $k => $v) {
+                if (preg_match('#events_([a-z0-9]*)#', $k)) {
+                    $k = str_replace('events_', '', $k);
+                    $event[$k] = $v;
+                } else if (preg_match('#hosting_([a-z0-9]*)#', $k)) {
+                    if ($_POST['hosting'] != 'false') {
+                        $hosting['name'] = $_POST['hosting'];
+                        $k = str_replace('hosting_', '', $k);
+                        $hosting[$k] = $v;
+                    }
+                } else if (preg_match('#transport_([a-z0-9]*)#', $k)) {
+                    if ($_POST['transport'] != 'false') {
+                        $k = str_replace('transport_', '', $k);
+                        $transport['name'] = $_POST['transport'];
+                        $transport[$k] = $v;
+                    }
+                }  else if (preg_match('#option0_([a-z0-9]*)#', $k)) {
+                    $k = str_replace('option0_', '', $k);
+                    $option0[$k] = $v;
+                } else if (preg_match('#option1_([a-z0-9]*)#', $k)) {
+                    $k = str_replace('option1_', '', $k);
+                    $option1[$k] = $v;
+                }
+            }
+
+            if (isset($event)) {
+                if (empty($event['id'])) {
+                    $returnEvent = json_decode($this->postCURL($this->link('api/events/create'), $event), true);
+                    $event_id = $returnEvent['event'];
+                } else {
+                    $event_id = $event['id'];
+                }
+
+                $returnPacks = json_decode($this->postCURL($this->link('api/packs/create'), $event), true);
+                $pack_id = $returnPacks['pack'];
+                $returnPrice = json_decode($this->postCURL($this->link('api/steps/create'), [
+                    'pack'  => $pack_id,
+                    'goal'      => $event['price'],
+                    'name'      => 'eventprice'
+                ]), true);
+            }
+
+            if (isset($hosting)) {
+                $returnHosting = json_decode($this->postCURL($this->link('api/steps/create'), [
+                    'pack'  => $pack_id,
+                    'goal'      => $hosting['price'],
+                    'name'      => $hosting['name']
+                ]), true);
+            }
+
+            if (isset($transport)) {
+                $returnTransport = json_decode($this->postCURL($this->link('api/steps/create'), [
+                    'pack'  => $pack_id,
+                    'goal'      => $transport['price'],
+                    'name'      => $transport['name']
+                ]), true);
+            }
+
+            if (isset($option0)) {
+                $returnOption0 = json_decode($this->postCURL($this->link('api/steps/create'), [
+                    'pack'  => $pack_id,
+                    'goal'      => $option0['price'],
+                    'name'      => $option0['name']
+                ]), true);
+            }
+
+            if (isset($option1)) {
+                $returnOption1 = json_decode($this->postCURL($this->link('api/steps/create'), [
+                    'pack'  => $pack_id,
+                    'goal'      => $option1['price'],
+                    'name'      => $option1['name']
+                ]), true);
+            }
         }
+
         View::$title = 'Create your pack';
         View::make('packs.create', null, 'default');
     }
