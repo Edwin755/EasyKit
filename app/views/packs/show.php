@@ -85,8 +85,8 @@
             <ul class="detail_pack">
                 
                 <li>Select all options (700€) <div class="squaredFour">
-	<input type="checkbox"  id="squared4" name="check" />
-	<label for="squared4"></label>
+	<input type="checkbox"  id="allstep" name="check" />
+	<label for="allstep"></label>
 </div></li>
             </ul>
 

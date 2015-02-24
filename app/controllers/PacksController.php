@@ -286,6 +286,9 @@ class PacksController extends AppController
      */
     function create()
     {
+        if(!empty($_POST)){
+            var_dump($_POST);
+        }
         View::$title = 'Create your pack';
         View::make('packs.create', null, 'default');
     }

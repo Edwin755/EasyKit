@@ -392,7 +392,7 @@ $("#formulaire-contributors .icones-formu").on('click',function(){
 
 
 $(".other_option").on('click',function(){
-	$(".add_option").html('<input type="text" class="champs" placeholder="Titre..."></textarea><textarea name="description" class="champs" placeholder="Description..."></textarea><input type="number" class="champs" placeholder="Price per person...">');
+	$(".add_option").html('<input type="text" name="option1_name" class="champs" placeholder="Titre..."></textarea><textarea name="option1_description" class="champs" placeholder="Description..."></textarea><input name="option1_price" type="number" class="champs" placeholder="Price per person...">');
 });
 
 
