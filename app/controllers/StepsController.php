@@ -35,9 +35,10 @@ class StepsController extends AppController
      * @var string $name
      * @var int $goal
      * @var int pack
+     * @var int user
      * @var string $token
      */
-    private $name, $goal, $pack, $token;
+    private $name, $goal, $pack, $user, $token;
 
     /**
      * @return string
@@ -131,8 +132,6 @@ class StepsController extends AppController
 
             if (isset($_POST['token']) && $_POST['token'] != null) {
                 $this->setToken($_POST['token']);
-            } else {
-                $this->errors['token'] = 'Empty token.';
             }
 
             if (empty($this->errors)) {
@@ -149,8 +148,6 @@ class StepsController extends AppController
                     } else {
                         $this->errors['pack'] = 'This pack doesn\'t exists.';
                     }
-                } else {
-                    $this->errors['user'] = $user->errors;
                 }
 
                 if (empty($this->errors)) {

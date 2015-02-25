@@ -408,11 +408,11 @@ class Model
      */
     public function getLastSaved()
     {
-        return $this->select(array(
+        return current($this->select(array(
             'conditions' => array(
                 'id' => $this->lastInsertId
             )
-        ));
+        )));
     }
 
     /**
