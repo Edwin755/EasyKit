@@ -631,7 +631,7 @@ class EventsController extends AppController
     {
         if ($id != null) {
             $this->loadModel('Events');
-            $this->Events->delete($id);
+            $this->Events->delete(['id' => $id]);
         } else {
             $this->errors['id'] = 'No id given.';
         }

@@ -294,7 +294,9 @@ class PacksController extends AppController
                         'slug'          => StringHelper::generateRandomString(6),
                         'users_id'      => $user_id,
                     ]);
-                    $data['pack'] = $this->Packs->lastInsertId;
+                    $pack = $this->Packs->getLastSaved();
+                    $data['pack_id'] = $pack->packs_id;
+                    $data['slug'] = $pack->packs_slug;
                 } else {
                     $this->errors = $user->errors;
                 }
@@ -345,50 +347,76 @@ class PacksController extends AppController
             if (isset($event)) {
                 if (empty($event['id'])) {
                     $returnEvent = json_decode($this->postCURL($this->link('api/events/create'), $event), true);
-                    $event_id = $returnEvent['event'];
+                    if ($returnEvent['success']) {
+                        $event_id = $returnEvent['event'];
+                    } else {
+                        $this->errors = $returnEvent['errors'];
+                    }
                 } else {
                     $event_id = $event['id'];
                 }
 
-                $returnPacks = json_decode($this->postCURL($this->link('api/packs/create'), $event), true);
-                $pack_id = $returnPacks['pack'];
-                $returnPrice = json_decode($this->postCURL($this->link('api/steps/create'), [
-                    'pack'  => $pack_id,
-                    'goal'      => $event['price'],
-                    'name'      => 'eventprice'
-                ]), true);
+                if (empty($this->errors)) {
+                    $returnPacks = json_decode($this->postCURL($this->link('api/packs/create'), $event), true);
+                    if ($returnPacks['success']) {
+                        $pack_id = $returnPacks['pack_id'];
+                        $returnPrice = json_decode($this->postCURL($this->link('api/steps/create'), [
+                            'pack'      => $pack_id,
+                            'goal'      => $event['price'],
+                            'name'      => 'eventprice'
+                        ]), true);
+
+                        if (!$returnPrice['success']) {
+                            $this->errors = $returnPrice['errors'];
+                        }
+                    } else {
+                        $this->errors = $returnPacks['errors'];
+                    }
+                }
             }
 
-            if (isset($hosting)) {
+            if (isset($hosting) && empty($this->errors)) {
                 $returnHosting = json_decode($this->postCURL($this->link('api/steps/create'), [
-                    'pack'  => $pack_id,
+                    'pack'      => $pack_id,
                     'goal'      => $hosting['price'],
                     'name'      => $hosting['name']
                 ]), true);
+                if (!$returnHosting['success']) {
+                    $this->errors = $returnHosting['errors'];
+                }
             }
 
-            if (isset($transport)) {
+            if (isset($transport) && empty($this->errors)) {
                 $returnTransport = json_decode($this->postCURL($this->link('api/steps/create'), [
-                    'pack'  => $pack_id,
+                    'pack'      => $pack_id,
                     'goal'      => $transport['price'],
                     'name'      => $transport['name']
                 ]), true);
+                if (!$returnTransport['success']) {
+                    $this->errors = $returnTransport['errors'];
+                }
             }
 
-            if (isset($option0)) {
+            if (isset($option0) && empty($this->errors)) {
                 $returnOption0 = json_decode($this->postCURL($this->link('api/steps/create'), [
-                    'pack'  => $pack_id,
+                    'pack'      => $pack_id,
                     'goal'      => $option0['price'],
                     'name'      => $option0['name']
                 ]), true);
+                if (!$returnOption0['success']) {
+                    $this->errors = $returnOption0['errors'];
+                }
             }
 
-            if (isset($option1)) {
+            if (isset($option1) && empty($this->errors)) {
                 $returnOption1 = json_decode($this->postCURL($this->link('api/steps/create'), [
-                    'pack'  => $pack_id,
+                    'pack'      => $pack_id,
                     'goal'      => $option1['price'],
                     'name'      => $option1['name']
                 ]), true);
+                if (!$returnOption1['success']) {
+                    $this->errors = $returnOption1['errors'];
+                }
             }
         }
 
@@ -407,9 +435,28 @@ class PacksController extends AppController
         View::make('packs.summary', $data, 'default');
     }
 
-    function show()
+    /**
+     * Show page
+     *
+     * @throws NotFoundHTTPException
+     */
+    function show($slug = null)
     {
-        $data = false;
+        $this->loadModel('Packs');
+        $pack = $this->Packs->select([
+            'conditions'    => [
+                'slug'          => $slug
+            ]
+        ]);
+
+        if (count($pack) == 1) {
+            $pack = current($pack);
+            $data['pack'] = $this->getJSON($this->link('api/packs/get/' . $pack->packs_id));
+            View::$title = $pack->packs_name;
+        } else {
+            throw new NotFoundHTTPException('Pack not found.');
+        }
+
         View::make('packs.show', $data, 'default');
     }
 

@@ -7,7 +7,7 @@
                     <li id="bar-menu-2"><i class="fa fa-home"></i><span>Hosting</span></li>
                     <li id="bar-menu-3"><i class="fa fa-car"></i><span>Transport</span></li>
                     <li id="bar-menu-5"><i class="fa fa-cog"></i><span><span id="options">More</span> Options</span></li>
-                    <li id="bar-menu-6"><div id="bouton-create"><button type="submit" id="final-step">Create my pack</a></div></li>
+                    <li id="bar-menu-6"><div id="bouton-create"><button type="submit" id="final-step">Create my pack</button></div></li>
                 </ul>
             </div>
             <div id="block_formu">
@@ -162,9 +162,8 @@
                     <h2>Add more options</h2>
     
                     <div class="formu-onglet">
-                            <input type="text" name="option0_name" class="champs" placeholder="Titre..."></textarea>
-                            <textarea name="option0_description" class="champs" placeholder="Description...">
-    </textarea>
+                            <input type="text" name="option0_name" class="champs" placeholder="Titre...">
+                            <textarea name="option0_description" class="champs" placeholder="Description..."></textarea>
                             <input type="number" name="option0_price" class="champs" placeholder="Price per person...">
     
     

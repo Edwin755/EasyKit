@@ -81,8 +81,6 @@ class MediasController extends AppController
                 ]
             ]));
 
-            $path = __DIR__ . '/../../public/uploads/' . $data['media']->medias_type . '/' . $data['media']->medias_file;
-
             $file = pathinfo(realpath(__DIR__ . '/../../public/uploads/' . $data['media']->medias_type . '/' . $data['media']->medias_file));
             $filename = $file['filename'];
             $extension = $file['extension'];
@@ -203,7 +201,7 @@ class MediasController extends AppController
                     }
                 }
 
-                $this->Medias->delete($id);
+                $this->Medias->delete(['id' => $id]);
                 $data['success'] = true;
             } else {
                 $data['success'] = false;
