@@ -311,12 +311,7 @@ class PacksController extends AppController
         View::make('api.index', json_encode($data), false, 'application/json');
     }
 
-    /**
-     * Create
-     *
-     * @throws NotFoundHTTPException
-     */
-    function create()
+    function store()
     {
         if (!empty($_POST)) {
             foreach ($_POST as $k => $v) {
@@ -354,6 +349,7 @@ class PacksController extends AppController
                     }
                 } else {
                     $event_id = $event['id'];
+                    $data['events_id'] = $event_id;
                 }
 
                 if (empty($this->errors)) {
@@ -418,8 +414,23 @@ class PacksController extends AppController
                     $this->errors = $returnOption1['errors'];
                 }
             }
+        } else {
+            $this->errors['post'] = 'No POST received.';
         }
 
+        $data['errors'] = $this->errors;
+        $data['success'] = !empty($this->errors) ? false : true;
+
+        View::make('api.index', json_encode($data), false, 'application/json');
+    }
+
+    /**
+     * Create
+     *
+     * @throws NotFoundHTTPException
+     */
+    function create()
+    {
         View::$title = 'Create your pack';
         View::make('packs.create', null, 'default');
     }

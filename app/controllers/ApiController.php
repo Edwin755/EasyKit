@@ -117,6 +117,16 @@ class ApiController extends AppController
     }
 
     /**
+     * Comments Action
+     *
+     * @return void
+     */
+    function comments()
+    {
+        $this->useController('Comments', 'api_', func_get_args(), false, 'get');
+    }
+
+    /**
      * Likes Action
      *
      * @return void
