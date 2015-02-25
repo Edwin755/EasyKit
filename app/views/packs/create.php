@@ -1,6 +1,41 @@
+<div id="popup">
+    <form class="sign-up register" ng-controller="register" ng-submit="create()">
+        <a href="#" id="close"><i class="fa fa-times"></i></a>
+      <h1 class="sign-up-title">Register</h1>
+    
+      <?= Core\Session::getFlash() ?>
+    
+      <div class="divider"></div>
+    
+      <input type="email" class="sign-up-input" name="email" ng-model="formData.email" placeholder="Email" ng-change="chrono()" autofocus required="">
+    
+      <input type="password" class="sign-up-input" name="password" ng-model="formData.password" placeholder="Password" required>
+    
+      <label>
+        <input type="checkbox" name="tc" ng-model="formData.tc" required>
+        I agree with the terms and conditions.
+      </label>
+      <div class="notif"></div>
+      <input type="submit" value="Register now!" class="sign-up-button">
+      <ul class="social_button">
+        <li class="button fb"><a href="<?= FbHelper::getFbLink(['email']) ?>">Login with Facebook</a></li>
+      </ul>
+      <a class="allready">I have already an account</a>
+    </form>
+    <form class="sign-up login" id="popupLogin" style="border:solid 1px white;">
+        <a href="#" id="close"><i class="fa fa-times"></i></a>
+        <input type="email" id="emailLoginPopUp" class="sign-up-input" placeholder="What's your mail?" >
+        <input type="password" id="passwordLoginPopUp" class="sign-up-input" placeholder="Password">
+        <input type="checkbox"> Remember me <br/> <a href="#" class="forgot_pass">Forgot password?</a> <br/>
+        <input type="submit" id="submitLogin" value="Log in!" class="sign-up-button">
+        <ul class="social_button">
+            <li class="button fb"><a href="<?= FbHelper::getFbLink(['email']) ?>">With Facebook</a></li>
+        </ul>
+    </form>
+</div>
 <div id="container_create" ng-controller="packCreate">
     <div id="create_event">
-        <form method="post" action="<?= HTML::link('packs/create') ?>">
+        <form method="post"  ng-submit="create()">
             <div id="block_menu">
                 <ul>
                     <li id="bar-menu-1" class="activeAfter"><i class="fa fa-calendar-o"></i><span>Event</span></li>
@@ -16,14 +51,14 @@
                         <h2>Create an Event</h2>
     
                         <div id="formu_event">
-                            <form id="formu1" method="post" action="<?= HTML::link('events/create') ?>">
-                                <input type="hidden" name="events_id" ng-model="eventName"> 
-                                <input type="text" name="events_name" class="champs" placeholder="Name..." ng-model="eventName"> 
-                                <input type="text" name="events_address" class="champs" placeholder="Location..." ng-model="eventLocation"> 
-                                <input type="number" name="events_price" class="champs" placeholder="Price per person..." ng-model="eventPrice"> 
-                                <input type="datetime-local" name="events_starttime" class="champs datestart" ng-model="eventStartDate"> 
-                                <input type="datetime-local" name="events_endtime" class="champs datesend" ng-model="eventEndDate"> 
-                                <textarea name="events_description" class="champs" placeholder="Description..." ng-model="eventDesc"></textarea>
+                                <input type="text" class="hidden" ng-model="formData.token" id="inputToken" value="<?= $_SESSION['user']->token; ?>"> 
+                                <input type="text" class="hidden" ng-model="formData.events_id"> 
+                                <input type="text" ng-model="formData.events_name" class="champs" placeholder="Name..."> 
+                                <input type="text" ng-model="formData.events_address" class="champs" placeholder="Location..."> 
+                                <input type="number" ng-model="formData.events_price" class="champs" placeholder="Price per person..."> 
+                                <input type="datetime-local" ng-model="formData.events_starttime" class="champs datestart"> 
+                                <input type="datetime-local" ng-model="formData.events_endtime" class="champs datesend"> 
+                                <textarea ng-model="formData.events_description" class="champs" placeholder="Description..."></textarea>
                                 <div class="droparea"><h2>Add some pictures:</h2><br/>
                                     <img src="<?= HTML::link('default/images/event-1-vignette.jpg') ?>" class="image_drop"/>
                                     <img src="<?= HTML::link('default/images/event-1-vignette.jpg') ?>" class="image_drop"/>
@@ -78,16 +113,16 @@
                     <h2>Choose your hosting</h2>
     
                     <div class="icones-formu">
-                        <input type="hidden" name="hosting" value="false">
+                        <input type="hidden" ng-model="formData.hosting" value="false">
 
-                        <input type="radio" name="hosting" value="guesthouse">
+                        <input type="radio" ng-model="formData.hosting" value="guesthouse">
                         <img src="<?= HTML::link('default/images/maison.png') ?>" alt="">
     
                         <p>Guesthouse</p>
                     </div>
     
                     <div class="icones-formu seconde-icone">
-                        <input type="radio" name="hosting" value="simple">
+                        <input type="radio" ng-model="formData.hosting" value="simple">
 
                         <img src="<?= HTML::link('default/images/lit2.png') ?>" alt="">
     
@@ -95,7 +130,7 @@
                     </div>
     
                     <div class="icones-formu">
-                        <input type="radio" name="hosting" value="confortable">
+                        <input type="radio" ng-model="formData.hosting" value="confortable">
 
                         <img src="<?= HTML::link('default/images/lit3.png') ?>" alt="">
     
@@ -103,7 +138,7 @@
                     </div>
     
                     <div class="icones-formu last-icone">
-                        <input type="radio" name="hosting" value="luxury">
+                        <input type="radio" ng-model="formData.hosting" value="luxury">
 
                         <img src="<?= HTML::link('default/images/lit4.png') ?>" alt="">
     
@@ -113,8 +148,8 @@
                     <div class="clear"></div>
     
                     <div class="formu-onglet">
-                        <textarea name="hosting_description" class="champs" placeholder="Description..."></textarea>
-                        <input name="hosting_price" type="number" class="champs" placeholder="Price per person...">
+                        <textarea ng-model="formData.hosting_description" class="champs" placeholder="Description..."></textarea>
+                        <input ng-model="formData.hosting_price" type="number" class="champs" placeholder="Price per person...">
                     </div>
                 </div>
     
@@ -122,15 +157,15 @@
                     <h2>Choose your transport</h2>
     
                     <div class="icones-formu">
-                        <input type="hidden" name="transport" value="false">
-                        <input type="radio" name="transport" value="car">
+                        <input type="hidden" ng-model="formData.transport" value="false">
+                        <input type="radio" ng-model="formData.transport" value="car">
                         <img src="<?= HTML::link('default/images/voiture.png') ?>" alt="">
     
                         <p>Car</p>
                     </div>
     
                     <div class="icones-formu seconde-icone">
-                        <input type="radio" name="transport" value="bus">
+                        <input type="radio" ng-model="formData.transport" value="bus">
 
                         <img src="<?= HTML::link('default/images/bus2.png') ?>" alt="">
     
@@ -138,14 +173,14 @@
                     </div>
     
                     <div class="icones-formu">
-                        <input type="radio" name="transport" value="train">
+                        <input type="radio" ng-model="formData.transport" value="train">
                         <img src="<?= HTML::link('default/images/train2.png') ?>" alt="">
     
                         <p>Train</p>
                     </div>
     
                     <div class="icones-formu last-icone">
-                        <input type="radio" name="transport" value="train">
+                        <input type="radio" ng-model="formData.transport" value="train">
                         <img src="<?= HTML::link('default/images/avion.png') ?>" alt="">
     
                         <p>Plane</p>
@@ -154,18 +189,18 @@
                     <div class="clear"></div>
     
                     <div class="formu-onglet">
-                        <textarea name="transport_description" class="champs" placeholder="Description..."></textarea> 
-                        <input name="transport_price" type="number" class="champs" placeholder="Price per person...">
+                        <textarea ng-model="formData.transport_description" class="champs" placeholder="Description..."></textarea> 
+                        <input ng-model="formData.transport_price" type="number" class="champs" placeholder="Price per person...">
                     </div>
                 </div>    
                 <div id="formulaire-options">
                     <h2>Add more options</h2>
     
                     <div class="formu-onglet">
-                            <input type="text" name="option0_name" class="champs" placeholder="Titre..."></textarea>
-                            <textarea name="option0_description" class="champs" placeholder="Description...">
+                            <input type="text" ng-model="formData.option0_name" class="champs" placeholder="Titre..."></textarea>
+                            <textarea ng-model="formData.option0_description" class="champs" placeholder="Description...">
     </textarea>
-                            <input type="number" name="option0_price" class="champs" placeholder="Price per person...">
+                            <input type="number" ng-model="formData.option0_price" class="champs" placeholder="Price per person...">
     
     
                             <div class="add_option">

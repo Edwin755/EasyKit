@@ -2628,4 +2628,30 @@ top: 5px;
 
 }
 
+#popup{
+    background: rgba(0,0,0,0.6);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
+}
 
+#popup .sign-up{
+    position: absolute;
+    z-index: 3;
+    left: 50%;
+    margin-left: -140px;
+}
+
+#popup{
+    display: none;
+}
+
+#popup .sign-up.login{
+    display: none;
+}
+
+.hidden{
+    display: none;
+}

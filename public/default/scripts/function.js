@@ -30,15 +30,9 @@ $(".item3").on('click',function(){
 
 
 
-$("#close").on('click',function(){
+$("#close .fa").on('click',function(){
 
-	$("#login-popup").animate(500);
-
-		$("#login-popup")
-		.css({
-		"display" : "none",
-
-		})
+	$("#popup").toggle();
 
 });
 
@@ -459,6 +453,8 @@ app.controller("likes", function($scope, $http) {
     }
         
 });
+
+
 
 
 
