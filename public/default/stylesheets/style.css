@@ -2457,7 +2457,7 @@ bottom: 9px;
 	text-align: center;
 }
 
-.progress { position: relative; width: 150px; height: 20px; background-color: red; }
+/* .progress { position: relative; width: 150px; height: 20px; background-color: red; } */
 .bar { position: absolute; top: 0; bottom: 0; left: 0; background-color: black;}
 
 
@@ -2654,4 +2654,123 @@ top: 5px;
 
 .hidden{
     display: none;
+}
+
+
+
+.panel {
+	position:relative;
+	padding:15px;
+	background:#fff;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	-moz-box-shadow:0 2px 5px rgba(0,0,0,0.3);
+	-webkit-box-shadow:0 2px 5px rgba(0,0,0,0.3);
+	box-shadow:0 2px 5px rgba(0,0,0,0.3);
+}
+
+.panel+.panel {
+	margin-top:15px;
+}
+
+.panel .user {
+	float:left;
+	width:200px;
+}
+
+.panel .user .img-circle {
+	float:left;
+	margin-right:15px;
+}
+
+.panel .user span {
+	display:table;
+}
+
+.panel .user p {
+	margin-top:5px;
+	float:left;
+	display:table;
+	font-size:.8em;
+	color:#757575;
+}
+
+.panel .panel-content {
+	float:left;
+}
+
+.panel.loading {
+	height:77px;
+}
+
+.panel.loading .user .img-circle {
+	background:#E3F2FD;
+}
+
+.panel.loading .user span {
+	color:#E3F2FD;
+	background:#E3F2FD;
+}
+
+.panel.loading .user p {
+	color:#E3F2FD;
+	background:#E3F2FD;
+}
+
+.panel.loading .panel-content p {
+	color:#E3F2FD;
+	background:#E3F2FD;
+}
+
+.top-panel {
+	position:relative;
+	width:100%;
+	min-height:150px;
+	background:#fff;
+	-moz-box-shadow:0 2px 40px 0 rgba(0,0,0,0.4);
+	-webkit-box-shadow:0 2px 40px 0 rgba(0,0,0,0.4);
+	box-shadow:0 2px 40px 0 rgba(0,0,0,0.4);
+}
+
+.top-panel .dropzone {
+	position:relative;
+	height:120px;
+	border:2px dashed #ccc;
+}
+
+.top-panel .dropzone .text {
+	display:block;
+	position:absolute;
+	top:45px;
+	right:0;
+	left:0;
+	margin-top:-9px;
+	color:#ccc;
+	font-size:13px;
+	text-align:center;
+}
+
+.top-panel .dropzone .text p {
+	font-size:18px;
+}
+
+.top-panel .dropzone .text span {
+	display:block;
+}
+
+.top-panel .dropzone.hover {
+	border-color:#69ace6;
+}
+
+.top-panel .dropzone.hover .text {
+	color:#69ace6;
+}
+
+.top-panel .details {
+	display:block;
+	width:100%;
+	padding:15px;
+	margin-top:0;
+	background:#f5f5f5;
 }

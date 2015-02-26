@@ -108,10 +108,6 @@ app.controller("packCreate", function($scope, $http) {
                 }                 
                 
                 uploader.start();
-                    
-                if(responseData.success == true){
-                    document.location.href = responseData.redirect;
-                }
     
             });
         }else{
@@ -181,11 +177,118 @@ app.controller("packCreate", function($scope, $http) {
 $('.allready').on('click',function(){
    $('#popup .sign-up.login').toggle(); 
    $('#popup .sign-up.register').toggle(); 
-   console.log('lalal');
+});
+
+
+var template = $('#template').html();
+// $('#template').children().remove();
+var uploader = new plupload.Uploader({
+    runtimes        : 'html5',
+    container       : 'uploader',
+    drop_element    : 'dropzone',
+    browse_button   : 'browse',
+    url             : '../../api/medias/send',
+    multipart       : true,
+    urlstream_upload: true,
+    filters: [
+        {title: 'Images', extensions: 'jpeg,jpg,gif,png'}
+    ]
+});
+
+uploader.init();
+
+uploader.bind('FilesAdded', function (up, files) {
+    $.each(files, function(){
+        
+		var img = new mOxie.Image();
+
+		img.onload = function() {
+			this.embed($('#blah').get(0), {
+				width: 100,
+				height: 100,
+				crop: true
+			});
+		};
+
+		img.onembedded = function() {
+			this.destroy();
+		};
+
+		img.onerror = function() {
+			this.destroy();
+		};
+
+		img.load(this.getSource());        
+        
+    });
+    
+    
+    $('#dropzone').removeClass('hover');
+    // uploader.start();
+    uploader.refresh();
 });
 
 
 
-    $('#submitLogin').on('click', function () {
-    console.log('123')
+
+uploader.bind('Error', function (up, error) {
+    alert(error.message);
+    uploader.refresh();
+
+    $('#dropzone').removeClass('hover');
 });
+
+uploader.bind('UploadProgress', function (up, file) {
+    $('#' + file.id).find('.bar').css('width', file.percent + '%');
+});
+
+uploader.bind('FileUploaded', function (up, file, response) {
+    data = $.parseJSON(response.response);
+    console.log(data);
+    if (!data.success) {
+        for (var key in data.errors) {
+            error = data.errors[key];
+            $('.page_content').prepend('<div class="alert alert-danger">' + error + '</div>');
+            $('#' + file.id).remove();
+        }
+    } else {
+        var current = $('#' + file.id);
+        current.find('.slides .item').hide();
+        current.find('.slides .item').css('background-image', 'url(' + data.upload[0].url + ')');
+        current.find('.slides .item').fadeIn(500);
+        current.find('.progress').fadeOut(500);
+        current.find('.delete').attr('href', '../../api/medias/destroy/' + data.upload[0].medias_id + '');
+        current.find('.delete').on('click', function (e) {
+            e.preventDefault();
+
+            var me = $(this);
+
+            $.ajax({
+                url: $(this).attr('href'),
+                dataType: 'json',
+                success: function (data) {
+                    if (!data.success) {
+                        for (var key in data.errors) {
+                            error = data.errors[key];
+                            $('.page_content').prepend('<div class="alert alert-danger">' + error + '</div>');
+                            $('#' + file.id).remove();
+                        }
+                    } else {
+                        current.remove();
+                    }
+                }
+            })
+        });
+    }
+});
+
+$('#dropzone').bind({
+    dragover: function (e) {
+        $(this).addClass('hover');
+    },
+    dragleave: function (e) {
+        $(this).removeClass('hover');
+    }
+});
+
+

@@ -79,12 +79,9 @@
 <script src="<?= HTML::link('default/scripts/jquery.min.js'); ?>"></script>
 <script src="<?= HTML::link('default/scripts/plupload.full.min.js'); ?>"></script>
 <script src="<?= HTML::link('default/scripts/angular.min.js'); ?>"></script>
+<script src="<?= HTML::link('default/scripts/mustache.js'); ?>"></script>
 <script src="<?= HTML::link('default/scripts/login.js'); ?>"></script>
 <script src="<?= HTML::link('default/scripts/function.js'); ?>"></script>
 <script src="<?= HTML::link('default/scripts/views/' . self::getFolders() . '.js'); ?>"></script>
-<script>
-    var token = <?= isset($_SESSION['user']) ? $_SESSION['user']->token : false ?>;
-</script>
-
 </body>
 </html>

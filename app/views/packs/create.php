@@ -51,26 +51,47 @@
                         <h2>Create an Event</h2>
     
                         <div id="formu_event">
-                                <input type="text" class="hidden" ng-model="formData.token" id="inputToken" value="<?= $_SESSION['user']->token; ?>"> 
-                                <input type="text" class="hidden" ng-model="formData.events_id"> 
-                                <input type="text" ng-model="formData.events_name" class="champs" placeholder="Name..."> 
-                                <input type="text" ng-model="formData.events_address" class="champs" placeholder="Location..."> 
-                                <input type="number" ng-model="formData.events_price" class="champs" placeholder="Price per person..."> 
-                                <input type="datetime-local" ng-model="formData.events_starttime" class="champs datestart"> 
-                                <input type="datetime-local" ng-model="formData.events_endtime" class="champs datesend"> 
-                                <textarea ng-model="formData.events_description" class="champs" placeholder="Description..."></textarea>
-                                <div class="droparea"><h2>Add some pictures:</h2><br/>
-                                    <img src="<?= HTML::link('default/images/event-1-vignette.jpg') ?>" class="image_drop"/>
-                                    <img src="<?= HTML::link('default/images/event-1-vignette.jpg') ?>" class="image_drop"/>
-                                    <img src="<?= HTML::link('default/images/event-1-vignette.jpg') ?>" class="image_drop"/>
-                                    <ul id="filelist"></ul>
-                                    <br />
-                                     
-                                    <div id="container">
-                                        <a id="browse" href="javascript:;">[Browse...]</a>
-                                        <a id="start-upload" href="javascript:;">[Start Upload]</a>
+                            <input type="text" class="hidden" ng-model="formData.token" id="inputToken" value="<?= $_SESSION['user']->token; ?>"> 
+                            <input type="text" class="hidden" ng-model="formData.events_id"> 
+                            <input type="text" ng-model="formData.events_name" class="champs" placeholder="Name..."> 
+                            <input type="text" ng-model="formData.events_address" class="champs" placeholder="Location..."> 
+                            <input type="number" ng-model="formData.events_price" class="champs" placeholder="Price per person..."> 
+                            <input type="datetime-local" ng-model="formData.events_starttime" class="champs datestart"> 
+                            <input type="datetime-local" ng-model="formData.events_endtime" class="champs datesend"> 
+                            <textarea ng-model="formData.events_description" class="champs" placeholder="Description..."></textarea>
+                            <div class="top-panel" id="uploader">
+                                <div id="dropzone" class="dropzone">
+                                    <div class="text">
+                                        <p>Drop maximum 3 images here</p>
+                                        <span class="or">or</span>
+                                        <a id="browse" href="#">Browse</a>
                                     </div>
                                 </div>
+                                <div class="details">
+                                    <div class="rowcards" id="template">
+                                        <div class="card" id="{{id}}">
+                                            <div class="image">
+                                                <ul class="slides">
+                                                    <li class="item">
+                                                        <div id="blah">
+                                                            
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <div class="progress">
+                                                    <div class="bar"></div>
+                                                </div>
+                                            </div>
+                                            <div class="informations">
+                                                <div class="complement">{{size}}</div>
+                                                <div class="options">
+                                                    <a class="delete" href=""><span class="fa fa-trash"></span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
     
