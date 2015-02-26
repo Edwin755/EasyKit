@@ -344,6 +344,7 @@ class PacksController extends AppController
                     $returnEvent = json_decode($this->postCURL($this->link('api/events/create'), $event), true);
                     if ($returnEvent['success']) {
                         $event_id = $returnEvent['event'];
+                        $data['events_id'] = $event_id;
                     } else {
                         $this->errors = $returnEvent['errors'];
                     }
