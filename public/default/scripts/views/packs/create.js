@@ -57,28 +57,7 @@ app.controller("packCreate", function($scope, $http) {
           // log error
         });
         
-                var uploader = new plupload.Uploader({
-                  browse_button: 'browse', // this can be an id of a DOM element or the DOM element itself
-                  url: '../../api/events/image/43'
-                });
-                 
-                uploader.init();
-             
-                uploader.bind('FilesAdded', function(up, files) {
-                  var html = '';
-                  plupload.each(files, function(file) {
-                    html += '<li id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></li>';
-                  });
-                  document.getElementById('filelist').innerHTML += html;
-                });
-                 
-                uploader.bind('UploadProgress', function(up, file) {
-                  document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
-                });
-                 
-                uploader.bind('Error', function(up, err) {
-                  document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
-                });
+
         
     $scope.formData = {};
         
@@ -93,31 +72,31 @@ app.controller("packCreate", function($scope, $http) {
             
             token = $('#inputToken').attr('value');
             packsInfo['token'] = token;
-            console.log(packsInfo);
                             
             $http.post(url + '/packs/store', packsInfo, {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                 transformRequest: transform
             }).success(function(responseData) {
     
+                eventId = responseData.events_id;
+                uploader.settings.url = url + "/api/medias/send/" + eventId;
+                
+                console.log(uploader);
+                uploader.start();
+
+                
                 if(responseData.errors != ""){
                     $('.notif').html("");
                     for(var error in responseData.errors){
                         $('.notif').append(responseData.errors[error]+'<br/>').addClass('red');
                     }
-                }                 
-                
-                uploader.start();
-    
+                }                     
             });
         }else{
             $('#popup').show();
         }
     };
         
-    
-
-
     $scope.fillform = function (e) {
         
         var id = $(e.target).data('id');
@@ -187,7 +166,7 @@ var uploader = new plupload.Uploader({
     container       : 'uploader',
     drop_element    : 'dropzone',
     browse_button   : 'browse',
-    url             : '../../api/medias/send',
+    url             : '../../api/medias/send/',
     multipart       : true,
     urlstream_upload: true,
     filters: [
@@ -203,7 +182,7 @@ uploader.bind('FilesAdded', function (up, files) {
 		var img = new mOxie.Image();
 
 		img.onload = function() {
-			this.embed($('#blah').get(0), {
+			this.embed($('#template').get(0), {
 				width: 100,
 				height: 100,
 				crop: true
@@ -222,9 +201,7 @@ uploader.bind('FilesAdded', function (up, files) {
         
     });
     
-    
     $('#dropzone').removeClass('hover');
-    // uploader.start();
     uploader.refresh();
 });
 

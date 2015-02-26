@@ -69,26 +69,6 @@
                                 </div>
                                 <div class="details">
                                     <div class="rowcards" id="template">
-                                        <div class="card" id="{{id}}">
-                                            <div class="image">
-                                                <ul class="slides">
-                                                    <li class="item">
-                                                        <div id="blah">
-                                                            
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                                <div class="progress">
-                                                    <div class="bar"></div>
-                                                </div>
-                                            </div>
-                                            <div class="informations">
-                                                <div class="complement">{{size}}</div>
-                                                <div class="options">
-                                                    <a class="delete" href=""><span class="fa fa-trash"></span></a>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
