@@ -79,10 +79,21 @@ app.controller("packCreate", function($scope, $http) {
             }).success(function(responseData) {
     
                 eventId = responseData.events_id;
-                uploader.settings.url = url + "/api/medias/send/" + eventId;
+                packSlug = responseData.packs_slug;
+                console.log(packSlug);
+                
+                
+                uploader.settings.url = url + "/api/events/image/" + eventId;
                 
                 console.log(uploader);
                 uploader.start();
+                
+                $('#popup-loading').fadeIn(300,function(){
+                    $('p#loading-messages').html('lala'); 
+                });
+                setTimeout(function () {
+                   window.location.href = url + "/packs/show/" +packSlug;
+                }, 7000);
 
                 
                 if(responseData.errors != ""){
@@ -219,6 +230,7 @@ uploader.bind('UploadProgress', function (up, file) {
     $('#' + file.id).find('.bar').css('width', file.percent + '%');
 });
 
+/*
 uploader.bind('FileUploaded', function (up, file, response) {
     data = $.parseJSON(response.response);
     console.log(data);
@@ -258,6 +270,7 @@ uploader.bind('FileUploaded', function (up, file, response) {
         });
     }
 });
+*/
 
 $('#dropzone').bind({
     dragover: function (e) {
