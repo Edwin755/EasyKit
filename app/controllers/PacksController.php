@@ -356,6 +356,7 @@ class PacksController extends AppController
                     $returnPacks = json_decode($this->postCURL($this->link('api/packs/create'), $event), true);
                     if ($returnPacks['success']) {
                         $pack_id = $returnPacks['pack_id'];
+                        $data['packs_slug'] = $returnPacks['slug'];
                         $returnPrice = json_decode($this->postCURL($this->link('api/steps/create'), [
                             'pack'      => $pack_id,
                             'goal'      => $event['price'],
@@ -462,7 +463,8 @@ class PacksController extends AppController
 
         if (count($pack) == 1) {
             $pack = current($pack);
-            $data['pack'] = $this->getJSON($this->link('api/packs/get/' . $pack->packs_id));
+            $data['event'] = current($this->getJSON($this->link('api/packs/get/' . $pack->packs_id)));
+            $data['pack'] = current($this->getJSON($this->link('api/packs/get/' . $pack->packs_id)));
             View::$title = $pack->packs_name;
         } else {
             throw new NotFoundHTTPException('Pack not found.');
