@@ -81,15 +81,24 @@ class MediasController extends AppController
                 ]
             ]));
 
-            $file = pathinfo(realpath(__DIR__ . '/../../public/uploads/' . $data['media']->medias_type . '/' . $data['media']->medias_file));
-            $filename = $file['filename'];
-            $extension = $file['extension'];
-            $baselink = HTML::link('/uploads/' . $data['media']->medias_type . '/' . $filename);
+            $file = realpath(__DIR__ . '/../../public/uploads/' . $data['media']->medias_type . '/' . $data['media']->medias_file);
 
-            $data['media']->medias_file = $baselink . '.' . $extension;
-            $data['media']->medias_thumb50 = $baselink . '-x50.' . $extension;
-            $data['media']->medias_thumb160 = $baselink . '-x160.' . $extension;
+            if (file_exists($file)) {
+                $file_info = pathinfo($file);
+                $filename = $file_info['filename'];
+                $extension = $file_info['extension'];
+                $baselink = HTML::link('/uploads/' . $data['media']->medias_type . '/' . $filename);
+
+                $data['media']->medias_file = $baselink . '.' . $extension;
+                $data['media']->medias_thumb50 = $baselink . '-x50.' . $extension;
+                $data['media']->medias_thumb160 = $baselink . '-x160.' . $extension;
+            } else {
+                $this->errors['file'] = 'File doesn\'t seems to exist.';
+            }
         }
+
+        $data['success'] = empty($this->errors) ? true : false;
+        $data['errors'] = $this->errors;
 
         View::make('api.index', json_encode($data), false, 'application/json');
     }

@@ -17,6 +17,7 @@ use Core\Validation;
 use Core\View;
 use Core\Cookie;
 use Core\Exceptions\NotFoundHTTPException;
+use Exception;
 use HTML;
 
 /**
@@ -279,10 +280,15 @@ class EventsController extends AppController
                     $event->events_summary = HTML::summary($event->events_description, 150);
 
                     foreach ($event->events_medias as $media) {
-                        $mediafile = current($this->getJSON($this->link('api/medias/get/' . $media->medias_id)));
-                        $media->medias_file = $mediafile->medias_file;
-                        $media->medias_thumb50 = $mediafile->medias_thumb50;
-                        $media->medias_thumb160 = $mediafile->medias_thumb160;
+                        $mediafile = $this->getJSON($this->link('api/medias/get/' . $media->medias_id));
+                        if ($mediafile->success) {
+                            $mediafile = current($mediafile);
+                            $media->medias_file = $mediafile->medias_file;
+                            $media->medias_thumb50 = $mediafile->medias_thumb50;
+                            $media->medias_thumb160 = $mediafile->medias_thumb160;
+                        } else {
+                            throw new Exception('Media file ' . $media->medias_id . ' is missing.');
+                        }
                     }
                 }
             }

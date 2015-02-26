@@ -12,8 +12,6 @@
         <p><?= $pack->packs_description ?></p>
 
         <div class="gallery_event">
-            <?php foreach ($pack->packs_medias) : ?>
-            <?php endforeach; ?>
         </div>
 
         <div class="discuss">
