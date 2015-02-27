@@ -10,7 +10,7 @@
             <p>{{event.events_description}}</p>
     
             <div class="gallery_event">
-                <img ng-repeat="photos in event.events_medias" src="{{photos.medias_file}}" alt="" title=""> 
+                <img ng-repeat="photos in event.events_medias|limitTo:3" src="{{photos.medias_file}}" alt="" title=""> 
             </div>
         </div>
     
