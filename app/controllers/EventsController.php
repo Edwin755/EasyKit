@@ -37,10 +37,11 @@ class EventsController extends AppController
      * @var string $description
      * @var string $starttime
      * @var string $endtime
+     * @var float $price
      * @var int $user
      * @var string $token
      */
-    private $name, $description, $starttime, $endtime, $user, $token;
+    private $name, $description, $starttime, $endtime, $price, $user, $token;
 
     /**
      * Errors
@@ -149,6 +150,27 @@ class EventsController extends AppController
     }
 
     /**
+     * Get Price
+     *
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Set Price
+     *
+     * @param mixed $price
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+        $this->fields['price'] = $this->price;
+    }
+
+    /**
      * Get User ID
      *
      * @return mixed
@@ -208,9 +230,12 @@ class EventsController extends AppController
     }
 
     /**
-     * Index Action
+     * API Get Action
      *
-     * @return void
+     * @param null $id
+     *
+     * @throws Exception
+     * @throws NotFoundHTTPException
      */
     function api_get($id = null)
     {
@@ -237,10 +262,15 @@ class EventsController extends AppController
                 $data['event']->events_summary = HTML::summary($data['event']->events_description, 150);
 
                 foreach ($data['event']->events_medias as $media) {
-                    $mediafile = current($this->getJSON($this->link('api/medias/get/' . $media->medias_id)));
-                    $media->medias_file = $mediafile->medias_file;
-                    $media->medias_thumb50 = $mediafile->medias_thumb50;
-                    $media->medias_thumb160 = $mediafile->medias_thumb160;
+                    $mediafile = $this->getJSON($this->link('api/medias/get/' . $media->medias_id));
+                    if ($mediafile->success) {
+                        $mediafile = current($mediafile);
+                        $media->medias_file = $mediafile->medias_file;
+                        $media->medias_thumb50 = $mediafile->medias_thumb50;
+                        $media->medias_thumb160 = $mediafile->medias_thumb160;
+                    } else {
+                        $this->errors['media' . $media->medias_id] = 'Media is missing.';
+                    }
                 }
             }
         } else {
@@ -328,6 +358,10 @@ class EventsController extends AppController
                 $this->errors['endtime'] = 'Empty endtime.';
             }
 
+            if (isset($_POST['price']) && !is_null($_POST['price'])) {
+                $this->setPrice($_POST['price']);
+            }
+
             if (isset($_POST['token']) && $_POST['token'] != null) {
                 $this->setToken($_POST['token']);
                 $token = true;
@@ -356,6 +390,7 @@ class EventsController extends AppController
                         'description'   => $this->getDescription(),
                         'starttime'     => $this->getStarttime(),
                         'endtime'       => $this->getEndtime(),
+                        'price'         => $this->getPrice(),
                         'users_id'      => $user_id
                     ]);
 
@@ -397,6 +432,10 @@ class EventsController extends AppController
 
                 if (isset($_POST['endtime']) && $_POST['endtime'] != null) {
                     $this->setEndtime($_POST['endtime']);
+                }
+
+                if (isset($_POST['price']) && !is_null($_POST['price'])) {
+                    $this->setPrice($_POST['price']);
                 }
 
                 if (isset($_POST['token']) && $_POST['token'] != null) {
