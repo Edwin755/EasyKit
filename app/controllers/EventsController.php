@@ -230,9 +230,12 @@ class EventsController extends AppController
     }
 
     /**
-     * Index Action
+     * API Get Action
      *
-     * @return void
+     * @param null $id
+     *
+     * @throws Exception
+     * @throws NotFoundHTTPException
      */
     function api_get($id = null)
     {
@@ -266,7 +269,7 @@ class EventsController extends AppController
                         $media->medias_thumb50 = $mediafile->medias_thumb50;
                         $media->medias_thumb160 = $mediafile->medias_thumb160;
                     } else {
-                        throw new Exception('Media file ' . $media->medias_id . ' is missing.');
+                        $this->errors['media' . $media->medias_id] = 'Media is missing.';
                     }
                 }
             }
