@@ -2801,12 +2801,23 @@ top: 5px;
     display: none;
 }
 
-svg{
+#loader{
     position: absolute;
-    left: 50%;
-    width: 200px;
     margin-left: -100px;
+    left: 50%;
     top: 20%;
+    text-align: center;
+}
+
+svg{
+    width: 200px;
+
+}
+
+#loading-messages{
+    margin-top: 20px;
+    color: #fff;
+/*     display: none; */
 }
 
 path{
@@ -2814,14 +2825,14 @@ path{
   -webkit-animation: line 1s forwards ;
 }
 
-.un{ -webkit-animation-delay: 2s;}
-.deux{-webkit-animation-delay: 3s;}
-.trois{-webkit-animation-delay: 4s;}
-.quatre{-webkit-animation-delay: 5s;}
-.cinq{-webkit-animation-delay: 6s;}
-.six{ -webkit-animation-delay: 7s;}
-.sept{-webkit-animation-delay: 8s;}
-.huit{-webkit-animation-delay: 9s;}
+.un{ -webkit-animation-delay: 0s;}
+.deux{-webkit-animation-delay: 1s;}
+.trois{-webkit-animation-delay: 2s;}
+.quatre{-webkit-animation-delay: 3s;}
+.cinq{-webkit-animation-delay: 4s;}
+.six{ -webkit-animation-delay: 5s;}
+.sept{-webkit-animation-delay: 6s;}
+.huit{-webkit-animation-delay: 7s;}
 
 /* Chrome, Safari, Opera */ 
 @-webkit-keyframes line {

@@ -77,10 +77,10 @@ app.controller("packCreate", function($scope, $http) {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                 transformRequest: transform
             }).success(function(responseData) {
-    
+                console.log(responseData);
                 eventId = responseData.events_id;
-                packSlug = responseData.packs_slug;
-                console.log(packSlug);
+                packSlugs = responseData.packs_slug;
+                console.log(packSlugs);
                 
                 
                 uploader.settings.url = url + "/api/events/image/" + eventId;
@@ -89,10 +89,20 @@ app.controller("packCreate", function($scope, $http) {
                 uploader.start();
                 
                 $('#popup-loading').fadeIn(300,function(){
-                    $('p#loading-messages').html('lala'); 
+                    messages = ["creating pack", "uploading images","setting options","managing moneypot","redirecting to your pack"];
+                    time = 0;
+                    messages.forEach(function(entry) {
+                        console.log(entry);
+                        time += 1000;
+                        setTimeout(function(){
+                            $('p#loading-messages').fadeOut(300,function(){
+                                $('p#loading-messages').html(entry+"...").fadeIn(300);
+                            })
+                        }, time) ;
+                    });   
                 });
                 setTimeout(function () {
-                   window.location.href = url + "/packs/show/" +packSlug;
+                   window.location.href = url + "/packs/show/" +packSlugs;
                 }, 7000);
 
                 
@@ -280,5 +290,8 @@ $('#dropzone').bind({
         $(this).removeClass('hover');
     }
 });
+
+
+
 
 

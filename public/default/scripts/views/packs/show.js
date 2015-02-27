@@ -6,3 +6,8 @@ $('#allstep').change(function(){
     $('.detail_pack input').prop('checked', false);
   }
 });
+
+app.controller("pack", function($scope, $http) {
+    
+    
+});

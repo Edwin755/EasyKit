@@ -60,9 +60,16 @@
             <h2> 5555€ </h2>
             <h6> Gathered from <span class="price ">12 contributors</span>
         </div>
+        
+        <?php
+          $steps = $pack->steps;
+          foreach($steps as $step){ 
+              var_dump($step); 
+        ?>
+        
 
         <ul class="detail_pack">
-            <li>TED Conference Ticket<span class="price price_detail"> 100€</li>
+            <li><?= $pack->packs_name ?> ticket<span class="price price_detail"> <?= $step->steps_goal ?>€</li>
             <li>Location: Vancouver, Canada</li>
             <li>Date: 24/11/2015
             <Li>
@@ -73,6 +80,10 @@
                 </div>
             </li>
         </ul>
+        
+        <?php
+            }
+        ?>
 
         <ul class="detail_pack">
             <li>Paris - Vancouver (AirFrance)<span class="price price_detail"> 400€</li>

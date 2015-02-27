@@ -9,7 +9,9 @@
     
             <p>{{event.events_description}}</p>
     
-            <div class="gallery_event"><img src="<?= HTML::link('default/images/ted_event_1.png') ?>" alt="" title=""> <img src="<?= HTML::link('default/images/ted_event_2.png') ?>" alt="" title=""> <img src="<?= HTML::link('default/images/ted_event_3.png') ?>" alt="" title=""></div>
+            <div class="gallery_event">
+                <img ng-repeat="photos in event.events_medias" src="{{photos.medias_file}}" alt="" title=""> 
+            </div>
         </div>
     
         <div class="trait_vertical"></div>
@@ -28,9 +30,9 @@
                     </a>
                 </li>
     
-                <li>Location : Vancouver, Canada</li>
+                <li>Location : {{event.events_address}}</li>
     
-                <li>Date : November 24, 2015</li>
+                <li>Date : {{event.events_starttime}}</li>
     
                 <li>Duration : 1 day (~8 hours)</li>
     
