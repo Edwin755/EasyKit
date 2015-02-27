@@ -13,10 +13,12 @@ app.controller("register", function($scope, $http) {
         $('.block').hide();
 
         var userInfos = this.formData;
+        console.log(userInfos);
+        console.log('lolo');
         var transform = function(data){
             return $.param(data);
         }
-            
+                    
         if(sec > 5){
             $http.post(url + '/api/users/create', userInfos, {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},

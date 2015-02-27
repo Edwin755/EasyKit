@@ -15,6 +15,7 @@ use Core\Controller;
 use Core\Exceptions\NotFoundHTTPException;
 use Core\Helpers\StringHelper;
 use Core\Session;
+use Core\Email;
 use Core\Validation;
 use Core\View;
 use Core\Cookie;
@@ -424,6 +425,17 @@ class PacksController extends AppController
                     $this->errors = $returnOption1['errors'];
                 }
             }
+            
+            ob_start();
+            include_once(__DIR__.'../../views/layouts/email.php');
+            $layout_for_email = ob_get_clean();
+            
+            
+            $mail = new Email('nikoposner@gmail.com',['hello@easykit.me' => 'Easykit'], 'Your pack have been created', $layout_for_email, 'Welcome on Easykit');
+            if (!$mail->send()) {
+                $this->errors['send'] = 'Could not send the message';
+            }
+            
         } else {
             $this->errors['post'] = 'No POST received.';
         }

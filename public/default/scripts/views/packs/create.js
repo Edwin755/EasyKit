@@ -95,15 +95,17 @@ app.controller("packCreate", function($scope, $http) {
                         console.log(entry);
                         time += 1000;
                         setTimeout(function(){
-                            $('p#loading-messages').fadeOut(300,function(){
-                                $('p#loading-messages').html(entry+"...").fadeIn(300);
+                            $('p#loading-messages').fadeOut(100,function(){
+                                $('p#loading-messages').html(entry+"...").fadeIn(100);
                             })
                         }, time) ;
                     });   
                 });
+/*
                 setTimeout(function () {
                    window.location.href = url + "/packs/show/" +packSlugs;
                 }, 7000);
+*/
 
                 
                 if(responseData.errors != ""){
@@ -170,6 +172,22 @@ app.controller("packCreate", function($scope, $http) {
                 });
         }else{
             $('.title_favorite_event').html("Your favorite Events");
+                
+            $http.get(url + '/api/events?limit=6').
+            success(function(data, status, headers, config) {
+                if (typeof data === 'object') {
+                    $scope.data = data;
+                    $('.spinner').hide();
+                    $('.vignettes').show();
+                    return;
+                } else {
+                    return;
+                }
+            })
+            .error(function(data, status, headers, config) {
+                console.log(data);
+            });
+
         }
     }
 });
@@ -289,9 +307,6 @@ $('#dropzone').bind({
     dragleave: function (e) {
         $(this).removeClass('hover');
     }
-});
-
-
-
+}); 
 
 

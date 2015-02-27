@@ -1,7 +1,6 @@
 <div id="container_pack">
-
-    <img src="" class="video_header" alt="" title=""/>
-    <?php var_dump($pack) ?>
+    <?php $medias = $pack->events->events_medias; ?>
+    <img src="<?= $medias[0]->medias_file; ?>" class="video_header" alt="" title=""/>
 
     <div id="present_event">
 

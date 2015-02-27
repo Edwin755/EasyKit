@@ -1,6 +1,7 @@
 (function ($) {
-    $('.sign-up-button').on('click', function (e) {
+    $('.login .sign-up-button').on('click', function (e) {
         e.preventDefault();
+        console.log('loulou');
 
         $.ajax({
             url: url + '/users/signin',
@@ -12,6 +13,7 @@
             },
             success: function (data) {
                 if (data.authed) {
+                    console.log(data);
                     $('#item3').remove();
                     $('#popup').hide();
                     $('#item4').remove();

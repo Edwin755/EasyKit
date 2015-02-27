@@ -313,10 +313,9 @@ $("#bouton-next-3").on('click',function(){
 		.css({"display" : "none",})
 		$("#formulaire-transport")
 		.css({"display" : "none",})
-		$("#formulaire-contributors")
-		.css({"display" : "block",})
+
 		$("#formulaire-options")
-		.css({"display" : "none",})
+		.css({"display" : "block",})
 
 		$("#bouton-next-1")
 		.css({"display" : "none",})
@@ -324,10 +323,8 @@ $("#bouton-next-3").on('click',function(){
 		.css({"display" : "none",})
 		$("#bouton-next-3")
 		.css({"display" : "none",})
-		$("#bouton-next-4")
-		.css({"display" : "block",})
 		$("#bouton-next-5")
-		.css({"display" : "none",})
+		.css({"display" : "block",})
 
 });
 
