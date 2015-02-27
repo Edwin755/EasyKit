@@ -9,6 +9,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Events_packs;
 use Core;
 use Core\Controller;
 use Core\Exceptions\NotFoundHTTPException;
@@ -26,6 +27,7 @@ use HTML;
  * @property mixed Token
  * @property mixed Packs
  * @property mixed Steps
+ * @property mixed Events_packs
  * @package App\Controllers
  */
 class PacksController extends AppController
@@ -356,6 +358,11 @@ class PacksController extends AppController
                     $returnPacks = json_decode($this->postCURL($this->link('api/packs/create'), $event), true);
                     if ($returnPacks['success']) {
                         $pack_id = $returnPacks['pack_id'];
+                        $this->loadModel('Events_packs');
+                        $this->Events_packs->save([
+                            'packs_id'  => $pack_id,
+                            'events_id' => $event_id
+                        ]);
                         $data['packs_slug'] = $returnPacks['slug'];
                         $returnPrice = json_decode($this->postCURL($this->link('api/steps/create'), [
                             'pack'      => $pack_id,
@@ -370,6 +377,8 @@ class PacksController extends AppController
                         $this->errors = $returnPacks['errors'];
                     }
                 }
+            } else {
+                $this->errors['event'] = 'Empty event';
             }
 
             if (isset($hosting) && empty($this->errors)) {
@@ -463,7 +472,6 @@ class PacksController extends AppController
 
         if (count($pack) == 1) {
             $pack = current($pack);
-            $data['event'] = current($this->getJSON($this->link('api/packs/get/' . $pack->packs_id)));
             $data['pack'] = current($this->getJSON($this->link('api/packs/get/' . $pack->packs_id)));
             View::$title = $pack->packs_name;
         } else {
