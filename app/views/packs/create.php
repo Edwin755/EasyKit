@@ -117,24 +117,26 @@
                         <h2>Create an Event</h2>
     
                         <div id="formu_event">
-                            <input type="text" class="hidden" ng-model="formData.token" id="inputToken" value="<?php (isset($_SESSION['user']->token) ? $_SESSION['user']->token : ""); ?>"> 
-                            <input type="text" class="hidden" ng-model="formData.events_id"> 
-                            <input type="text" ng-model="formData.events_name" class="champs" placeholder="Name..." required> 
-                            <input type="text" ng-model="formData.events_address" class="champs" placeholder="Location..."> 
-                            <input type="number" ng-model="formData.events_price" class="champs" placeholder="Price per person..." required> 
-                            <input type="datetime-local" ng-model="formData.events_starttime" class="champs datestart" required> 
-                            <input type="datetime-local" ng-model="formData.events_endtime" class="champs datesend" required> 
-                            <textarea ng-model="formData.events_description" class="champs" placeholder="Description..." required></textarea>
-                            <div class="top-panel" id="uploader">
-                                <div id="dropzone" class="dropzone">
-                                    <div class="text">
-                                        <p>Drop up to 3 images here</p>
-                                        <span class="or">or</span>
-                                        <a id="browse" href="#">Browse</a>
+                            <div id="first_part">
+                                <input type="text" class="hidden" ng-model="formData.token" id="inputToken" value="<?php (isset($_SESSION['user']->token) ? $_SESSION['user']->token : ""); ?>"> 
+                                <input type="text" class="hidden" ng-model="formData.events_id"> 
+                                <input type="text" ng-model="formData.events_name" class="champs" placeholder="Name..." required> 
+                                <input type="text" ng-model="formData.events_address" class="champs" placeholder="Location..."> 
+                                <input type="number" ng-model="formData.events_price" class="champs" placeholder="Price per person..." required> 
+                                <input type="datetime-local" ng-model="formData.events_starttime" class="champs datestart" required> 
+                                <input type="datetime-local" ng-model="formData.events_endtime" class="champs datesend" required> 
+                                <textarea ng-model="formData.events_description" class="champs" placeholder="Description..." required></textarea>
+                                <div class="top-panel" id="uploader">
+                                    <div id="dropzone" class="dropzone">
+                                        <div class="text">
+                                            <p>Drop up to 3 images here</p>
+                                            <span class="or">or</span>
+                                            <a id="browse" href="#">Browse</a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="details">
-                                    <div class="rowcards" id="template">
+                                    <div class="details">
+                                        <div class="rowcards" id="template">
+                                        </div>
                                     </div>
                                 </div>
                             </div>

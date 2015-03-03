@@ -63,7 +63,7 @@ app.controller("packCreate", function($scope, $http) {
         
     $scope.create = function () {
 
-        if($('#item3 a').html() == "My Account"){
+        if($('#item3 a').html() == "My account"){
     
             var packsInfo = this.formData;
             var transform = function(data){
@@ -101,11 +101,9 @@ app.controller("packCreate", function($scope, $http) {
                         }, time) ;
                     });   
                 });
-/*
                 setTimeout(function () {
                    window.location.href = url + "/packs/show/" +packSlugs;
                 }, 7000);
-*/
 
                 
                 if(responseData.errors != ""){
@@ -137,7 +135,8 @@ app.controller("packCreate", function($scope, $http) {
                     var dateend = (data.event.events_endtime).substring(0,16);
                     $scope.formData.events_endtime = dateend.replace(" ", "T");          
                     $scope.formData.events_name = data.event.events_name;
-
+                    $('#formu_event #first_part input:not([type="number"]), #formu_event textarea').prop('disabled', true);
+                    $('#formu_event #first_part input:not([type="number"]), textarea').css('background', '#dddddd');  
 
                     return;
                 } else {
@@ -217,26 +216,34 @@ uploader.init();
 
 uploader.bind('FilesAdded', function (up, files) {
     $.each(files, function(){
+        maxfiles = 3;
         
-		var img = new mOxie.Image();
+        if(up.files.length > maxfiles )
+                     {
+                        up.splice(maxfiles);
+                        alert('no more than '+maxfiles + ' file(s)');
+                     }
+        else{
+            var img = new mOxie.Image();
 
-		img.onload = function() {
-			this.embed($('#template').get(0), {
-				width: 100,
-				height: 100,
-				crop: true
-			});
-		};
-
-		img.onembedded = function() {
-			this.destroy();
-		};
-
-		img.onerror = function() {
-			this.destroy();
-		};
-
-		img.load(this.getSource());        
+    		img.onload = function() {
+    			this.embed($('#template').get(0), {
+    				width: 100,
+    				height: 100,
+    				crop: true
+    			});
+    		};
+    
+    		img.onembedded = function() {
+    			this.destroy();
+    		};
+    
+    		img.onerror = function() {
+    			this.destroy();
+    		};
+    
+    		img.load(this.getSource());        
+        }
         
     });
     

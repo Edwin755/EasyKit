@@ -68,7 +68,8 @@ class Email
     	$message
             ->setSubject($this->subject)
             ->setFrom($this->from)
-            ->setBody($this->content_html);
+            ->setBody($this->content_html)
+            ->addPart($this->content_html, 'text/html');
 
     	$message->setTo([$this->to]);
 
