@@ -1,4 +1,5 @@
 <div id="container_pack">
+<!--     <?php var_dump($pack); ?> -->
     <?php $medias = $pack->events->events_medias; ?>
     <?php if (!empty($medias)) : ?>
         <img src="<?= $medias[0]->medias_file; ?>" class="video_header" alt="" title=""/>
@@ -14,32 +15,31 @@
         <div class="gallery_event">
         </div>
 
-        <div class="discuss">
+        <div class="discuss" ng-controller="comments">
 
             <h3>Discussions</h3>
 
-            <ul class="list_comment">
-                <li class="commented">
-                    <img src="<?= HTML::link('default/images/profil5.png'); ?>" alt="profil" title="profil"/>
-                    <span class="name">Fred Groad : </span>
-                    Great ! I will definitly come ! Did you think about any coming-back option ?</br>
-                    <span class="date_post">Yesterday, 10:54 AM</span>
+            <ul class="list_comment" >
+                <li class="commented" ng-repeat="comment in data.comments">
+                    <img src="{{comment.comments_user.users_media.medias_file}}" alt="profil" title="profil"/>
+                    <span class="name">{{comment.comments_user.users_email}} : </span>
+                    {{comment.comments_content}}</br>
+                    <span class="date_post">{{comment.comments_created_at}}</span>
                 </li>
-                <li class="commented"><img src="<?= HTML::link('default/images/profil2.png'); ?>" alt="profil"
-                                           title="profil"/><span class="name">Jamie Kiaal : </span>Hi Fred, we planned
-                    to stay in Vancouver after the conferences. If you want get a return flight you’ll have to find it
-                    on your own.</br><span class="date_post">Yesterday, 2:54 AM</span></li>
-                <li class="commented"><img src="<?= HTML::link('default/images/profil4.png'); ?>" alt="profil"
-                                           title="profil"/><span class="name">Carrie Bou : </span>I can't wait!</br>
-                    <span class="date_post">Yesterday, 1:54 AM</span></li>
             </ul>
-
             <div class="new_post">
 
                 <ul>
-                    <li class="add_new_post"><img src="profil.png" alt="profil" title="profil"/>
-                        <textarea class="post_new_comment" placeholder="Add your comment ..."></textarea>
-                        <a href="#" class="add_post">Post</a>
+                        <?php if(isset($_SESSION['user']->token)){ ?>
+                        <li class="add_new_post">
+                        <form ng-submit="comment()">
+                            <input type="text" class="hidden" ng-model="formData.token" id="inputToken" value="<?= isset($_SESSION['user']->token) ? $_SESSION['user']->token : ""; ?>">
+                            <textarea class="post_new_comment" placeholder="Add your comment ..." ng-model="formData.content"></textarea>
+                            <input type="submit" class="add_post" value="Post comment">
+                        </form>
+                            <?php }else{ ?>
+                            <p>please log in before comment</p>
+                            <?php } ?> 
                     </li>
 
                 </ul>
@@ -122,7 +122,7 @@
             </li>
         </ul>
 
-        <a href="" class="start">Contribute</a>
+        <a href="" class="start">Participate</a>
 
         <ul class="contributors">
             <li><img src="<?= HTML::link('default/images/profil.png'); ?>" alt="profil" title="profil"></li>

@@ -175,7 +175,7 @@
                         </div>
                     </div>
     
-                    <div class="clear"></div>
+                    <div class="clear"><a href="#" class="clear">clear</a></div>
                 </div>
     
                 <div id="formulaire-host">

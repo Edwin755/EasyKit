@@ -7,4 +7,5 @@
     self::$title = 'Page Not Found';
 
 ?>
-<h1>Page Not Found</h1>
+
+<p class="error-server"><span>404</span><br/>Nothing is happening here...</p>

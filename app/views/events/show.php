@@ -36,7 +36,6 @@
     
                 <li>Duration : 1 day (~8 hours)</li>
     
-                <li class="price">Price : 100€</li>
             </ul>
             
             <a href="" class="start">Start my pack</a>
