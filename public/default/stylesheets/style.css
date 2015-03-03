@@ -2839,3 +2839,32 @@ path{
     from {opacity:0;}
     to {opacity: 1;}
 } 
+
+
+
+/* 404 */
+
+/*
+body{
+    background: #1ABC9C;
+}
+*/
+
+p.error-server{
+    text-align: center;
+    margin-top: 250px;
+    color: #fff;
+    font-family: "source sans pro";
+    font-size: 26px;
+    font-weight: 300;
+}
+
+p.error-server span{
+    font-size: 62px;
+    font-weight: 400;
+
+}
+
+a.clear{
+    color: #fff;
+}
