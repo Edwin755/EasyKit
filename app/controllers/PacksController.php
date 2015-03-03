@@ -279,6 +279,7 @@ class PacksController extends AppController
                 $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getToken() . '/' . $_SERVER['REMOTE_ADDR']));
                 if ($user->valid) {
                     $user_id = $user->user->tokens_users_id;
+                    $user = $this->getJSON($this->link('api/users/get/' . $user->user->tokens_users_id));
                 } else {
                     $this->errors['user'] = $user->errors;
                 }
@@ -303,8 +304,7 @@ class PacksController extends AppController
                     require_once __DIR__.'/../views/layouts/email.php';
                     $layout_for_email = ob_get_clean();
 
-
-                    $mail = new Email($user->users_email,['hello@easykit.me' => 'Easykit'], 'Your pack have been created', $layout_for_email, 'Your pack have been created');
+                    $mail = new Email($user->user->users_email,['hello@easykit.me' => 'Easykit'], 'Your pack have been created', $layout_for_email, 'Your pack have been created');
                     if (!$mail->send()) {
                         $this->errors['send'] = 'Could not send the message';
                     }
@@ -354,24 +354,29 @@ class PacksController extends AppController
                 if (preg_match('#events_([a-z0-9]*)#', $k)) {
                     $k = str_replace('events_', '', $k);
                     $event[$k] = $v;
+                    $event['token'] = $_POST['token'];
                 } else if (preg_match('#hosting_([a-z0-9]*)#', $k)) {
                     if ($_POST['hosting'] != 'false') {
                         $hosting['name'] = $_POST['hosting'];
                         $k = str_replace('hosting_', '', $k);
                         $hosting[$k] = $v;
+                        $hosting['token'] = $_POST['token'];
                     }
                 } else if (preg_match('#transport_([a-z0-9]*)#', $k)) {
                     if ($_POST['transport'] != 'false') {
                         $k = str_replace('transport_', '', $k);
                         $transport['name'] = $_POST['transport'];
                         $transport[$k] = $v;
+                        $transport['token'] = $_POST['token'];
                     }
                 }  else if (preg_match('#option0_([a-z0-9]*)#', $k)) {
                     $k = str_replace('option0_', '', $k);
                     $option0[$k] = $v;
+                    $option0['token'] = $_POST['token'];
                 } else if (preg_match('#option1_([a-z0-9]*)#', $k)) {
                     $k = str_replace('option1_', '', $k);
                     $option1[$k] = $v;
+                    $option1['token'] = $_POST['token'];
                 }
             }
 
@@ -458,7 +463,6 @@ class PacksController extends AppController
                     $this->errors = $returnOption1['errors'];
                 }
             }
-            
         } else {
             $this->errors['post'] = 'No POST received.';
         }

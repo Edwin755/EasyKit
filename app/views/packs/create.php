@@ -118,7 +118,7 @@
     
                         <div id="formu_event">
                             <div id="first_part">
-                                <input type="text" class="hidden" ng-model="formData.token" id="inputToken" value="<?php (isset($_SESSION['user']->token) ? $_SESSION['user']->token : ""); ?>"> 
+                                <input type="text" class="hidden" ng-model="formData.token" id="inputToken" value="<?= isset($_SESSION['user']->token) ? $_SESSION['user']->token : ""; ?>">
                                 <input type="text" class="hidden" ng-model="formData.events_id"> 
                                 <input type="text" ng-model="formData.events_name" class="champs" placeholder="Name..." required> 
                                 <input type="text" ng-model="formData.events_address" class="champs" placeholder="Location..."> 
