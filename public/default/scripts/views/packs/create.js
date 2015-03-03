@@ -12,6 +12,7 @@ app.controller("register", function($scope, $http) {
         $('#formu_event #first_part input, #formu_event #first_part textarea').prop('disabled', false);
         $('#formu_event #first_part input:not("#inputToken"), #formu_event #first_part textarea').val('');
         $('#formu_event #first_part input:not([type="number"]), #formu_event #first_part textarea').css('background', '#fff');
+        $('#uploader').show(); 
 
         console.log('lala');
     });
