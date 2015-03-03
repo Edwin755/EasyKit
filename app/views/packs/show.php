@@ -1,7 +1,8 @@
 <div id="container_pack">
     <?php $medias = $pack->events->events_medias; ?>
-    <img src="<?= $medias[0]->medias_file; ?>" class="video_header" alt="" title=""/>
-
+    <?php if (!empty($medias)) : ?>
+        <img src="<?= $medias[0]->medias_file; ?>" class="video_header" alt="" title=""/>
+    <?php endif; ?>
     <div id="present_event">
 
         <h2><?= $pack->packs_name ?></h2>
@@ -36,9 +37,10 @@
             <div class="new_post">
 
                 <ul>
-                    <li class="add_new_post"><img src="profil.png" alt="profil" title="profil"/><textarea
-                            class="post_new_comment"> Add your comment ...</textarea> <a href="#"
-                                                                                         class="add_post">Post</a></li>
+                    <li class="add_new_post"><img src="profil.png" alt="profil" title="profil"/>
+                        <textarea class="post_new_comment" placeholder="Add your comment ..."></textarea>
+                        <a href="#" class="add_post">Post</a>
+                    </li>
 
                 </ul>
 

@@ -314,6 +314,31 @@ class PacksController extends AppController
         View::make('api.index', json_encode($data), false, 'application/json');
     }
 
+    /**
+     * Temporar store pack
+     *
+     * @throws NotFoundHTTPException
+     */
+    function temporar()
+    {
+        if (!empty($_POST)) {
+            Session::set('savedpack', $_POST);
+        } else {
+            $data = Session::get('savedpack');
+        }
+
+        $data['success'] = !empty($this->errors) ? false : true;
+        $data['errors'] = $this->errors;
+
+        View::make('api.index', json_encode($data), false, 'application/json');
+    }
+
+    /**
+     * Store
+     *
+     * @throws NotFoundHTTPException
+     * @throws \Exception
+     */
     function store()
     {
         if (!empty($_POST)) {
