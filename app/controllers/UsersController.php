@@ -29,6 +29,7 @@ use Facebook\FacebookRequest;
  * @property mixed Tokens
  * @property mixed Users
  * @property mixed Admin
+ * @property mixed Medias
  */
 class UsersController extends AppController
 {
@@ -738,11 +739,11 @@ class UsersController extends AppController
 
                     $media = $profilePic->getProperty('url');
 
-                    $info = pathinfo($media);
-                    $info['extension'] = preg_replace('#?([a-z0-9]*)#', '', $info['extension']);
-
-                    var_dump($info);
-                    die();
+                    $this->loadModel('Medias');
+                    $this->Medias->save([
+                        'file'  => $media,
+                        'type'  => 'facebook'
+                    ]);
 
                     $post = [
                         'email'     => $profile->getEmail(),
@@ -750,6 +751,7 @@ class UsersController extends AppController
                         'fb_id'     => $profile->getId(),
                         'firstname' => $profile->getFirstname(),
                         'lastname'  => $profile->getLastname(),
+                        'medias_id' => $this->Medias->lastInsertId,
                         'tc'        => true
                     ];
                     $return = json_decode($this->postCURL($this->link('api/users/create'), $post), false);
