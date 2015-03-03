@@ -81,11 +81,7 @@ app.controller("packCreate", function($scope, $http) {
             }                     
         });
         
-        packs/temporary
-
         if($('#item3 a').html() == "My account"){
-    
-
             
             $('#popup-loading').fadeIn(300,function(){
                 messages = ["creating pack", "uploading images","setting options","managing moneypot","redirecting to your pack"];
@@ -153,7 +149,8 @@ app.controller("packCreate", function($scope, $http) {
                     $scope.formData.events_endtime = dateend.replace(" ", "T");          
                     $scope.formData.events_name = data.event.events_name;
                     $('#formu_event #first_part input:not([type="number"]), #formu_event #first_part textarea').prop('disabled', true);
-                    $('#formu_event #first_part input:not([type="number"]), #formu_event #first_part textarea').css('background', '#dddddd');  
+                    $('#formu_event #first_part input:not([type="number"]), #formu_event #first_part textarea').css('background', '#dddddd');
+                    $('#uploader').hide();  
 
                     return;
                 } else {
