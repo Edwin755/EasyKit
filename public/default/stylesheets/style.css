@@ -2868,3 +2868,13 @@ p.error-server span{
 a.clear{
     color: #fff;
 }
+
+.logout{
+    background-color: transparent !important;
+    margin-left: 0 !important;
+}
+
+
+.logout img{
+    width: 20px;
+}

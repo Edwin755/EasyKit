@@ -19,6 +19,7 @@
                     $('#item4').remove();
                     $('#login-popup').hide();
                     $('#buttons').append('<li id="item3"><a href="#">My account</a></li>');
+                    $('#buttons').append('<li class="logout"><a href="'+url+'/users/logout"><img src="'+url+'/default/images/logout.png"></a></li>');
                 } else {
                     var ul = '<div class="alert alert-danger">An error occured:<ul>';
                     for (error in data.errors) {

@@ -1,4 +1,5 @@
 <div id="container_pack">
+<!--     <?php var_dump($pack); ?> -->
     <?php $medias = $pack->events->events_medias; ?>
     <?php if (!empty($medias)) : ?>
         <img src="<?= $medias[0]->medias_file; ?>" class="video_header" alt="" title=""/>
@@ -20,21 +21,20 @@
 
             <ul class="list_comment" >
                 <li class="commented" ng-repeat="comment in data.comments">
-                    <img src="<?= HTML::link('default/images/profil5.png'); ?>" alt="profil" title="profil"/>
-                    <span class="name">Fred Groad : </span>
-                    Great ! I will definitly come ! Did you think about any coming-back option ?</br>
-                    <span class="date_post">Yesterday, 10:54 AM</span>
+                    <img src="{{comment.comments_user.users_media.medias_file}}" alt="profil" title="profil"/>
+                    <span class="name">{{comment.comments_user.users_email}} : </span>
+                    {{comment.comments_content}}</br>
+                    <span class="date_post">{{comment.comments_created_at}}</span>
                 </li>
             </ul>
             <div class="new_post">
 
                 <ul>
                         <?php if(isset($_SESSION['user']->token)){ ?>
-                        <li class="add_new_post"><img src="profil.png" alt="profil" title="profil"/>
+                        <li class="add_new_post">
                         <form ng-submit="comment()">
                             <input type="text" class="hidden" ng-model="formData.token" id="inputToken" value="<?= isset($_SESSION['user']->token) ? $_SESSION['user']->token : ""; ?>">
                             <textarea class="post_new_comment" placeholder="Add your comment ..." ng-model="formData.content"></textarea>
-                            <a href="#" class="add_post">Post</a>
                             <input type="submit" class="add_post" value="Post comment">
                         </form>
                             <?php }else{ ?>
@@ -122,7 +122,7 @@
             </li>
         </ul>
 
-        <a href="" class="start">Contribute</a>
+        <a href="" class="start">Participate</a>
 
         <ul class="contributors">
             <li><img src="<?= HTML::link('default/images/profil.png'); ?>" alt="profil" title="profil"></li>

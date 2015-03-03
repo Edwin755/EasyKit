@@ -43,10 +43,11 @@ app.controller("register", function($scope, $http) {
                             $('.notif').append(responseData.errors[error]+'<br/>').addClass('red');
                         }
                     }
+                    
+                    $('#popup .sign-up.login').toggle(); 
+                    $('#popup .sign-up.register').toggle(); 
                         
-                    if(responseData.success == true){
-                        document.location.href = responseData.redirect;
-                    }
+
     
                 });
             }else{
@@ -163,7 +164,7 @@ app.controller("packCreate", function($scope, $http) {
                 
                             setTimeout(function () {
                window.location.href = url + "/packs/show/" +packSlugs;
-            }, 4000);
+            }, 6000);
 
                 
                 if(responseData.errors != ""){

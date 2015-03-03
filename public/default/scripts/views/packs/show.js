@@ -31,6 +31,7 @@ app.controller("comments", function($scope, $http) {
                 
                 $http.get(url + '/likes/user').success(function(data, status, headers, config) {
                     console.log(comments);
+                    
                 });
                 
                 $('.spinner').hide();

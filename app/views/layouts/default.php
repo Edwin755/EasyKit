@@ -22,6 +22,7 @@
         <li id="item2"><a href="<?= HTML::link('/') ?>#infographie">How it works</a></li>
         <?php if (isset($_SESSION['user'])) : ?>
             <li id="item3" class="item3"><a href="#">My account</a></li>
+            <li class="logout"><a href="<?= HTML::link('users/logout') ?>"><img src="<?= HTML::link('default/images/logout.png'); ?>"></a></li>
         <?php else : ?>
             <li id="item3" class="item3"><a href="#">Log in</a></li>
             <li id="item4"><a href="<?= HTML::link('users/register') ?>">Register</a></li>
