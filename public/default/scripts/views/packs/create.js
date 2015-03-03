@@ -7,6 +7,15 @@ app.controller("register", function($scope, $http) {
     var sec = 0;
 
     setInterval(function(){ sec++; return sec;}, 1000);
+    
+    $('.clear').on('click',function(){
+        $('#formu_event #first_part input, #formu_event #first_part textarea').prop('disabled', false);
+        $('#formu_event #first_part input:not("#inputToken"), #formu_event #first_part textarea').val('');
+        $('#formu_event #first_part input:not([type="number"]), #formu_event #first_part textarea').css('background', '#fff');
+
+        console.log('lala');
+    });
+
 
 
     $scope.create = function () {
@@ -21,9 +30,14 @@ app.controller("register", function($scope, $http) {
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                     transformRequest: transform
                 }).success(function(responseData) {
+                    
+                    $scope.formData.token = data.token;
+
     
                     if(responseData.errors != ""){
                         $('.notif').html("");
+                        
+                        
                         for(var error in responseData.errors){
                             $('.notif').append(responseData.errors[error]+'<br/>').addClass('red');
                         }
@@ -42,6 +56,37 @@ app.controller("register", function($scope, $http) {
 
 
 app.controller("packCreate", function($scope, $http) {
+    
+    
+    $http.get(url + '/packs/temporary').
+        success(function(data, status, headers, config) {
+            if (typeof data === 'object') {
+                $scope.formData.events_id = data.events_id;
+                $scope.formData.events_address = data.events_address;
+                $scope.formData.events_name = data.events_name;
+                $scope.formData.events_price = parseInt(data.events_price);
+                $scope.formData.events_description = data.events_description;
+                var datestart = (data.events_starttime).substring(0,16);
+                $scope.formData.events_starttime = datestart.replace(" ", "T");
+                var dateend = (data.events_endtime).substring(0,16);
+                $scope.formData.events_endtime = dateend.replace(" ", "T");          
+                $scope.formData.events_name = data.events_name;
+                if(data.events_id != ""){
+                    $('#formu_event #first_part input:not([type="number"]), #formu_event #first_part textarea').prop('disabled', true);
+                    $('#formu_event #first_part input:not([type="number"]), #formu_event #first_part textarea').css('background', '#dddddd');
+                    $('#uploader').hide();  
+                }
+
+                return;
+            } else {
+                return;
+            }
+        })
+        .error(function(data, status, headers, config) {
+            console.log(data);
+        });
+    
+    
 
     $http.get(url + '/api/events?limit=6').
         success(function(data, status, headers, config) {
@@ -96,9 +141,6 @@ app.controller("packCreate", function($scope, $http) {
                     }, time) ;
                 });   
             });
-            setTimeout(function () {
-               window.location.href = url + "/packs/show/" +packSlugs;
-            }, 7000);
             
             token = $('#inputToken').attr('value');
             packsInfo['token'] = token;
@@ -117,6 +159,10 @@ app.controller("packCreate", function($scope, $http) {
                 
                 console.log(uploader);
                 uploader.start();
+                
+                            setTimeout(function () {
+               window.location.href = url + "/packs/show/" +packSlugs;
+            }, 4000);
 
                 
                 if(responseData.errors != ""){
