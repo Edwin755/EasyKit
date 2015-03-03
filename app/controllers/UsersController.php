@@ -781,7 +781,8 @@ class UsersController extends AppController
      */
     function logout()
     {
-
+        Session::destroy('user');
+        $this->redirect('/');
     }
 
     /**
