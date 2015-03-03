@@ -21,15 +21,6 @@ use Facebook\FacebookSession;
 class AppController extends Controller {
 
     /**
-     * Permissions for Facebook API
-     *
-     * @var array $permissions
-     */
-    private $permissions = [
-        'email'
-    ];
-
-    /**
      * Helper for Facebook API
      *
      * @var FacebookRedirectLoginHelper
@@ -44,7 +35,7 @@ class AppController extends Controller {
     protected function initFb()
     {
         $app = Dispatcher::getAppFile();
-        FacebookSession::setDefaultApplication($app['app_id'], $app['app_secret']);
+        FacebookSession::setDefaultApplication($app['fb_app_id'], $app['fb_app_secret']);
         $this->helper = new FacebookRedirectLoginHelper($this->link('users/register'));
 
         return $this->helper;
@@ -58,7 +49,9 @@ class AppController extends Controller {
      */
     protected function generateFbLink($reRequest = false)
     {
-        return $reRequest ? $this->helper->getReRequestUrl($this->permissions) : $this->helper->getLoginUrl($this->permissions);
+        $app = Dispatcher::getAppFile();
+        $permissions = $app['fb_permissions'];
+        return $reRequest ? $this->helper->getReRequestUrl($permissions) : $this->helper->getLoginUrl($permissions);
     }
 }
 
