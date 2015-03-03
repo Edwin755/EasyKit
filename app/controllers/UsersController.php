@@ -721,9 +721,29 @@ class UsersController extends AppController
                     Session::set('fb_token', $session->getToken());
                     $request = new FacebookRequest($session, 'GET', '/me');
                     $profile = $request->execute()->getGraphObject('Facebook\GraphUser');
+                    $requestPic = new FacebookRequest($session, 'GET', '/me/picture', [
+                        'redirect' => false,
+                        'height' => '160',
+                        'type' => 'normal',
+                        'width' => '160',
+                    ]);
+                    $profilePic = $requestPic->execute()->getGraphObject();
                     if($profile->getEmail() === null){
                         throw new Exception('Email missing.');
                     }
+
+                    if($profile->getBirthday() === null){
+                        throw new Exception('Birthday missing.');
+                    }
+
+                    $media = $profilePic->getProperty('url');
+
+                    $info = pathinfo($media);
+                    $info['extension'] = preg_replace('#?([a-z0-9]*)#', '', $info['extension']);
+
+                    var_dump($info);
+                    die();
+
                     $post = [
                         'email'     => $profile->getEmail(),
                         'password'  => $profile->getId(),

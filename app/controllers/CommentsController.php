@@ -142,18 +142,18 @@ class CommentsController extends AppController
     /**
      * Create
      *
-     * @param null $id
+     * @param null $slug
      * @throws NotFoundHTTPException
      */
-    function api_create($id = null)
+    function api_create($slug = null)
     {
         if (!empty($_POST)) {
             $this->loadModel('Comments');
 
-            if ($id != null) {
-                $this->setPack($id);
+            if ($slug != null) {
+                $this->setPack($slug);
             } else {
-                $this->errors['content'] = 'Empty pack.';
+                $this->errors['slug'] = 'Empty slug.';
             }
 
             if (isset($_POST['content']) && $_POST['content'] != null) {
@@ -179,14 +179,15 @@ class CommentsController extends AppController
 
             $pack = $this->Packs->select([
                 'conditions'    => [
-                    'id'            => $this->getPack()
+                    'slug'            => $this->getPack()
                 ]
             ]);
 
             if (empty($this->errors) && count($pack) == 1) {
+                $pack = current($pack);
                 $this->Comments->save([
                     'users_id'  => $user_id,
-                    'packs_id'  => $this->getPack(),
+                    'packs_id'  => $pack->packs_id,
                     'content'   => $this->getContent()
                 ]);
             }

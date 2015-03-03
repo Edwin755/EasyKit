@@ -29,8 +29,12 @@ return array(
     /**
      * Facebook
      */
-    'app_id'        => '1504498789824094',
-    'app_secret'    => '3827bbf168228f67cd109e4281bfacca',
+    'fb_app_id'         => '1504498789824094',
+    'fb_app_secret'     => '3827bbf168228f67cd109e4281bfacca',
+    'fb_permissions'    => [
+        'email',
+        'user_birthday',
+    ],
 
     /**
      * Email
