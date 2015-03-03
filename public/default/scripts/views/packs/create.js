@@ -62,13 +62,47 @@ app.controller("packCreate", function($scope, $http) {
     $scope.formData = {};
         
     $scope.create = function () {
+        
+        var packsInfo = this.formData;
+        var transform = function(data){
+            return $.param(data);
+        }
+        
+        $http.post(url + '/packs/temporary', packsInfo, {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+            transformRequest: transform
+        }).success(function(responseData) {
+            
+            if(responseData.errors != ""){
+                $('.notif').html("");
+                for(var error in responseData.errors){
+                    $('.notif').append(responseData.errors[error]+'<br/>').addClass('red');
+                }
+            }                     
+        });
+        
+        packs/temporary
 
         if($('#item3 a').html() == "My account"){
     
-            var packsInfo = this.formData;
-            var transform = function(data){
-                return $.param(data);
-            }
+
+            
+            $('#popup-loading').fadeIn(300,function(){
+                messages = ["creating pack", "uploading images","setting options","managing moneypot","redirecting to your pack"];
+                time = 0;
+                messages.forEach(function(entry) {
+                    console.log(entry);
+                    time += 1000;
+                    setTimeout(function(){
+                        $('p#loading-messages').fadeOut(100,function(){
+                            $('p#loading-messages').html(entry+"...").fadeIn(100);
+                        })
+                    }, time) ;
+                });   
+            });
+            setTimeout(function () {
+               window.location.href = url + "/packs/show/" +packSlugs;
+            }, 7000);
             
             token = $('#inputToken').attr('value');
             packsInfo['token'] = token;
@@ -87,23 +121,6 @@ app.controller("packCreate", function($scope, $http) {
                 
                 console.log(uploader);
                 uploader.start();
-                
-                $('#popup-loading').fadeIn(300,function(){
-                    messages = ["creating pack", "uploading images","setting options","managing moneypot","redirecting to your pack"];
-                    time = 0;
-                    messages.forEach(function(entry) {
-                        console.log(entry);
-                        time += 1000;
-                        setTimeout(function(){
-                            $('p#loading-messages').fadeOut(100,function(){
-                                $('p#loading-messages').html(entry+"...").fadeIn(100);
-                            })
-                        }, time) ;
-                    });   
-                });
-                setTimeout(function () {
-                   window.location.href = url + "/packs/show/" +packSlugs;
-                }, 7000);
 
                 
                 if(responseData.errors != ""){
@@ -135,8 +152,8 @@ app.controller("packCreate", function($scope, $http) {
                     var dateend = (data.event.events_endtime).substring(0,16);
                     $scope.formData.events_endtime = dateend.replace(" ", "T");          
                     $scope.formData.events_name = data.event.events_name;
-                    $('#formu_event #first_part input:not([type="number"]), #formu_event textarea').prop('disabled', true);
-                    $('#formu_event #first_part input:not([type="number"]), textarea').css('background', '#dddddd');  
+                    $('#formu_event #first_part input:not([type="number"]), #formu_event #first_part textarea').prop('disabled', true);
+                    $('#formu_event #first_part input:not([type="number"]), #formu_event #first_part textarea').css('background', '#dddddd');  
 
                     return;
                 } else {

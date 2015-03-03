@@ -10,7 +10,7 @@
                         <tr>
                             <td>
                                 <a href="http://pixelbuddha.net/" style="display:block; width:407px; height:100px; margin:0 auto 30px;">
-                                    <img src="http://cl.ly/image/1r3y0x190q0r/logo.png" width="407" height="100" alt="Pixelbuddha" style="display:block; border:0; margin:0;">
+                                    <img src="<?= HTML::link('default/images/easykit_logo_black.jpg'); ?>" width="407" height="100" alt="Pixelbuddha" style="display:block; border:0; margin:0;">
                                 </a>
                                 <p style="margin:0 0 36px; text-align:center; font-size:14px; line-height:20px; text-transform:uppercase; color:#626658;">
                                     what is the most fascinating thing about summer?
