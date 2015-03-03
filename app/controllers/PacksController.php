@@ -265,10 +265,8 @@ class PacksController extends AppController
 
             if (!empty($_POST['token'])) {
                 $this->setToken($_POST['token']);
-                $token = true;
             } else {
-                $this->setUser(1);
-                $token = false;
+                $this->errors['token'] = 'Empty token.';
             }
 
             if (!empty($_POST['description'])) {
@@ -278,15 +276,11 @@ class PacksController extends AppController
             if (empty($this->errors)) {
                 $this->loadModel('Packs');
 
-                if ($token) {
-                    $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getToken() . '/' . $_SERVER['REMOTE_ADDR']));
-                    if ($user->valid) {
-                        $user_id = $user->user->tokens_users_id;
-                    } else {
-                        $this->errors['user'] = $user->errors;
-                    }
+                $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getToken() . '/' . $_SERVER['REMOTE_ADDR']));
+                if ($user->valid) {
+                    $user_id = $user->user->tokens_users_id;
                 } else {
-                    $user_id = $this->getUser();
+                    $this->errors['user'] = $user->errors;
                 }
 
                 if (empty($this->errors)) {
@@ -300,6 +294,20 @@ class PacksController extends AppController
                     $pack = $this->Packs->getLastSaved();
                     $data['pack_id'] = $pack->packs_id;
                     $data['slug'] = $pack->packs_slug;
+
+                    ob_start();
+                    require_once __DIR__ . '/../views/emails/new_pack.php';
+                    $content_for_email = ob_get_clean();
+
+                    ob_start();
+                    require_once __DIR__.'/../views/layouts/email.php';
+                    $layout_for_email = ob_get_clean();
+
+
+                    $mail = new Email($user->users_email,['hello@easykit.me' => 'Easykit'], 'Your pack have been created', $layout_for_email, 'Your pack have been created');
+                    if (!$mail->send()) {
+                        $this->errors['send'] = 'Could not send the message';
+                    }
                 } else {
                     $this->errors = $user->errors;
                 }
@@ -314,6 +322,31 @@ class PacksController extends AppController
         View::make('api.index', json_encode($data), false, 'application/json');
     }
 
+    /**
+     * Temporar store pack
+     *
+     * @throws NotFoundHTTPException
+     */
+    function temporary()
+    {
+        if (!empty($_POST)) {
+            Session::set('savedpack', $_POST);
+        } else {
+            $data = Session::get('savedpack');
+        }
+
+        $data['success'] = !empty($this->errors) ? false : true;
+        $data['errors'] = $this->errors;
+
+        View::make('api.index', json_encode($data), false, 'application/json');
+    }
+
+    /**
+     * Store
+     *
+     * @throws NotFoundHTTPException
+     * @throws \Exception
+     */
     function store()
     {
         if (!empty($_POST)) {
@@ -424,16 +457,6 @@ class PacksController extends AppController
                 if (!$returnOption1['success']) {
                     $this->errors = $returnOption1['errors'];
                 }
-            }
-            
-            ob_start();
-            include_once(__DIR__.'../../views/layouts/email.php');
-            $layout_for_email = ob_get_clean();
-            
-            
-            $mail = new Email('nikoposner@gmail.com',['hello@easykit.me' => 'Easykit'], 'Your pack have been created', $layout_for_email, 'Welcome on Easykit');
-            if (!$mail->send()) {
-                $this->errors['send'] = 'Could not send the message';
             }
             
         } else {

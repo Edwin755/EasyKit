@@ -35,7 +35,7 @@
                                                 <!-- begin articles -->
                                                 
                                                 
-
+                                                <?= $content_for_email ?>
 
                                                 
                                                 <!-- end content --> 

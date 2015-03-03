@@ -4,13 +4,16 @@
  *
  * Created by worker
  */
+
 namespace App\Controllers;
+
 use Core;
 use Core\Controller;
 use Core\Validation;
 use Core\View;
 use Core\Session;
 use Core\Cookie;
+
 /**
  * Class LikesController
  *
@@ -18,18 +21,21 @@ use Core\Cookie;
  */
 class LikesController extends AppController
 {
+
     /**
      * Errors
      *
      * @var array $errors
      */
     private $errors = [];
+
     /**
      * Data for model
      *
      * @var string token
      */
     private $token;
+
     /**
      * Get Token
      *
@@ -39,6 +45,7 @@ class LikesController extends AppController
     {
         return $this->token;
     }
+
     /**
      * Set Token
      *
@@ -48,6 +55,7 @@ class LikesController extends AppController
     {
         $this->token = $token;
     }
+
     /**
      * API Create
      *
@@ -100,6 +108,7 @@ class LikesController extends AppController
         $data['errors'] = $this->errors;
         View::make('api.index', json_encode($data), false, 'application/json');
     }
+
     /**
      * API Destroy
      *
@@ -142,6 +151,7 @@ class LikesController extends AppController
         $data['errors'] = $this->errors;
         View::make('api.index', json_encode($data), false, 'application/json');
     }
+
     /**
      * API Get
      *
@@ -164,6 +174,7 @@ class LikesController extends AppController
         }
         View::make('api.index', json_encode($data), false, 'application/json');
     }
+
     /**
      * API User
      *
@@ -198,6 +209,7 @@ class LikesController extends AppController
         $data['errors'] = $this->errors;
         View::make('api.index', json_encode($data), false, 'application/json');
     }
+
     /**
      * Create
      *
@@ -249,6 +261,7 @@ class LikesController extends AppController
         $data['errors'] = $this->errors;
         View::make('api.index', json_encode($data), false, 'application/json');
     }
+
     /**
      * User likes
      *
@@ -275,6 +288,7 @@ class LikesController extends AppController
         $data['errors'] = $this->errors;
         View::make('api.index', json_encode($data), false, 'application/json');
     }
+
     /**
      * Destroy
      *
