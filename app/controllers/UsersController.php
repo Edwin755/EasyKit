@@ -685,6 +685,7 @@ class UsersController extends AppController
                 $data->user->token = $return->token;
                 $data->user->users_media = current($this->getJSON($this->link('api/medias/get') . '/' . $return->user->users_medias_id));
                 Session::set('user', $data->user);
+                $data->redirect = $this->link('/');
             }
         } else {
             $data = Session::get('user');
