@@ -364,24 +364,19 @@ class EventsController extends AppController
 
             if (isset($_POST['token']) && $_POST['token'] != null) {
                 $this->setToken($_POST['token']);
-                $token = true;
             } else {
-                $this->setUser(1);
-                $token = false;
+                $this->errors['token'] = 'Empty token.';
             }
 
             if (empty($this->errors)) {
                 $this->loadModel('Events');
                 $this->loadModel('Users');
-                if ($token) {
-                    $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getToken() . '/' . $_SERVER['REMOTE_ADDR']));
-                    if ($user->valid) {
-                        $user_id = $user->user->tokens_users_id;
-                    } else {
-                        $this->errors['user'] = $user->errors;
-                    }
+
+                $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getToken() . '/' . $_SERVER['REMOTE_ADDR']));
+                if ($user->valid) {
+                    $user_id = $user->user->tokens_users_id;
                 } else {
-                    $user_id = $this->getUser();
+                    $this->errors['user'] = $user->errors;
                 }
 
                 if (empty($this->errors)) {

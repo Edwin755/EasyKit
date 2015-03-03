@@ -132,6 +132,8 @@ class StepsController extends AppController
 
             if (isset($_POST['token']) && $_POST['token'] != null) {
                 $this->setToken($_POST['token']);
+            } else {
+                $this->errors['token'] = 'Empty token.';
             }
 
             if (empty($this->errors)) {
