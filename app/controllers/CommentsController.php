@@ -22,6 +22,7 @@ use \Exception;
  *
  * @package App\Controllers
  * @property mixed Comments
+ * @property mixed Packs
  */
 class CommentsController extends AppController
 {
@@ -105,8 +106,33 @@ class CommentsController extends AppController
     /**
      *
      */
-    function api_get()
+    function api_get($slug = null)
     {
+        if (!is_null($slug)) {
+            $this->loadModel('Packs');
+            $pack = $this->Packs->select([
+                'conditions'    => [
+                    'slug'          => $slug
+                ]
+            ]);
+
+            if (count($pack) == 1) {
+                $pack = current($pack);
+                $this->loadModel('Comments');
+                $data['comments'] = $this->Comments->select([
+                    'conditions'    => [
+                        'packs_id'      => $pack->packs_id
+                    ]
+                ]);
+
+                foreach ($data['comments'] as $comment) {
+                    $comment->comments_user = current($this->getJSON($this->link('api/users/get/' . $comment->comments_users_id)));
+                }
+            }
+        } else {
+            $this->errors['slug'] = 'Slug missing.';
+        }
+
         $data['errors'] = $this->errors;
         $data['success'] = !empty($this->errors) ? false : true;
 
