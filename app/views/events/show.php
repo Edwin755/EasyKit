@@ -33,9 +33,7 @@
                 <li>Location : {{event.events_address}}</li>
     
                 <li>Date : {{event.events_starttime}}</li>
-    
-                <li>Duration : 1 day (~8 hours)</li>
-    
+        
             </ul>
             
             <a href="" class="start">Start my pack</a>

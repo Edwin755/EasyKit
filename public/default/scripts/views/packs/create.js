@@ -12,6 +12,7 @@ app.controller("register", function($scope, $http) {
         $('#formu_event #first_part input, #formu_event #first_part textarea').prop('disabled', false);
         $('#formu_event #first_part input:not("#inputToken"), #formu_event #first_part textarea').val('');
         $('#formu_event #first_part input:not([type="number"]), #formu_event #first_part textarea').css('background', '#fff');
+        $scope.formData.events_id = null;
         $('#uploader').show(); 
 
         console.log('lala');
@@ -63,7 +64,7 @@ app.controller("packCreate", function($scope, $http) {
     $http.get(url + '/packs/temporary').
         success(function(data, status, headers, config) {
             if (typeof data === 'object') {
-                $scope.formData.events_id = data.events_id;
+//                 $scope.formData.events_id = data.events_id;
                 $scope.formData.events_address = data.events_address;
                 $scope.formData.events_name = data.events_name;
                 $scope.formData.events_price = parseInt(data.events_price);
@@ -73,10 +74,11 @@ app.controller("packCreate", function($scope, $http) {
                 var dateend = (data.events_endtime).substring(0,16);
                 $scope.formData.events_endtime = dateend.replace(" ", "T");          
                 $scope.formData.events_name = data.events_name;
-                if(data.events_id != ""){
+                
+                if(!data.events_id){
                     $('#formu_event #first_part input:not([type="number"]), #formu_event #first_part textarea').prop('disabled', true);
                     $('#formu_event #first_part input:not([type="number"]), #formu_event #first_part textarea').css('background', '#dddddd');
-                    $('#uploader').hide();  
+//                     $('#uploader').hide();  
                 }
 
                 return;
@@ -146,6 +148,8 @@ app.controller("packCreate", function($scope, $http) {
             
             token = $('#inputToken').attr('value');
             packsInfo['token'] = token;
+            
+            console.log(packsInfo);
                             
             $http.post(url + '/packs/store', packsInfo, {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
@@ -159,10 +163,9 @@ app.controller("packCreate", function($scope, $http) {
                 
                 uploader.settings.url = url + "/api/events/image/" + eventId;
                 
-                console.log(uploader);
                 uploader.start();
                 
-                            setTimeout(function () {
+            setTimeout(function () {
                window.location.href = url + "/packs/show/" +packSlugs;
             }, 6000);
 
