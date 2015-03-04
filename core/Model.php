@@ -344,7 +344,7 @@ class Model
                 $fields[$k] = '`' . $k . '` = :' . $k;
             }
 
-            $this->params[':' . $k] = stripslashes(htmlentities($v));
+            $this->params[':' . $k] = stripslashes($v);
         }
 
         if ($type == 'insert') {
@@ -430,7 +430,7 @@ class Model
 
                 $fields[$k] = '`' . $k . '` = :' . $k;
 
-                $this->params[':' . $k] = stripslashes(htmlentities($v));
+                $this->params[':' . $k] = stripslashes($v);
             }
         } else {
             $fields[$this->pk] = '`' . $this->pk . '` = :' . $req;
