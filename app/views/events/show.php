@@ -35,7 +35,6 @@
                 <li>Date : {{event.events_starttime}}</li>
         
             </ul>
-            <a href="" class="start">Start my pack</a>
     
             <ul class="share">
                 <li>Share this event :</li>
