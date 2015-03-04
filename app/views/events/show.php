@@ -35,16 +35,14 @@
                 <li>Date : {{event.events_starttime}}</li>
         
             </ul>
-
-            <span class='st_facebook_vcount' displayText='Facebook'></span>
-            <span class='st_twitter_vcount' displayText='Tweet'></span>
-            <span class='st_googleplus_vcount' displayText='Google +'></span>
-            <span class='st_email_vcount' displayText='Email'></span>
-            
-            <a href="" class="start">Start my pack</a>
     
             <ul class="share">
                 <li>Share this event :</li>
+                <div id="share">
+                <span class='st_facebook_vcount' displayText='Facebook'></span>
+                <span class='st_twitter_vcount' displayText='Tweet'></span>
+                <span class='st_email_vcount' displayText='Email'></span>
+            </div>
             </ul>
         </div>
     </div>

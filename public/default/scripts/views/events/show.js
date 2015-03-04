@@ -52,9 +52,11 @@ app.controller("event", function($scope, $http) {
             
         });
     
+/*
     $('.start').on('click',function(){
        console.log(data); 
     });
+*/
         
 });
 
