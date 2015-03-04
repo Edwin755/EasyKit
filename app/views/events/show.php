@@ -37,6 +37,11 @@
                 <li>Duration : 1 day (~8 hours)</li>
     
             </ul>
+
+            <span class='st_facebook_vcount' displayText='Facebook'></span>
+            <span class='st_twitter_vcount' displayText='Tweet'></span>
+            <span class='st_googleplus_vcount' displayText='Google +'></span>
+            <span class='st_email_vcount' displayText='Email'></span>
             
             <a href="" class="start">Start my pack</a>
     
@@ -46,4 +51,8 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">var switchTo5x=true;</script>
+<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+<script type="text/javascript">stLight.options({publisher: "d27b2df4-3fe7-4733-a697-2714cfec8f49", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
 
