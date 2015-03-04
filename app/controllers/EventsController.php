@@ -41,7 +41,7 @@ class EventsController extends AppController
      * @var int $user
      * @var string $token
      */
-    private $name, $description, $starttime, $endtime, $price, $user, $token;
+    private $name, $description, $address, $starttime, $endtime, $price, $user, $token;
 
     /**
      * Errors
@@ -168,6 +168,26 @@ class EventsController extends AppController
     {
         $this->price = $price;
         $this->fields['price'] = $this->price;
+    }
+
+    /**
+     * Get Address
+     *
+     * @return mixed
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set Address
+     *
+     * @param mixed $address
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
     }
 
     /**
@@ -346,6 +366,10 @@ class EventsController extends AppController
                 $this->setDescription($_POST['description']);
             }
 
+            if (isset($_POST['address']) && $_POST['address'] != null) {
+                $this->setAddress($_POST['address']);
+            }
+
             if (isset($_POST['starttime']) && $_POST['starttime'] != null) {
                 $this->setStarttime($_POST['starttime']);
             } else {
@@ -383,6 +407,7 @@ class EventsController extends AppController
                     $this->Events->save([
                         'name'          => $this->getName(),
                         'description'   => $this->getDescription(),
+                        'address'       => $this->getAddress(),
                         'starttime'     => $this->getStarttime(),
                         'endtime'       => $this->getEndtime(),
                         'price'         => $this->getPrice(),

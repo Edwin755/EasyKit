@@ -513,6 +513,7 @@ class PacksController extends AppController
             $pack = current($pack);
             $data['pack'] = current($this->getJSON($this->link('api/packs/get/' . $pack->packs_id)));
             View::$title = $pack->packs_name;
+            Session::destroy('savedpack');
         } else {
             throw new NotFoundHTTPException('Pack not found.');
         }
