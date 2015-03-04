@@ -81,19 +81,25 @@ class MediasController extends AppController
                 ]
             ]));
 
-            $file = realpath(__DIR__ . '/../../public/uploads/' . $data['media']->medias_type . '/' . $data['media']->medias_file);
+            if (!empty($data['media'])) {
+                if ($data['media']->medias_type != 'facebook') {
+                    $file = realpath(__DIR__ . '/../../public/uploads/' . $data['media']->medias_type . '/' . $data['media']->medias_file);
 
-            if (file_exists($file)) {
-                $file_info = pathinfo($file);
-                $filename = $file_info['filename'];
-                $extension = $file_info['extension'];
-                $baselink = HTML::link('/uploads/' . $data['media']->medias_type . '/' . $filename);
+                    if (file_exists($file)) {
+                        $file_info = pathinfo($file);
+                        $filename = $file_info['filename'];
+                        $extension = $file_info['extension'];
+                        $baselink = HTML::link('/uploads/' . $data['media']->medias_type . '/' . $filename);
 
-                $data['media']->medias_file = $baselink . '.' . $extension;
-                $data['media']->medias_thumb50 = $baselink . '-x50.' . $extension;
-                $data['media']->medias_thumb160 = $baselink . '-x160.' . $extension;
+                        $data['media']->medias_file = $baselink . '.' . $extension;
+                        $data['media']->medias_thumb50 = $baselink . '-x50.' . $extension;
+                        $data['media']->medias_thumb160 = $baselink . '-x160.' . $extension;
+                    } else {
+                        $this->errors['file'] = 'File doesn\'t seems to exist.';
+                    }
+                }
             } else {
-                $this->errors['file'] = 'File doesn\'t seems to exist.';
+                $this->errors['media'] = 'Media ' . $id . ' doesn\'t exists.';
             }
         }
 
