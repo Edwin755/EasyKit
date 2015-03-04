@@ -530,6 +530,7 @@ class EventsController extends AppController
         $return = current($this->getJSON($this->link('api/events/get/' . $id)));
         if ($return != false) {
             $data = $return;
+            View::$title = $return->events_name;
         } else {
             throw new NotFoundHTTPException('This event doesn\'t exists.');
         }

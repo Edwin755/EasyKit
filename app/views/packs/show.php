@@ -2,7 +2,7 @@
 <!--     <?php var_dump($pack); ?> -->
     <?php $medias = $pack->events->events_medias; ?>
     <?php if (!empty($medias)) : ?>
-        <img src="<?= $medias[0]->medias_file; ?>" class="video_header" alt="" title=""/>
+        <div class="video_header" style="background-image: url(<?= $medias[0]->medias_file; ?>);"></div>
     <?php endif; ?>
     <div id="present_event">
 

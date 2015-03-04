@@ -163,12 +163,10 @@ app.controller("packCreate", function($scope, $http) {
                 uploader.settings.url = url + "/api/events/image/" + eventId;
                 
                 uploader.start();
-                
-/*
-            setTimeout(function () {
-               window.location.href = url + "/packs/show/" +packSlugs;
-            }, 6000);
-*/
+
+                setTimeout(function () {
+                   window.location.href = url + "/packs/show/" +packSlugs;
+                }, 6000);
 
                 
                 if(responseData.errors != ""){
