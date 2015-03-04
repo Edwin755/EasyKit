@@ -789,26 +789,7 @@ class UsersController extends AppController
 
                     $media = $profilePic->getProperty('url');
 
-                    $this->loadModel('Medias');
-                    $this->Medias->save([
-                        'file'  => $media,
-                        'type'  => 'facebook'
-                    ]);
-
-                    if ($user_exists) {
-                        $user = current($user);
-                        $post = [
-                            'id'    => $user->users_id,
-                            'fb_id'     => $profile->getId(),
-                            'firstname' => $profile->getFirstname(),
-                            'lastname'  => $profile->getLastname(),
-                            'password'  => $profile->getPassword(),
-                            'birth'     => $birthday,
-                            'medias_id' => $this->Medias->lastInsertId,
-                            'tc'        => true
-                        ];
-                        $return = json_decode($this->postCURL($this->link('api/users/edit'), $post), false);
-                    } else {
+                    if (!$user_exists) {
                         $post = [
                             'email'     => $profile->getEmail(),
                             'password'  => $profile->getId(),
@@ -820,6 +801,19 @@ class UsersController extends AppController
                             'tc'        => true
                         ];
                         $return = json_decode($this->postCURL($this->link('api/users/create'), $post), false);
+                    }
+
+                    if (!$user_exists || current($user)->users_medias_id == 1) {
+                        $this->loadModel('Medias');
+                        $this->Medias->save([
+                            'file'  => $media,
+                            'type'  => 'facebook'
+                        ]);
+
+                        $this->Users->save([
+                            'id'        => current($user)->users_id,
+                            'medias_id' => $this->Medias->lastInsertId
+                        ]);
                     }
 
 
