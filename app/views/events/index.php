@@ -20,7 +20,7 @@
             </ul>
 
             <div class="description">
-                {{event.events_summary}}<span class="info">United States, May 13, 2015</span>
+                {{event.events_summary}}<span class="info">{{event.events_address}}</span>
             </div>
         </div>
 

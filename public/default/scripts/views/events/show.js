@@ -51,6 +51,10 @@ app.controller("event", function($scope, $http) {
         .error(function(data, status, headers, config) {
             
         });
+    
+    $('.start').on('click',function(){
+       console.log(data); 
+    });
         
 });
 
