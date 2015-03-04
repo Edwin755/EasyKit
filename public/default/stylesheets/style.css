@@ -1414,6 +1414,7 @@ text-align: center;
 }
 
 #final-step {
+    border: 0;
 background-color: #1abc9c;
 border-radius: 5px;
 font-family: 'source_sans_prolight';
