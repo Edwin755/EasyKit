@@ -16,6 +16,6 @@
   <div class="notif"></div>
   <input type="submit" value="Register now!" class="sign-up-button">
   <ul class="social_button">
-    <li class="button fb"><a href="<?= $login ?>">Login with Facebook</a></li>
+    <li class="button fb"><a href="<?= FbHelper::getFbLink($relink) ?>">Login with Facebook</a></li>
   </ul>
 </form>

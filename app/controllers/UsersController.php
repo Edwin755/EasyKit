@@ -362,7 +362,7 @@ class UsersController extends AppController
                     )
                 ));
 
-                if (count($user) < 1) {
+                if (count($user) != 1) {
                     $this->setEmail($_POST['email']);
                 } else {
                     $this->errors['email'] = 'Email address already exists.';
@@ -395,7 +395,7 @@ class UsersController extends AppController
                 $this->setFbId($_POST['fb_id']);
             }
 
-            if (isset($_POST['medias_id']) && $_POST['medias_id'] != null) {
+            if (isset($_POST['medias_id'])) {
                 $this->setMedia($_POST['medias_id']);
             }
 
@@ -764,7 +764,7 @@ class UsersController extends AppController
                         'width'     => '160',
                     ]);
                     $profilePic = $requestPic->execute()->getGraphObject();
-                    if($profile->getEmail() === null){
+                    if ($profile->getEmail() === null) {
                         throw new Exception('Email missing.');
                     } else {
                         $this->loadModel('Users');
@@ -781,7 +781,7 @@ class UsersController extends AppController
                         }
                     }
 
-                    if($profile->getBirthday() === null){
+                    if ($profile->getBirthday() === null) {
                         throw new Exception('Birthday missing.');
                     } else {
                         $birthday = $profile->getBirthday()->format('Y-m-d');
@@ -789,26 +789,15 @@ class UsersController extends AppController
 
                     $media = $profilePic->getProperty('url');
 
-                    $this->loadModel('Medias');
-                    $this->Medias->save([
-                        'file'  => $media,
-                        'type'  => 'facebook'
-                    ]);
+                    if (!$user_exists || current($user)->users_medias_id == 1) {
+                        $this->loadModel('Medias');
+                        $this->Medias->save([
+                            'file'  => $media,
+                            'type'  => 'facebook'
+                        ]);
+                    }
 
-                    if ($user_exists) {
-                        $user = current($user);
-                        $post = [
-                            'id'    => $user->users_id,
-                            'fb_id'     => $profile->getId(),
-                            'firstname' => $profile->getFirstname(),
-                            'lastname'  => $profile->getLastname(),
-                            'password'  => $profile->getPassword(),
-                            'birth'     => $birthday,
-                            'medias_id' => $this->Medias->lastInsertId,
-                            'tc'        => true
-                        ];
-                        $return = json_decode($this->postCURL($this->link('api/users/edit'), $post), false);
-                    } else {
+                    if (!$user_exists) {
                         $post = [
                             'email'     => $profile->getEmail(),
                             'password'  => $profile->getId(),
@@ -819,9 +808,14 @@ class UsersController extends AppController
                             'medias_id' => $this->Medias->lastInsertId,
                             'tc'        => true
                         ];
+
                         $return = json_decode($this->postCURL($this->link('api/users/create'), $post), false);
                     }
 
+                    $this->Users->save([
+                        'id'        => current($user)->users_id,
+                        'medias_id' => $this->Medias->lastInsertId
+                    ]);
 
                     if ($return->success) {
                         $return = json_decode($this->postCURL($this->link('users/signin'), $post), false);
@@ -830,8 +824,7 @@ class UsersController extends AppController
                             Session::set('user', $return->user);
                             $this->redirect('/');
                         } else {
-                            $loginUrl = $this->generateFbLink();
-                            $data['login'] = $loginUrl;
+                            $data['relink'] = false;
                             $this->errors = $return->errors;
                             Session::destroy('fb_token');
                         }
@@ -842,20 +835,17 @@ class UsersController extends AppController
                             Session::set('user', $return->user);
                             $this->redirect('/');
                         } else {
-                            $loginUrl = $this->generateFbLink();
-                            $data['login'] = $loginUrl;
+                            $data['relink'] = false;
                             $this->errors = $return->errors;
                             Session::destroy('fb_token');
                         }
                     }
                 } catch (Exception $e) {
                     Session::destroy('fb_token');
-                    $loginUrl = $this->generateFbLink(true);
-                    $data['login'] = $loginUrl;
+                    $data['relink'] = true;
                 }
             } else {
-                $loginUrl = $this->generateFbLink();
-                $data['login'] = $loginUrl;
+                $data['relink'] = false;
             }
 
             $data['success'] = !empty($this->errors) ? false : true;

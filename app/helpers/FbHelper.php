@@ -16,7 +16,7 @@ class FbHelper extends HTML
      * @param array $permissions
      * @return mixed
      */
-    static function getFbLink($permissions = [])
+    static function getFbLink($relink = false, $permissions = [])
     {
         $app = Dispatcher::getAppFile();
         FacebookSession::setDefaultApplication($app['fb_app_id'], $app['fb_app_secret']);
@@ -24,6 +24,6 @@ class FbHelper extends HTML
         if (empty($permissions)) {
             $permissions = $app['fb_permissions'];
         }
-        return $helper->getLoginUrl($permissions);
+        return $relink ? $helper->getReRequestUrl($permissions) : $helper->getLoginUrl($permissions);
     }
 }
