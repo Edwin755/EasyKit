@@ -249,7 +249,7 @@
                     </div>
     
                     <div class="icones-formu last-icone">
-                        <input type="radio" ng-model="formData.transport" value="train">
+                        <input type="radio" ng-model="formData.transport" value="plane">
                         <img src="<?= HTML::link('default/images/avion.png') ?>" alt="">
     
                         <p>Plane</p>

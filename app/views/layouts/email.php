@@ -9,7 +9,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <a href="http://pixelbuddha.net/" style="display:block; width:407px; height:100px; margin:0 auto 30px;">
+                                <a href="http://pixelbuddha.net/" style="display:block; margin:0 auto 30px;">
                                     <img src="<?= HTML::link('default/images/easykit_logo_black.png'); ?>" width="300" height="100" alt="Pixelbuddha" style="display:block; border:0; margin:0;">
                                 </a>
                                 <p style="margin:0 0 36px; text-align:center; font-size:14px; line-height:20px; text-transform:uppercase; color:#626658;">

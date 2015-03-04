@@ -123,7 +123,17 @@
         </ul>
 
         <a href="" class="start">Participate</a>
-
+        
+        
+        <ul class="share">
+            <li>Share this event :</li>
+            <div id="share">
+                <span class='st_facebook_vcount' displayText='Facebook'></span>
+                <span class='st_twitter_vcount' displayText='Tweet'></span>
+                <span class='st_email_vcount' displayText='Email'></span>
+            </div>
+        </ul>
+        
         <ul class="contributors">
             <li><img src="<?= HTML::link('default/images/profil.png'); ?>" alt="profil" title="profil"></li>
             <li><img src="<?= HTML::link('default/images/profil2.png'); ?>" alt="profil" title="profil"></li>
