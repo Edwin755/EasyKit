@@ -1,6 +1,6 @@
 <div id="container_event" ng-controller="event">
     <div ng-repeat="event in data track by $index">
-        <div ng-repeat="photos in event.events_medias|limitTo:3" class="video_header" style="background-image: url({{photos.medias_file}})"></div>
+        <div ng-repeat="photos in event.events_medias|limitTo:1" class="video_header" style="background-image: url({{photos.medias_file}})"></div>
     
         <div id="present_event">
             <h2>{{event.events_name}}</h2>

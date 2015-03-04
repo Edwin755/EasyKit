@@ -75,7 +75,7 @@
 </div>
 
 <div id="containt" ng-controller="popularEvents">
-    <h2>Popular Events</h2>
+    <h2>Some Events</h2>
 
     <div class="trait"></div>
     <span us-spinner="{radius:30, width:8, length: 16}"></span>

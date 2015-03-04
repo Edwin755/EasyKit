@@ -161,12 +161,12 @@ app.controller("packCreate", function($scope, $http) {
                 
                 
                 uploader.settings.url = url + "/api/events/image/" + eventId;
+
+                uploader.bind('FileUploaded', function () {
+                    window.location.href = url + "/packs/show/" + packSlugs;
+                });
                 
                 uploader.start();
-
-                setTimeout(function () {
-                   window.location.href = url + "/packs/show/" +packSlugs;
-                }, 6000);
 
                 
                 if(responseData.errors != ""){
