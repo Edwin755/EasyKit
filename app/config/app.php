@@ -7,6 +7,8 @@
  * @copyright 2014
  */
 
+date_default_timezone_set('Europe/Paris');
+
 return array(
 
     /**

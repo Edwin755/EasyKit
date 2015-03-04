@@ -10,7 +10,7 @@
 namespace Core;
 
 use Core\Exceptions\NotFoundHTTPException;
-use CURLFile;
+use \CURLFile;
 use Exception;
 use HTML;
 

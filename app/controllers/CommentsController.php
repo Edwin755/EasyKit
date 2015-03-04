@@ -168,12 +168,8 @@ class CommentsController extends AppController
                 $this->errors['token'] = 'No token given.';
             }
 
-            $user = $this->getJSON($this->link('api/users/checkToken/' . $this->getToken() . '/' . $_SERVER['REMOTE_ADDR']));
-            if ($user->valid) {
-                $user_id = $user->user->tokens_users_id;
-            } else {
-                $this->errors['user'] = $user->errors;
-            }
+            $user = Session::get('user');
+            $user_id = $user->users_id;
 
             $this->loadModel('Packs');
 
