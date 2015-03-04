@@ -296,7 +296,7 @@
                 </div>
     
                 <div id="bouton-next-5" class="bouton-next next-step">
-                    <a href="recap_pack.html">Validate</a>
+                    <button type="submit">Validate</button>
                 </div>
             </div>
         </form>
