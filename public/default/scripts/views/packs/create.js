@@ -136,7 +136,6 @@ app.controller("packCreate", function($scope, $http) {
                 messages = ["creating pack", "uploading images","setting options","managing moneypot","redirecting to your pack"];
                 time = 0;
                 messages.forEach(function(entry) {
-                    console.log(entry);
                     time += 1000;
                     setTimeout(function(){
                         $('p#loading-messages').fadeOut(100,function(){
@@ -165,9 +164,11 @@ app.controller("packCreate", function($scope, $http) {
                 
                 uploader.start();
                 
+/*
             setTimeout(function () {
                window.location.href = url + "/packs/show/" +packSlugs;
             }, 6000);
+*/
 
                 
                 if(responseData.errors != ""){
