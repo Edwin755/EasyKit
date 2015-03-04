@@ -816,7 +816,6 @@ class UsersController extends AppController
                         ]);
                     }
 
-
                     if ($return->success) {
                         $return = json_decode($this->postCURL($this->link('users/signin'), $post), false);
 
@@ -824,8 +823,7 @@ class UsersController extends AppController
                             Session::set('user', $return->user);
                             $this->redirect('/');
                         } else {
-                            $loginUrl = $this->generateFbLink();
-                            $data['login'] = $loginUrl;
+                            $data['relink'] = false;
                             $this->errors = $return->errors;
                             Session::destroy('fb_token');
                         }
@@ -836,20 +834,17 @@ class UsersController extends AppController
                             Session::set('user', $return->user);
                             $this->redirect('/');
                         } else {
-                            $loginUrl = $this->generateFbLink();
-                            $data['login'] = $loginUrl;
+                            $data['relink'] = false;
                             $this->errors = $return->errors;
                             Session::destroy('fb_token');
                         }
                     }
                 } catch (Exception $e) {
                     Session::destroy('fb_token');
-                    $loginUrl = $this->generateFbLink(true);
-                    $data['login'] = $loginUrl;
+                    $data['relink'] = true;
                 }
             } else {
-                $loginUrl = $this->generateFbLink();
-                $data['login'] = $loginUrl;
+                $data['relink'] = false;
             }
 
             $data['success'] = !empty($this->errors) ? false : true;
